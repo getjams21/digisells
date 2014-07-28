@@ -15,7 +15,7 @@ class CreaTableCopyright extends Migration {
 		Schema::create('copyright', function(Blueprint $table)
 		{
 			$table -> increments('copyrightID');
-			$table -> integer('productID');
+			$table -> integer('productID')->unsigned();
 			$table -> string('supportingFiles');
 			$table -> text('description');
 			$table -> timestamps();
@@ -29,10 +29,7 @@ class CreaTableCopyright extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('copyright', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('copyright');
 	}
 
 }

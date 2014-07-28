@@ -16,7 +16,7 @@ class CreaTableAuction extends Migration {
 		{
 			$table -> increments('auctionID');
 			$table -> string('auctionName',50);
-			$table -> integer('productID');
+			$table -> integer('productID')->unsigned();
 			$table -> decimal('minimumPrice', 19, 4);
 			$table -> decimal('buyoutPrice', 19, 4);
 			$table -> dateTime('startDate');
@@ -34,10 +34,7 @@ class CreaTableAuction extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('auction', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('auction');
 	}
 
 }

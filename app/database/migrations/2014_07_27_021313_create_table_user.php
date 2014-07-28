@@ -18,7 +18,7 @@ class CreateTableUser extends Migration {
 			$table -> string('firstName',50);
 			$table -> string('lastName',50);
 			$table -> text('address');
-			$table -> string('email',50);
+			$table -> string('email',50)->unique();
 			$table -> string('password');
 			$table -> string('paymentMethod',50);
 			$table -> timestamps();
@@ -32,10 +32,7 @@ class CreateTableUser extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('user', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('user');
 	}
 
 }

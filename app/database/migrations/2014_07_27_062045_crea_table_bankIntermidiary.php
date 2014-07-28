@@ -29,10 +29,7 @@ class CreaTableBankIntermidiary extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('bankIntermidiary', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('bankIntermidiary');
 	}
 
 }

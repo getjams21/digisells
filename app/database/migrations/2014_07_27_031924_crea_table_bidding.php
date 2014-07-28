@@ -15,8 +15,8 @@ class CreaTableBidding extends Migration {
 		Schema::create('bidding', function(Blueprint $table)
 		{
 			$table -> increments('biddingID');
-			$table -> integer('auctionID');
-			$table -> integer('userID');
+			$table -> integer('auctionID')->unsigned();
+			$table -> integer('userID')->unsigned();
 			$table -> decimal('amount', 19, 4);
 			$table -> decimal('maxBid', 19, 4);
 			$table -> timestamps();
@@ -30,10 +30,7 @@ class CreaTableBidding extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('bidding', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('bidding');
 	}
 
 }

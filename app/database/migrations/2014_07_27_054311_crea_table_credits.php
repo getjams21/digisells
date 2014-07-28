@@ -15,8 +15,8 @@ class CreaTableCredits extends Migration {
 		Schema::create('credits', function(Blueprint $table)
 		{
 			$table -> increments('creditID');
-			$table -> integer('userID');
-			$table -> integer('commissionID');
+			$table -> integer('userID')->unsigned();
+			$table -> integer('salesID')->unsigned();
 			$table -> decimal('creditAdded', 19, 4);
 			$table -> decimal('creditDeducted', 19, 4);
 			$table -> timestamps();
@@ -30,10 +30,7 @@ class CreaTableCredits extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('credits', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('credits');
 	}
 
 }
