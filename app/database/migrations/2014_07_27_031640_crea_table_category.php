@@ -28,10 +28,7 @@ class CreaTableCategory extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('category', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('category');
 	}
 
 }

@@ -16,7 +16,7 @@ class CreaTableSelling extends Migration {
 		{
 			$table -> increments('sellingID');
 			$table -> string('sellingName');
-			$table -> integer('productID');
+			$table -> integer('productID')->unsigned();
 			$table -> decimal('price', 19, 4);
 			$table -> float('discount');
 			$table -> dateTime('listingDate');
@@ -34,10 +34,7 @@ class CreaTableSelling extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('selling', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('selling');
 	}
 
 }

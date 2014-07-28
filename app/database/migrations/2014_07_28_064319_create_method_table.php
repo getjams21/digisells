@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreaTableSales extends Migration {
+class CreateMethodTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,12 @@ class CreaTableSales extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('sales', function(Blueprint $table)
+		Schema::create('method', function(Blueprint $table)
 		{
-			$table -> increments('salesID');
-			$table -> integer('productID')->unsigned();
-			$table -> decimal('amount', 19, 4);
-			$table -> integer('transactionNO');
+			//
+			$table -> increments('methodID');
+			$table -> string('methodType');
+			$table -> integer('percentage');
 			$table -> timestamps();
 		});
 	}
@@ -29,7 +29,7 @@ class CreaTableSales extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('sales');
+		Schema::drop('method');
 	}
 
 }
