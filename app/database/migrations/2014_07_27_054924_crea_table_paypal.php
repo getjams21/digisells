@@ -15,8 +15,8 @@ class CreaTablePaypal extends Migration {
 		Schema::create('paypal', function(Blueprint $table)
 		{
 			$table -> increments('paypalID');
-			$table -> integer('userID');
 			$table -> string('paypalEmail');
+			$table -> integer('fundID')->unsigned();
 			$table -> timestamps();
 		});
 	}
@@ -28,10 +28,7 @@ class CreaTablePaypal extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('paypal', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('paypal');
 	}
 
 }

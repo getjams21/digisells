@@ -15,9 +15,10 @@ class CreaTableAffiliates extends Migration {
 		Schema::create('affiliates', function(Blueprint $table)
 		{
 			$table -> increments('affiliateID');
-			$table -> integer('userID');
-			$table -> integer('productID');
+			$table -> integer('userID')->unsigned();
+			$table -> integer('productID')->unsigned();
 			$table -> string('referralLink');
+			$table -> integer('salesID')->unsigned();
 			$table -> timestamps();
 		});
 	}
@@ -29,10 +30,7 @@ class CreaTableAffiliates extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('affiliates', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('affiliates');
 	}
 
 }

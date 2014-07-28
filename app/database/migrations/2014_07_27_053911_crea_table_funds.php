@@ -15,10 +15,12 @@ class CreaTableFunds extends Migration {
 		Schema::create('funds', function(Blueprint $table)
 		{
 			$table -> increments('fundID');
-			$table -> integer('userID');
+			$table -> integer('userID')->unsigned();
 			$table -> decimal('amountAdded', 19, 4);
 			$table -> decimal('amountDeducted', 19, 4);
-			$table -> string('method', 50);
+			$table -> integer('methodID')->unsigned();
+			$table -> integer('salesID')->default(0)->unsigned();
+			$table -> integer('biddingID')->default(0)->unsigned();
 			$table -> timestamps();
 		});
 	}
@@ -30,10 +32,7 @@ class CreaTableFunds extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('funds', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('funds');
 	}
 
 }

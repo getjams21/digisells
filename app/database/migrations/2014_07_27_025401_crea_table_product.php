@@ -15,8 +15,8 @@ class CreaTableProduct extends Migration {
 		Schema::create('product', function(Blueprint $table)
 		{
 			$table -> increments('productID');
-			$table -> integer('categoryID');
-			$table -> integer('userID');
+			$table -> integer('categoryID')->unsigned();
+			$table -> integer('userID')->unsigned();
 			$table -> string('productName');
 			$table -> text('productDescription');
 			$table -> integer('quantity');
@@ -31,10 +31,7 @@ class CreaTableProduct extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('product', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('product');
 	}
 
 }

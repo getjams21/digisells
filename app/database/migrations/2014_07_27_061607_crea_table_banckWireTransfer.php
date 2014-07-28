@@ -21,7 +21,8 @@ class CreaTableBanckWireTransfer extends Migration {
 			$table -> string('internationalAccountNumber');
 			$table -> text('bankAddress');
 			$table -> string('branchIndentifier');
-			$table -> integer('intermidiaryID');
+			$table -> integer('intermidiaryID')->unsigned();
+			$table -> integer('fundID')->unsigned();
 			$table -> timestamps();
 		});
 	}
@@ -33,10 +34,7 @@ class CreaTableBanckWireTransfer extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('bankWireTransfer', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('bankWireTransfer');
 	}
 
 }

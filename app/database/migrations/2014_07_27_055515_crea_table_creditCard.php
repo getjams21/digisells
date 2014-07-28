@@ -21,6 +21,7 @@ class CreaTableCreditCard extends Migration {
 			$table -> date('expirationDate');
 			$table -> text('billingAddress');
 			$table -> string('email');
+			$table -> integer('fundID')->unsigned();
 			$table -> timestamps();
 		});
 	}
@@ -32,10 +33,7 @@ class CreaTableCreditCard extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('creditCard', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('creditCard');
 	}
 
 }
