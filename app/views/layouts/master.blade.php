@@ -10,6 +10,8 @@
 		<font face="Segoe UI">
 		@yield('header')
 		@yield('carousel')
+		@yield('featured')
+		@yield('content')
 		</font>
 		{{ HTML::script('_/js/bootstrap.js') }}
 		{{ HTML::script('_/js/myscript.js')}}

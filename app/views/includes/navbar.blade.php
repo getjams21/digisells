@@ -8,9 +8,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand logo" href="#">
+      <a class="navbar-brand logo" href="/">
       </a>
-      <a class="navbar-brand logo-text">
+      <a class="navbar-brand logo-text" href="/">
       	<font size="6" color="white"><b>DigiSells</b></font>
       </a>
     </div>
@@ -18,7 +18,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-align" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-      	<li><a href="#">Home</a></li>
+      	<li><a href="/">Home</a></li>
         <li><a href="#">Sell</a></li>
         <li><a href="#">Affiliate</a></li>
         <li><a href="#">Marketplace</a></li>
