@@ -10,5 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::resource('/', 'PageController');
+Route::get('/',['as'=>'home','uses'=>'PageController@index']);
+Route::resource('page', 'PageController');
+Route::get('/register','UsersController@create');
 Route::resource('users', 'UsersController');

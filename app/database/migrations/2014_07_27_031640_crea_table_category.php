@@ -14,7 +14,7 @@ class CreaTableCategory extends Migration {
 	{
 		Schema::create('category', function(Blueprint $table)
 		{
-			$table -> increments('categoryID');
+			$table -> increments('id');
 			$table -> string('categoryName',50);
 			$table -> text('description');
 			$table -> timestamps();

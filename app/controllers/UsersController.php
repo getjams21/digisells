@@ -9,7 +9,7 @@ class UsersController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return View::make('users.dashboard');
 	}
 
 
@@ -31,7 +31,11 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$user = User::create(Input::only('firstName','lastName','address',
+									'email','password'));
+		Auth::login($user);
+
+		return Redirect::to('users');
 	}
 
 

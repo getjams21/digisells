@@ -14,9 +14,9 @@ class AddForeignKeyToProductTable extends Migration {
 	{
 		Schema::table('product', function(Blueprint $table)
 		{
-			$table-> foreign('userID')->references('userID')->on('user')
+			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('categoryID')->references('categoryID')->on('category')
+			$table-> foreign('categoryID')->references('id')->on('category')
 			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}

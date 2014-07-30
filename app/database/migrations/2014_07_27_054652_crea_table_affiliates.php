@@ -14,7 +14,7 @@ class CreaTableAffiliates extends Migration {
 	{
 		Schema::create('affiliates', function(Blueprint $table)
 		{
-			$table -> increments('affiliateID');
+			$table -> increments('id');
 			$table -> integer('userID')->unsigned();
 			$table -> integer('productID')->unsigned();
 			$table -> string('referralLink');

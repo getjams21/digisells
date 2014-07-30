@@ -14,7 +14,7 @@ class CreaTableCommission extends Migration {
 	{
 		Schema::create('commission', function(Blueprint $table)
 		{
-			$table -> increments('commissionID');
+			$table -> increments('id');
 			$table -> integer('userID');
 			$table -> integer('salesID');
 			$table -> decimal('amount', 19, 4);

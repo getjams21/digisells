@@ -14,7 +14,7 @@ class CreaTableAuction extends Migration {
 	{
 		Schema::create('auction', function(Blueprint $table)
 		{
-			$table -> increments('auctionID');
+			$table -> increments('id');
 			$table -> string('auctionName',50);
 			$table -> integer('productID')->unsigned();
 			$table -> decimal('minimumPrice', 19, 4);

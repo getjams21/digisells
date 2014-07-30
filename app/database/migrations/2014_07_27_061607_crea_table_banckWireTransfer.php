@@ -14,7 +14,7 @@ class CreaTableBanckWireTransfer extends Migration {
 	{
 		Schema::create('bankWireTransfer', function(Blueprint $table)
 		{
-			$table -> increments('wireTransferID');
+			$table -> increments('id');
 			$table -> string('bankName');
 			$table -> string('accountName');
 			$table -> string('benificiaryAddress');

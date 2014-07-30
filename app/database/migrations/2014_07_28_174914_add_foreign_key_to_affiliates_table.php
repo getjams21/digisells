@@ -14,11 +14,11 @@ class AddForeignKeyToAffiliatesTable extends Migration {
 	{
 		Schema::table('affiliates', function(Blueprint $table)
 		{
-			$table-> foreign('userID')->references('userID')->on('user')
+			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('productID')->references('productID')->on('product')
+			$table-> foreign('productID')->references('id')->on('product')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('salesID')->references('salesID')->on('sales')
+			$table-> foreign('salesID')->references('id')->on('sales')
 			->onDelete('restrict')->onUpdate('cascade');
 
 		});

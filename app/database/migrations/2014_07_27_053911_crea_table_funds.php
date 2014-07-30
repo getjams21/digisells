@@ -14,7 +14,7 @@ class CreaTableFunds extends Migration {
 	{
 		Schema::create('funds', function(Blueprint $table)
 		{
-			$table -> increments('fundID');
+			$table -> increments('id');
 			$table -> integer('userID')->unsigned();
 			$table -> decimal('amountAdded', 19, 4);
 			$table -> decimal('amountDeducted', 19, 4);
