@@ -15,7 +15,7 @@ class CreateMethodTable extends Migration {
 		Schema::create('method', function(Blueprint $table)
 		{
 			//
-			$table -> increments('methodID');
+			$table -> increments('id');
 			$table -> string('methodType');
 			$table -> integer('percentage');
 			$table -> timestamps();

@@ -14,9 +14,9 @@ class AddForeignKeyToBiddingTable extends Migration {
 	{
 		Schema::table('bidding', function(Blueprint $table)
 		{
-			$table-> foreign('auctionID')->references('auctionID')->on('auction')
+			$table-> foreign('auctionID')->references('id')->on('auction')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('userID')->references('userID')->on('user')
+			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}

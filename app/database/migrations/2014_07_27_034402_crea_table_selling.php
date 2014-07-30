@@ -14,7 +14,7 @@ class CreaTableSelling extends Migration {
 	{
 		Schema::create('selling', function(Blueprint $table)
 		{
-			$table -> increments('sellingID');
+			$table -> increments('id');
 			$table -> string('sellingName');
 			$table -> integer('productID')->unsigned();
 			$table -> decimal('price', 19, 4);

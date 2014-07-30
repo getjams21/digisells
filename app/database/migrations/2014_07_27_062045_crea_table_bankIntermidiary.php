@@ -14,7 +14,7 @@ class CreaTableBankIntermidiary extends Migration {
 	{
 		Schema::create('bankIntermidiary', function(Blueprint $table)
 		{
-			$table -> increments('intermidiaryID');
+			$table -> increments('id');
 			$table -> string('bankAddress');
 			$table -> string('bankName');
 			$table -> string('chipsIdNumber');

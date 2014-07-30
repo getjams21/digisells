@@ -1,3 +1,4 @@
+<div class="row" >
 <nav class="navbar navbar-default navbar-fixed-top nav-bg" role="navigation">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -30,7 +31,8 @@
         <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Register</a></li>
+@if (Auth::guest())
+        <li><a href="/register">Register</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -57,7 +59,12 @@
           	{{ Form::close() }}
           </ul>
         </li>
+@else
+  <li><a href="#">{{ Auth::check() ?  Auth::user()->firstName." ".Auth::user()->lastName:'';}}</a></li>
+  <li><a href="#">Sign out</a></li>
+@endif
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+</div>
