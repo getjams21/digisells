@@ -8,7 +8,7 @@
 			<center><h3>Read from them...</h3></center>
 		</div>
 			<div class="col-md-5">
-				<div class="well square">
+				<div class="well square well-hide">
 					<div class="breadcrumb brd-prop square">
 						<center><h4><font color="white">Auction
 					 	</font></h4></center>
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="well square">
+				<div class="well square well-hide">
 					<div class="breadcrumb brd-prop-orange square">
 						<center><h4><font color="white">For Sale
 					 	</font></h4></center>
@@ -58,6 +58,7 @@
 								<th>Price</th>
 								<th>Type</th>
 								<th>Rate</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,7 +67,10 @@
 								<td>$29.00</td>
 								<td>WSO</td>
 								<td>
-									5 <font color="orange"><span class="glyphicon glyphicon-star"></span></font>&nbsp&nbsp<a href="#" class="glyphicon glyphicon-bullhorn"></a>
+									5 <font color="orange"><span class="glyphicon glyphicon-star"></span></font>
+								</td>
+								<td>
+									<a href="#" class="glyphicon glyphicon-bullhorn"></a>
 									<a href="#" class="glyphicon glyphicon-eye-open"></a>
 								</td>
 							</tr>
@@ -75,7 +79,10 @@
 								<td>$14.90</td>
 								<td>Music</td>
 								<td>
-									5 <font color="orange"><span class="glyphicon glyphicon-star"></span></font>&nbsp&nbsp<a href="#" class="glyphicon glyphicon-bullhorn"></a>
+									5 <font color="orange"><span class="glyphicon glyphicon-star"></span></font>
+								</td>
+								<td>
+									<a href="#" class="glyphicon glyphicon-bullhorn"></a>
 									<a href="#" class="glyphicon glyphicon-eye-open"></a>
 								</td>
 							</tr>
@@ -84,7 +91,10 @@
 								<td>$50.00</td>
 								<td>Game</td>
 								<td>
-									4 <font color="orange"><span class="glyphicon glyphicon-star"></span></font>&nbsp&nbsp<a href="#" class="glyphicon glyphicon-bullhorn"></a>
+									4 <font color="orange"><span class="glyphicon glyphicon-star"></span></font>
+								</td>
+								<td>
+									<a href="#" class="glyphicon glyphicon-bullhorn"></a>
 									<a href="#" class="glyphicon glyphicon-eye-open"></a>
 								</td>
 							</tr>
@@ -93,7 +103,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="well square">
+				<div class="well square well-hide">
 					<div class="breadcrumb brd-prop-blue square">
 						<center><h4><font color="white">Testimonials
 					 	</font></h4></center>

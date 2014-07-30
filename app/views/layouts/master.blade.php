@@ -12,6 +12,7 @@
 		@yield('carousel')
 		@yield('featured')
 		@yield('content')
+		@yield('footer')
 		</font>
 		{{ HTML::script('_/js/bootstrap.js') }}
 		{{ HTML::script('_/js/myscript.js')}}
