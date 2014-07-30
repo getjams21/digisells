@@ -11,3 +11,4 @@
 |
 */
 Route::resource('/', 'PageController');
+Route::resource('users', 'UsersController');
