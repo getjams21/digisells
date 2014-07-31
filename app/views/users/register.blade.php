@@ -4,7 +4,7 @@
 	@include('includes.navbar')
 @stop
 @section('content')
-<div clas="row" style="padding-top:80px;">
+<div clas="row" style="padding-top:30px;">
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-primary square">
 			<div class="panel-heading square">
