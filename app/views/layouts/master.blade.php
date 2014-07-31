@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		{{ HTML::style('_/css/bootstrap.css') }}
 		{{ HTML::style('_/css/mystyle.css') }}
+		<title>@yield('meta-title', 'Digisells')</title>
 	</head>
 	<body>
 		<font face="Segoe UI">

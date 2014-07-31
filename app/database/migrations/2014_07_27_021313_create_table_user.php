@@ -19,8 +19,9 @@ class CreateTableUser extends Migration {
 			$table -> string('lastName',50);
 			$table -> text('address');
 			$table -> string('email',50)->unique();
-			$table -> string('password');
+			$table -> string('password',60);
 			$table -> string('paymentMethod',50);
+			$table -> string('remember_token');
 			$table -> timestamps();
 		});
 	}

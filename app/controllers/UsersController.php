@@ -1,7 +1,13 @@
 <?php
+use Acme\Forms\RegistrationForm;
 
 class UsersController extends \BaseController {
+	protected $registrationForm;
 
+	function __construct(RegistrationForm $registrationForm)
+	{
+		$this->registrationForm = $registrationForm;
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -31,8 +37,10 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		$user = User::create(Input::only('firstName','lastName','address',
-									'email','password'));
+		$input = Input::only('firstName','lastName','address',
+									'email','password','password_confirmation');
+		$this->registrationForm->validate($input);
+		$user = User::create($input);
 		Auth::login($user);
 
 		return Redirect::to('users');
