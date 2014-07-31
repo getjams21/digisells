@@ -15,3 +15,7 @@
 @section('content')
 	@include('includes.homepage.content')
 @stop
+<!-- footer -->
+@section('footer')
+	@include('includes.footer')
+@stop
