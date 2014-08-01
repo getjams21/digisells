@@ -18,10 +18,11 @@ class CreateTableUser extends Migration {
 			$table -> string('firstName',50);
 			$table -> string('lastName',50);
 			$table -> text('address');
+			$table -> string('username',15)->unique();
 			$table -> string('email',50)->unique();
 			$table -> string('password',60);
 			$table -> string('paymentMethod',50);
-			$table -> string('remember_token');
+			$table -> string('remember_token')->nullable();
 			$table -> timestamps();
 		});
 	}

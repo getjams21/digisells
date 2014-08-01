@@ -17,9 +17,9 @@
 					<h4><b><i>Account Information</i></b></h4>
 				<hr>
 					<div class="form-group">
-						{{Form::label('email', 'Email')}}
-						{{Form::text('email',null,['class'=>'form-control'])}}
-						{{ errors_for('email', $errors)}}
+						{{Form::label('username', 'Username')}}
+						{{Form::text('username',null,['class'=>'form-control'])}}
+						{{ errors_for('username', $errors)}}
 					</div>
 					<div class="form-group">
 						{{Form::label('password', 'Password')}}

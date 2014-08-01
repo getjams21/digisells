@@ -7,6 +7,7 @@ class RegistrationForm extends FormValidator {
 		'firstName' => 'required:user',
 		'lastName' => 'required:user',
 		'address' => 'required:user',
+		'username' => 'required:user',
 		'email' => 'required|email|unique:user',
 		'password' => 'required|confirmed'
 		];

@@ -1,5 +1,6 @@
 <?php
 use Acme\Forms\RegistrationForm;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UsersController extends \BaseController {
 	protected $registrationForm;
@@ -7,7 +8,10 @@ class UsersController extends \BaseController {
 	function __construct(RegistrationForm $registrationForm)
 	{
 		$this->registrationForm = $registrationForm;
+
+		$this->beforeFilter('currentUser',['only' => ['edit','update']]);
 	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -15,7 +19,7 @@ class UsersController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('users.dashboard');
+		return View::make('users.show');
 	}
 
 
@@ -37,7 +41,7 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		$input = Input::only('firstName','lastName','address',
+		$input = Input::only('firstName','lastName','address','username',
 									'email','password','password_confirmation');
 		$this->registrationForm->validate($input);
 		$user = User::create($input);
@@ -50,12 +54,24 @@ class UsersController extends \BaseController {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  int  $username
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($username)
 	{
-		//
+		// if(Auth::guest())
+		// {
+		// 	return Redirect::to('login')->withInput()->withFlashMessage('<span class="error">Please Login to continue</span>');
+		// }
+		try
+		{
+			$user = User::whereUsername($username)->firstOrFail();
+			return View::make('users.show',['user' => $user]);	
+		}
+		catch(ModelNotFoundException $e)
+		{
+			return Redirect::home();
+		}	
 	}
 
 
@@ -65,9 +81,17 @@ class UsersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($username)
 	{
-		//
+		// if(Auth::guest() || $username != Auth::user()->username)
+		// {
+		// 	return Redirect::home();
+		// }
+		// if($username == Auth::user()->username)
+		// {
+			$user = User::whereUsername($username)->firstOrFail();
+			return View::make('users.edit')->withUser($user);
+		// }
 	}
 
 
@@ -77,9 +101,15 @@ class UsersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($username)
 	{
-		//
+		$user = User::whereUsername($username)->firstOrFail();
+		$input = Input::only('firstName','lastName', 'address');
+
+		$user->fill($input)->save();
+
+		return Redirect::route('users.edit',$user->username)->withFlashMessage('<span class="success">Successfully Edited Profile</span>');;
+
 	}
 
 

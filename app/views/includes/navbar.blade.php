@@ -39,7 +39,7 @@
 			{{ Form::open(['route'=>'sessions.store']) }}
           		<div class="form-group">
           			<li class="form-inline"> 
-          				{{ Form::email('email','',array('class'=>'span3 form-control input-prop','placeholder'=>'Email','required'=>'required')) }} 
+          				{{ Form::text('username','',array('class'=>'span3 form-control input-prop','placeholder'=>'username','required'=>'required')) }} 
           			</li>
           			<li class="form-inline">
           				{{ Form::password('password',array('class'=>'span3 form-control input-prop','placeholder'=>'Password','required'=>'required')) }}
@@ -61,7 +61,7 @@
           </ul>
         </li>
 @else
-  <li><a href="#">{{ Auth::check() ?  Auth::user()->firstName." ".Auth::user()->lastName:'';}}</a></li>
+  <li>{{ link_to_profile() }}</li>
   <li><a href="/logout">Sign out</a></li>
 @endif
       </ul>
