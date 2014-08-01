@@ -20,7 +20,7 @@
     <div class="collapse navbar-collapse navbar-align" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
       	<li><a href="/">Home</a></li>
-        <li><a href="#">Sell</a></li>
+        <li><a href="/selling">Sell</a></li>
         <li><a href="#">Affiliate</a></li>
         <li><a href="#">Marketplace</a></li>
       </ul>

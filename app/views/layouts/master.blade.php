@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		{{ HTML::style('_/css/bootstrap.css') }}
 		{{ HTML::style('_/css/mystyle.css') }}
+		{{ HTML::style('_/css/datepicker.css') }}
 		<title>@yield('meta-title', 'Digisells')</title>
 	</head>
 	<body>
@@ -17,5 +18,6 @@
 		</font>
 		{{ HTML::script('_/js/bootstrap.js') }}
 		{{ HTML::script('_/js/myscript.js')}}
+		{{ HTML::script('_/js/bootstrap-datepicker.js') }}
 	</body>
 </html>
