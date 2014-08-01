@@ -36,13 +36,14 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-			{{ Form::open() }}
+			{{ Form::open(['route'=>'sessions.store']) }}
           		<div class="form-group">
           			<li class="form-inline"> 
-          				{{ Form::text('Email','',array('class'=>'span3 form-control input-prop','placeholder'=>'Email')) }} 
+          				{{ Form::email('email','',array('class'=>'span3 form-control input-prop','placeholder'=>'Email','required'=>'required')) }} 
           			</li>
           			<li class="form-inline">
-          				{{ Form::password('Password',array('class'=>'span3 form-control input-prop','placeholder'=>'Password')) }}
+          				{{ Form::password('password',array('class'=>'span3 form-control input-prop','placeholder'=>'Password','required'=>'required')) }}
+        
           			</li>
           			<li class="form-inline">
           				<center>
@@ -61,7 +62,7 @@
         </li>
 @else
   <li><a href="#">{{ Auth::check() ?  Auth::user()->firstName." ".Auth::user()->lastName:'';}}</a></li>
-  <li><a href="#">Sign out</a></li>
+  <li><a href="/logout">Sign out</a></li>
 @endif
       </ul>
     </div><!-- /.navbar-collapse -->
