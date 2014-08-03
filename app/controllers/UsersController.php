@@ -19,7 +19,7 @@ class UsersController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('users.show');
+		return Redirect::home();
 	}
 
 
@@ -41,13 +41,12 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		$input = Input::only('firstName','lastName','address','username',
-									'email','password','password_confirmation');
+		$input = Input::only('username','email','password','password_confirmation');
 		$this->registrationForm->validate($input);
 		$user = User::create($input);
 		Auth::login($user);
 
-		return Redirect::to('users');
+		return Redirect::home();
 	}
 
 
@@ -59,10 +58,6 @@ class UsersController extends \BaseController {
 	 */
 	public function show($username)
 	{
-		// if(Auth::guest())
-		// {
-		// 	return Redirect::to('login')->withInput()->withFlashMessage('<span class="error">Please Login to continue</span>');
-		// }
 		try
 		{
 			$user = User::whereUsername($username)->firstOrFail();
@@ -108,7 +103,7 @@ class UsersController extends \BaseController {
 
 		$user->fill($input)->save();
 
-		return Redirect::route('users.edit',$user->username)->withFlashMessage('<span class="success">Successfully Edited Profile</span>');;
+		return Redirect::route('users.edit',$user->username)->withFlashMessage('<p class="bg-success success" ><b>Successfully Updated Profile</b></p>');
 
 	}
 
@@ -122,6 +117,35 @@ class UsersController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	public function searchPostUser()
+	{
+  		if(Request::ajax()){
+  			$input = Input::only('username');
+  			$a=$input['username'];
+  			$user = User::whereUsername($a)->first();
+  			if(count($user) >= 1){
+  				return Response::json(1);
+  			}
+  			else{
+  				return Response::json(0);
+  			}
+  		}
+	}
+	public function searchPostEmail()
+	{
+  		if(Request::ajax()){
+  			$input = Input::only('email');
+  			$a=$input['email'];
+  			$user = User::whereEmail($a)->first();
+  			if(count($user) >= 1){
+  				return Response::json(1);
+  			}
+  			else{
+  				return Response::json(0);
+  			}
+  		}
 	}
 
 

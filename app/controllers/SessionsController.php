@@ -32,7 +32,7 @@ class SessionsController extends \BaseController {
 		{
 			return Redirect::intended('/');
 		}
-		return Redirect::to('login')->withInput()->withFlashMessage('<span class="error">Invalid credentials provided</span>');
+		return Redirect::to('login')->withInput()->withFlashMessage('<div class="alert alert-danger square" role="alert"><b>Invalid credentials provided!</b></div>');
 	}
 
 	/**

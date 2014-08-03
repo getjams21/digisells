@@ -83,20 +83,131 @@ $(document).ready(function(){
 			$('.validateMinPrice').show();
 		}
 	});
-		// $( "#verify-password" ).keyup(function() {
-		//   // get password value from first password field
-		//   var pwd = $('#password').val();
-		//   // get the 2nd password value from the verify password field
-		//   var vPwd = $('#verify-password').val();
-		//   // verify the values if they are matched
-		//   // if matched then show match alert | hide unmatch alert
-		//   if (pwd == vPwd) {
-		//   		$("#alert-verify-password-ok").removeClass('hide');
-		//   		$("#alert-verify-password-remove").addClass('hide');
-		//   } // else, show unmatch alert | hide match alert
-		//   else {
-		//   		$("#alert-verify-password-remove").removeClass('hide');
-		//   		$("#alert-verify-password-ok").addClass('hide');
-		//   }
-		// });
-});
+
+//change body tag with its meta-title
+	var a = document.title;
+	document.getElementsByTagName("body")[0].id = a;
+	if(a == 'Login'){
+		$('.nav-dropdown').hide();	
+		$("#Login a:contains('Login')").parent().addClass('active');
+	}
+	else{
+	//navigation automatic dropdown
+	$('ul.nav li.dropdown').hover(function() {
+		$('.dropdown-menu', this).fadeIn();
+	}, function() {
+		$('.dropdown-menu', this).fadeOut('fast');
+	});
+	}
+	//set active navbar
+	$("#Register a:contains('Register')").parent().addClass('active');
+	$("#Home a:contains('Home')").parent().addClass('active');
+
+
+	//password verification
+	//color variables
+	var goodColor = "#66cc66";
+   	var badColor = "#FFE6BB";
+   	var softGood = "#C3FDB8";
+   	var badText = "red";
+		$('#password_confirmation').keyup(function(){
+		    var pass1 = document.getElementById('password');
+		    var pass2 = document.getElementById('password_confirmation');
+		    var message = document.getElementById('confirmMessage');
+		    if(pass1.value == pass2.value){
+		        pass2.style.backgroundColor = goodColor;
+		        message.style.color = goodColor;
+		        message.innerHTML = "Passwords Match!"
+		    }else{
+		        pass2.style.backgroundColor = badColor;
+		        message.style.color = badText;
+		        message.innerHTML = "Passwords Does Not Match!"
+		    }
+		});
+
+		$('#password').keyup(function(){
+		    var pass1 = document.getElementById('password');
+		    var pass2 = document.getElementById('password_confirmation');
+		    var message = document.getElementById('confirmMessage');
+		 
+		    if(pass1.value == pass2.value){
+		        pass2.style.backgroundColor = goodColor;
+		        message.style.color = goodColor;
+		        message.innerHTML = "Passwords Match!"
+		    }else{
+		        pass2.style.backgroundColor = badColor;
+		        message.style.color = badText;
+		        message.innerHTML = "Passwords Does Not Match!"
+		    }
+		});
+
+	//usename verfication
+  $('#username').on('blur', function(e){ 
+      e.preventDefault();
+      
+      var username = $('#username').val();
+ 	  $.post('searchUser',{username: username},function(data){
+      		//Gandang gabi vice :D
+   			 var usernamebox = document.getElementById('username');
+   			 var message = document.getElementById('searchMessage');
+   			 var length = username.length;
+   			 if(data == 0){
+   			 	if(length <= 2 ){
+   			 		usernamebox.style.backgroundColor = badColor;
+			        message.style.color = badText;
+			        message.innerHTML = "Must consist 3 or more characters!"
+   			 	}else{
+			        usernamebox.style.backgroundColor = softGood;
+			        message.style.color = goodColor;
+			        message.innerHTML = "Username Available"
+			     }   
+		    }else if(data == 1){
+		        usernamebox.style.backgroundColor = badColor;
+		        message.style.color = badText;
+		        message.innerHTML = "Username Taken!"
+		    }
+      });
+    }); 
+//email verification
+      $('#email').on('blur', function(e){ 
+      e.preventDefault();
+      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+   	  var emailbox = document.getElementById('email');
+   	  var message = document.getElementById('searchEmail');
+      var email = $('#email').val();
+      //if email is valid or not
+       if (!filter.test(emailbox.value)) {
+		    	emailbox.style.backgroundColor = badColor;
+			    message.style.color = badText;
+			    message.innerHTML = "Invalid Email Address!"
+		    email.focus;
+		    return false;
+	    }else{
+		 	  $.post('searchEmail',{email: email},function(data){
+		      		//Gandang gabi vice :D
+					if(data == 0)
+		   			{
+					    emailbox.style.backgroundColor = softGood;
+					    message.style.color = goodColor;
+					    message.innerHTML = "Email Available"
+					}else{
+				        emailbox.style.backgroundColor = badColor;
+				        message.style.color = badText;
+				        message.innerHTML = "Email Taken!"
+				    }
+		      });
+	 		}
+    }); 
+
+      $('#email').change(function(){
+
+	    if (!filter.test(emailbox.value)) {
+	    	emailbox.style.backgroundColor = badColor;
+		    message.style.color = badText;
+		    message.innerHTML = "Invalid Email Address!"
+	    email.focus;
+	    return false;
+	    	}
+      });
+
+});//end of onload

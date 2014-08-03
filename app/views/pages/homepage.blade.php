@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('meta-title','Home')
 <!-- navbar -->
 @section('header')
 	@include('includes.navbar')
