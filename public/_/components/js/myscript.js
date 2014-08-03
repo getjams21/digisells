@@ -110,27 +110,20 @@ $(document).ready(function(){
    	var badColor = "#FFE6BB";
    	var softGood = "#C3FDB8";
    	var badText = "red";
+   	//password_confirmation keyup validations
 		$('#password_confirmation').keyup(function(){
-		    var pass1 = document.getElementById('password');
-		    var pass2 = document.getElementById('password_confirmation');
-		    var message = document.getElementById('confirmMessage');
-		    if(pass1.value == pass2.value){
-		        pass2.style.backgroundColor = goodColor;
-		        message.style.color = goodColor;
-		        message.innerHTML = "Passwords Match!"
-		    }else{
-		        pass2.style.backgroundColor = badColor;
-		        message.style.color = badText;
-		        message.innerHTML = "Passwords Does Not Match!"
-		    }
+		   passwordValidation();
 		});
-
+ 	//password keyup validations
 		$('#password').keyup(function(){
-		    var pass1 = document.getElementById('password');
+		  passwordValidation();
+		});
+	//pass validation function
+	function passwordValidation(){
+		  var pass1 = document.getElementById('password');
 		    var pass2 = document.getElementById('password_confirmation');
 		    var message = document.getElementById('confirmMessage');
-		 
-		    if(pass1.value == pass2.value){
+		 	if(pass1.value == pass2.value){
 		        pass2.style.backgroundColor = goodColor;
 		        message.style.color = goodColor;
 		        message.innerHTML = "Passwords Match!"
@@ -139,7 +132,7 @@ $(document).ready(function(){
 		        message.style.color = badText;
 		        message.innerHTML = "Passwords Does Not Match!"
 		    }
-		});
+	}
 
 	//usename verfication
   $('#username').on('blur', function(e){ 
