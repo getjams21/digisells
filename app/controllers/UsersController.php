@@ -1,5 +1,6 @@
 <?php
 use Acme\Forms\RegistrationForm;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UsersController extends \BaseController {
 	protected $registrationForm;
@@ -7,7 +8,10 @@ class UsersController extends \BaseController {
 	function __construct(RegistrationForm $registrationForm)
 	{
 		$this->registrationForm = $registrationForm;
+
+		$this->beforeFilter('currentUser',['only' => ['edit','update']]);
 	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -15,7 +19,7 @@ class UsersController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('users.dashboard');
+		return Redirect::home();
 	}
 
 
@@ -37,25 +41,32 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		$input = Input::only('firstName','lastName','address',
-									'email','password','password_confirmation');
+		$input = Input::only('username','email','password','password_confirmation');
 		$this->registrationForm->validate($input);
 		$user = User::create($input);
 		Auth::login($user);
 
-		return Redirect::to('users');
+		return Redirect::home();
 	}
 
 
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  int  $username
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($username)
 	{
-		//
+		try
+		{
+			$user = User::whereUsername($username)->firstOrFail();
+			return View::make('users.show',['user' => $user]);	
+		}
+		catch(ModelNotFoundException $e)
+		{
+			return Redirect::home();
+		}	
 	}
 
 
@@ -65,9 +76,17 @@ class UsersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($username)
 	{
-		//
+		// if(Auth::guest() || $username != Auth::user()->username)
+		// {
+		// 	return Redirect::home();
+		// }
+		// if($username == Auth::user()->username)
+		// {
+			$user = User::whereUsername($username)->firstOrFail();
+			return View::make('users.edit')->withUser($user);
+		// }
 	}
 
 
@@ -77,9 +96,15 @@ class UsersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($username)
 	{
-		//
+		$user = User::whereUsername($username)->firstOrFail();
+		$input = Input::only('firstName','lastName', 'address');
+
+		$user->fill($input)->save();
+
+		return Redirect::route('users.edit',$user->username)->withFlashMessage('<p class="bg-success success" ><b>Successfully Updated Profile</b></p>');
+
 	}
 
 
@@ -92,6 +117,35 @@ class UsersController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	public function searchPostUser()
+	{
+  		if(Request::ajax()){
+  			$input = Input::only('username');
+  			$a=$input['username'];
+  			$user = User::whereUsername($a)->first();
+  			if(count($user) >= 1){
+  				return Response::json(1);
+  			}
+  			else{
+  				return Response::json(0);
+  			}
+  		}
+	}
+	public function searchPostEmail()
+	{
+  		if(Request::ajax()){
+  			$input = Input::only('email');
+  			$a=$input['email'];
+  			$user = User::whereEmail($a)->first();
+  			if(count($user) >= 1){
+  				return Response::json(1);
+  			}
+  			else{
+  				return Response::json(0);
+  			}
+  		}
 	}
 
 

@@ -32,3 +32,12 @@ Route::resource('sessions', 'SessionsController',['only' => ['create','store','d
 
 #Image Upload
 Route::resource('uploadImage', 'ImageUploadController');
+
+#profiles
+Route::get('/users/{username}', ['as' => 'profile', 'uses' => 'UsersController@show']);
+Route::get('/profile','UsersController@show');
+#password reminders
+Route::controller('password','RemindersController');
+
+Route::post( '/searchUser', 'UsersController@searchPostUser' );
+Route::post( '/searchEmail', 'UsersController@searchPostEmail' );

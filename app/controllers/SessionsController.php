@@ -26,13 +26,13 @@ class SessionsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$this->loginForm->validate($input = Input::only('email','password'));
+		$this->loginForm->validate($input = Input::only('username','password'));
 		
 		if(Auth::attempt($input))
 		{
 			return Redirect::intended('/');
 		}
-		return Redirect::to('login')->withInput()->withFlashMessage('<span class="error">Invalid credentials provided</span>');
+		return Redirect::to('login')->withInput()->withFlashMessage('<div class="alert alert-danger square" role="alert"><b>Invalid credentials provided!</b></div>');
 	}
 
 	/**

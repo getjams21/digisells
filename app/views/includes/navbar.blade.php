@@ -18,7 +18,7 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-align" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" id="nav">
       	<li><a href="/">Home</a></li>
         <li><a href="/selling">Sell</a></li>
         <li><a href="#">Affiliate</a></li>
@@ -34,20 +34,19 @@
 @if (Auth::guest())
         <li><a href="/register">Register</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
+          <a href="/login" class="dropdown-toggle" >Login <span class="caret"></span></a>
+          <ul class="dropdown-menu nav-dropdown square" role="menu">
 			{{ Form::open(['route'=>'sessions.store']) }}
           		<div class="form-group">
           			<li class="form-inline"> 
-          				{{ Form::email('email','',array('class'=>'span3 form-control input-prop','placeholder'=>'Email','required'=>'required')) }} 
+          				{{ Form::text('username','',array('class'=>'span3 form-control input-prop square','placeholder'=>'username','required'=>'required')) }} 
           			</li>
           			<li class="form-inline">
-          				{{ Form::password('password',array('class'=>'span3 form-control input-prop','placeholder'=>'Password','required'=>'required')) }}
-        
+          				{{ Form::password('password',array('class'=>'span3 form-control input-prop square','placeholder'=>'Password','required'=>'required')) }}
           			</li>
           			<li class="form-inline">
           				<center>
-							<button type="submit" class="btn btn-success btn-prop">Sign in</button>
+							<button type="submit" class="btn btn-primary btn-prop" style="margin-left:50%;">Sign in</button>
           				</center>
           				
           			</li>
@@ -61,7 +60,7 @@
           </ul>
         </li>
 @else
-  <li><a href="#">{{ Auth::check() ?  Auth::user()->firstName." ".Auth::user()->lastName:'';}}</a></li>
+  <li>{{ link_to_profile() }}</li>
   <li><a href="/logout">Sign out</a></li>
 @endif
       </ul>

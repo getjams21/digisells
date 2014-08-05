@@ -9,7 +9,7 @@
 		@yield('styles')
 		<title>@yield('meta-title', 'Digisells')</title>
 	</head>
-	<body>
+	<body >
 		<font face="Segoe UI">
 		@yield('header')
 		@yield('carousel')
