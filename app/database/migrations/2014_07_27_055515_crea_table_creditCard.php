@@ -14,7 +14,7 @@ class CreaTableCreditCard extends Migration {
 	{
 		Schema::create('creditCard', function(Blueprint $table)
 		{
-			$table -> increments('cardID');
+			$table -> increments('id');
 			$table -> string('cardType');
 			$table -> string('cardNumber');
 			$table -> string('cardName');

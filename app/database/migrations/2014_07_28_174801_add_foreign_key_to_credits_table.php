@@ -14,9 +14,9 @@ class AddForeignKeyToCreditsTable extends Migration {
 	{
 		Schema::table('credits', function(Blueprint $table)
 		{
-			$table-> foreign('userID')->references('userID')->on('user')
+			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('salesID')->references('salesID')->on('sales')
+			$table-> foreign('salesID')->references('id')->on('sales')
 			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}

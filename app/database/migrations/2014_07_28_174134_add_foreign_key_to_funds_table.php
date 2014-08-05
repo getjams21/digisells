@@ -14,13 +14,13 @@ class AddForeignKeyToFundsTable extends Migration {
 	{
 		Schema::table('funds', function(Blueprint $table)
 		{
-			$table-> foreign('userID')->references('userID')->on('user')
+			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('salesID')->references('salesID')->on('sales')
+			$table-> foreign('salesID')->references('id')->on('sales')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('methodID')->references('methodID')->on('method')
+			$table-> foreign('methodID')->references('id')->on('method')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('biddingID')->references('biddingID')->on('bidding')
+			$table-> foreign('biddingID')->references('id')->on('bidding')
 			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}

@@ -14,7 +14,7 @@ class AddForeignKeyToCreditCardTable extends Migration {
 	{
 		Schema::table('creditCard', function(Blueprint $table)
 		{
-			$table-> foreign('fundID')->references('fundID')->on('funds')
+			$table-> foreign('fundID')->references('id')->on('funds')
 			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
