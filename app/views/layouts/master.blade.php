@@ -7,6 +7,7 @@
 		{{ HTML::style('_/css/mystyle.css') }}
 		{{ HTML::style('_/css/datepicker.css') }}
 		{{ HTML::style('_/css/simple-sidebar.css') }}
+		@yield('styles')
 		<title>@yield('meta-title', 'Digisells')</title>
 	</head>
 	<body >
@@ -18,8 +19,8 @@
 		@yield('footer')
 		</font>
 		{{ HTML::script('_/js/bootstrap.js') }}
-		{{ HTML::script('_/js/myscript.js')}}
 		{{ HTML::script('_/js/bootstrap-datepicker.js') }}
-		 
+		{{ HTML::script('_/js/myscript.js')}}
+		{{ HTML::script('_/js/jquery.form.js') }}
 	</body>
 </html>

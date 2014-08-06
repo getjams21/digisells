@@ -1,6 +1,6 @@
 <?php
 
-class PageController extends \BaseController {
+class ImageUploadController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +9,7 @@ class PageController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('pages.homepage');
+		//
 	}
 
 
@@ -31,7 +31,15 @@ class PageController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		if(!isset($_FILES['fileUpload']) || !is_uploaded_file($_FILES['fileUpload']['tmp_name']))
+		    {
+		        die('Something went wrong with Upload!');
+		    }
+		else{
+			$file = Input::file('fileUpload');
+		$file -> move(public_path().'/product/images/', time() . '-' . $file->getClientOriginaLName());
+		 }
+		
 	}
 
 
