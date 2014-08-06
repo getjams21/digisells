@@ -78,15 +78,8 @@ class UsersController extends \BaseController {
 	 */
 	public function edit($username)
 	{
-		// if(Auth::guest() || $username != Auth::user()->username)
-		// {
-		// 	return Redirect::home();
-		// }
-		// if($username == Auth::user()->username)
-		// {
 			$user = User::whereUsername($username)->firstOrFail();
 			return View::make('users.edit')->withUser($user);
-		// }
 	}
 
 
@@ -100,8 +93,30 @@ class UsersController extends \BaseController {
 	{
 		$user = User::whereUsername($username)->firstOrFail();
 		$input = Input::only('firstName','lastName', 'address');
-
+		if(Input::hasFile('userImage'))
+		{
+			$file = Input::file('userImage');
+			$fileName = $file->getClientOriginalName();
+			$extension = $file->getClientOriginalExtension();
+			if(File::exists(user_photos_path()))
+			{
+				File::delete(user_photos_path());
+			}else{
+			File::exists(user_photos_path());
+			}
+			$file->move(user_photos_path() ,$fileName);
+			$user->userImage = $fileName;
+			// return [
+			// 'path' => $file->getRealPath(),
+			// 'size' => $file->getSize(),
+			// 'mime' => $file->getMimeType(),
+			// 'name' => $file->getClientOriginalName(),
+			// 'extension' => $file->getClientOriginalExtension()
+			// ];
+		}
 		$user->fill($input)->save();
+		$user->save();
+		File::delete(user_photos_path());
 
 		return Redirect::route('users.edit',$user->username)->withFlashMessage('<p class="bg-success success" ><b>Successfully Updated Profile</b></p>');
 
@@ -147,6 +162,5 @@ class UsersController extends \BaseController {
   			}
   		}
 	}
-
 
 }

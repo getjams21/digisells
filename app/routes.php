@@ -11,6 +11,7 @@
 |
 */
 
+
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 Route::resource('page', 'HomePageController');

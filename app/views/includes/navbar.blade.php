@@ -1,4 +1,4 @@
-<div class="row" >
+<div class="wrapper" >
 <nav class="navbar navbar-default navbar-fixed-top nav-bg" role="navigation">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -15,7 +15,6 @@
       	<font size="6" color="white"><b>DigiSells</b></font>
       </a>
     </div>
-
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-align" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav" id="nav">
@@ -60,7 +59,7 @@
           </ul>
         </li>
 @else
-  <li>{{ link_to_profile() }}</li>
+  <li >{{ link_to_profile() }}</li>
   <li><a href="/logout">Sign out</a></li>
 @endif
       </ul>

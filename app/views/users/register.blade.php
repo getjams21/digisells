@@ -34,12 +34,13 @@
 					<div class="form-group">
 						{{Form::label('password', 'Password')}}
 						{{Form::password('password',['class'=>'form-control square','required'=>'required','id'=> 'password'])}}
-						{{ errors_for('password', $errors)}}
+					 	<p>{{ errors_for('password', $errors)}}</p> 
+						<span id="confirmMessage" class="confirmMessage"></span>
 					</div>
 					<div class="form-group">
 						{{Form::label('password_confirmation','Confirm Password')}}
 						{{Form::password('password_confirmation',['class'=>'form-control square','id'=>'password_confirmation','required'=>'required'])}}
-						<span id="confirmMessage" class="confirmMessage"></span>
+						<span id="confirmMessage2" class="confirmMessage"></span>
 					</div>
 
 					<div class="form-group" style="margin-left:60%;" >

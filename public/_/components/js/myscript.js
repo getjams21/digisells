@@ -90,51 +90,63 @@ $(document).ready(function(){
 	if(a == 'Login'){
 		$('.nav-dropdown').hide();	
 		$("#Login a:contains('Login')").parent().addClass('active');
+	}else{
+//navigation automatic dropdown
+		$('ul.nav li.dropdown').hover(function() {
+			$('.dropdown-menu', this).fadeIn();
+		}, function() {
+			$('.dropdown-menu', this).fadeOut('fast');
+		});
 	}
-	else{
-	//navigation automatic dropdown
-	$('ul.nav li.dropdown').hover(function() {
-		$('.dropdown-menu', this).fadeIn();
-	}, function() {
-		$('.dropdown-menu', this).fadeOut('fast');
-	});
-	}
-	//set active navbar
+//set active navbar
 	$("#Register a:contains('Register')").parent().addClass('active');
 	$("#Home a:contains('Home')").parent().addClass('active');
+	$("#Dashboard a:contains('Dashboard')").parent().addClass('active');
 
-
-	//password verification
-	//color variables
+//password verification
+//color variables
 	var goodColor = "#66cc66";
    	var badColor = "#FFE6BB";
    	var softGood = "#C3FDB8";
    	var badText = "red";
-   	//password_confirmation keyup validations
+//password_confirmation keyup validations
 		$('#password_confirmation').keyup(function(){
 		   passwordValidation();
 		});
- 	//password keyup validations
+//password keyup validations
 		$('#password').keyup(function(){
 		  passwordValidation();
 		});
-	//pass validation function
+//password validation function
 	function passwordValidation(){
-		  var pass1 = document.getElementById('password');
+		    var pass1 = document.getElementById('password');
+		    var pass = pass1.value;
 		    var pass2 = document.getElementById('password_confirmation');
 		    var message = document.getElementById('confirmMessage');
-		 	if(pass1.value == pass2.value){
-		        pass2.style.backgroundColor = goodColor;
-		        message.style.color = goodColor;
-		        message.innerHTML = "Passwords Match!"
-		    }else{
-		        pass2.style.backgroundColor = badColor;
-		        message.style.color = badText;
-		        message.innerHTML = "Passwords Does Not Match!"
-		    }
+		    var message2 = document.getElementById('confirmMessage2');
+		    if((pass.length >= 4) && (pass.length <= 15))
+		    {
+		    	message.innerHTML = " "
+			 	if(pass1.value == pass2.value){
+			 		pass1.style.backgroundColor = softGood;
+			        pass2.style.backgroundColor = goodColor;
+			        message2.style.color = goodColor;
+			        message2.innerHTML = "Passwords Match!"
+			    }else{
+			     	pass1.style.backgroundColor = badColor;
+			        pass2.style.backgroundColor = badColor;
+			        message2.style.color = badText;
+			        message2.innerHTML = "Passwords Does Not Match!"
+			    }
+			}else{
+					pass2.style.backgroundColor = badColor;
+					message2.innerHTML = " "
+					pass1.style.backgroundColor = badColor;
+			        message.style.color = badText;
+			        message.innerHTML = "Passwords Must be 4 to 15 characters only!"
+			}
 	}
-
-	//usename verfication
+//username validation start
   $('#username').on('blur', function(e){ 
       e.preventDefault();
       
@@ -160,9 +172,10 @@ $(document).ready(function(){
 		        message.innerHTML = "Username Taken!"
 		    }
       });
-    }); 
-//email verification
-      $('#email').on('blur', function(e){ 
+    }); //end of username validation
+
+//email validation start
+    $('#email').on('blur', function(e){ 
       e.preventDefault();
       var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
    	  var emailbox = document.getElementById('email');
@@ -190,17 +203,28 @@ $(document).ready(function(){
 				    }
 		      });
 	 		}
-    }); 
+    }); //end of email validation
+//SIDEBAR toggle js
+	
+	 $("#page-content-wrapper").hover(function(e) {
+	        e.preventDefault();
+	        $("#wrapper").toggleClass("toggled");
+	    });
+// IMAGE UPLOAD PREVIEW FUNCTION
+	function readURL(input) {
 
-      $('#email').change(function(){
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
 
-	    if (!filter.test(emailbox.value)) {
-	    	emailbox.style.backgroundColor = badColor;
-		    message.style.color = badText;
-		    message.innerHTML = "Invalid Email Address!"
-	    email.focus;
-	    return false;
-	    	}
-      });
+	        reader.onload = function (e) {
+	            $('#default').attr('src', e.target.result);
+	        }
 
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+//USER IMAGE UPLOAD PREVIEW EVENT
+	$("#userImage").change(function(){
+	    readURL(this);
+	});
 });//end of onload

@@ -9,7 +9,7 @@
             <br>
             <div class="col-md-4">
             	<center>
-                <div class="panel panel-default square well-hide">
+                <div class="panel panel-default square well-hide shadowed">
                     <div class="panel-heading sell-logo-icon">
                     </div>
                     <div class="panel-body">
@@ -21,7 +21,7 @@
             </div>
             <div class="col-md-4">
                 <center>
-                <div class="panel panel-default square well-hide">
+                <div class="panel panel-default square well-hide shadowed">
                     <div class="panel-heading buy-logo-icon">
                     </div>
                     <div class="panel-body">
@@ -33,7 +33,7 @@
             </div>
             <div class="col-md-4">
                 <center>
-                <div class="panel panel-default square well-hide">
+                <div class="panel panel-default square well-hide shadowed">
                     <div class="panel-heading affiliate-logo-icon">
                     </div>
                     <div class="panel-body">

@@ -22,6 +22,7 @@ class CreateTableUser extends Migration {
 			$table -> string('email',50)->unique();
 			$table -> string('password',60);
 			$table -> string('paymentMethod',50);
+			$table -> string('userImage',50)->nullable();
 			$table -> string('remember_token')->nullable();
 			$table -> timestamps();
 		});

@@ -8,7 +8,7 @@
 			<center><h3>Read from them...</h3></center>
 		</div>
 			<div class="col-md-5">
-				<div class="well square well-hide">
+				<div class="well square well-hide shadowed">
 					<div class="breadcrumb brd-prop square">
 						<center><h4><font color="white">Auction
 					 	</font></h4></center>
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="well square well-hide">
+				<div class="well square well-hide shadowed">
 					<div class="breadcrumb brd-prop-orange square">
 						<center><h4><font color="white">For Sale
 					 	</font></h4></center>
@@ -103,7 +103,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="well square well-hide">
+				<div class="well square well-hide shadowed">
 					<div class="breadcrumb brd-prop-blue square">
 						<center><h4><font color="white">Testimonials
 					 	</font></h4></center>

@@ -6,6 +6,7 @@
 		{{ HTML::style('_/css/bootstrap.css') }}
 		{{ HTML::style('_/css/mystyle.css') }}
 		{{ HTML::style('_/css/datepicker.css') }}
+		{{ HTML::style('_/css/simple-sidebar.css') }}
 		<title>@yield('meta-title', 'Digisells')</title>
 	</head>
 	<body >
@@ -19,5 +20,6 @@
 		{{ HTML::script('_/js/bootstrap.js') }}
 		{{ HTML::script('_/js/myscript.js')}}
 		{{ HTML::script('_/js/bootstrap-datepicker.js') }}
+		 
 	</body>
 </html>
