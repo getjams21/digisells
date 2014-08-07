@@ -20,7 +20,7 @@
 		</font>
 		{{ HTML::script('_/js/bootstrap.js') }}
 		{{ HTML::script('_/js/bootstrap-datepicker.js') }}
-		{{ HTML::script('_/js/myscript.js')}}
 		{{ HTML::script('_/js/jquery.form.js') }}
+		{{ HTML::script('_/js/myscript.js')}}
 	</body>
 </html>
