@@ -25,9 +25,10 @@ $app = new Illuminate\Foundation\Application;
 */
 
 $env = $app->detectEnvironment(array(
-
-	'development' => array('localhost'),
-
+	//App::environment();
+	'development' => array('JayMarz-PC'),
+	//'production' => array('instance-105hh34.nodes.eu1.frbit.com'),
+	'production' => array('localhost'),
 ));
 
 /*

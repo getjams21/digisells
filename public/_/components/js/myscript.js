@@ -101,7 +101,12 @@ $(document).ready(function(){
 	});
 	//bid price
 	function calculateStandardIncrementation(){
-		if ($('#MinimumPrice').val() != 0 || $('#MinimumPrice').val() != '') {
+		if (parseFloat($('#MinimumPrice').val()) == 0 || $('#MinimumPrice').val() == '') {
+			$('.next-bid-info').hide();
+			$('.validateMinPrice').show();
+		
+		}else{
+			// alert($('#MinimumPrice').val());
 			var minPrice = parseFloat($('#MinimumPrice').val());
 			var incrementPercentage = minPrice * 0.05;
 			var firstBidPrice = minPrice + incrementPercentage;
@@ -110,10 +115,6 @@ $(document).ready(function(){
 			$('.validateMinPrice').hide();
 			$('.customized-bid').hide();
 			$('.next-bid-info').show();
-		
-		}else{
-			$('.next-bid-info').hide();
-			$('.validateMinPrice').show();
 		}
 	}
 	function calculateCustomizedIncrementation(incVal){
@@ -182,19 +183,41 @@ $(document).ready(function(){
 	});
 
 	//disable submit button and invalid file alert
-	$('#SubmitButton').prop('disabled', true);
+	// $('#SubmitButton').prop('disabled', true);
 	$('#fileName').attr('disabled', true);
 	//validate Image file
 	$('#fileUpload').click(function() {
-		$('#fileName').attr('disabled', false);
-		$('#fileName').focus();
+		this.value = null;
 	});
-	$('#fileName').blur(function() {
-		//alert($(this).val());
+	$('#fileUpload').change(function() {
+		var filename = $(this).val();
+		//var fileLength = $(this).get(0).files.length;
+		var fileSize = $(this).get(0).files[0].size;
+    	var maxSize = $(this).data('max-size');
+    	// fileSize = 5000001;
+    	if(fileSize<=maxSize){
+    		$('.validateImageSize').hide();
+    		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
+			case 'gif': case 'jpg': case 'png': case 'bmp':
+				// $('#SubmitButton').prop('disabled', false);
+				$('.validateImage').hide();
+				break;
+			default:
+				$('.validateImage').show();
+			}
+    	}else{
+    		$('.validateImageSize').show();
+    	}
+	});
+	// Copyright File Upload
+	$('#fileUpload').click(function() {
+		this.value = null;
+	});
+	$('#fileUpload').change(function() {
 		var filename = $(this).val();
 		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
 			case 'gif': case 'jpg': case 'png': case 'bmp':
-				$('#SubmitButton').prop('disabled', false);
+				// $('#SubmitButton').prop('disabled', false);
 				$('.validateImage').hide();
 				break;
 			default:
@@ -202,16 +225,9 @@ $(document).ready(function(){
 		}
 	});
 
-	//trigger to click modal toggler
-	$('#SubmitButton').click(function() {
-		$('#showUploadModal').trigger('click');
+	$(fileupload).submit(function(){
+		$('.bs-example-modal-sm').modal('show');
 	});
-
-	//File upload modal
-	$('#showModal').click(function() {
-		$('#myModal').modal('show');
-	});
-
 	//Upload Progress...
         var progressbar     = $('#progressbar');
         var statustxt       = $('#statustxt');
