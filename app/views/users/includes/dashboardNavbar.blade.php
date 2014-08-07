@@ -1,7 +1,7 @@
     <!-- Sidebar -->
 
         <div id="sidebar-wrapper" class="col-md-1" style="padding-left:0;">
-            <div id="showSidebar">
+            <div id="showSidebar sidebar">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
@@ -16,13 +16,29 @@
                     <a href="#" class="active">Profile</a>
                 </li>
                 <li>
-                    <a href="#">Shortcuts</a>
+                    <a href="#">Invoices</a>
                 </li>
-                <li>
-                    <a href="#">Overview</a>
+                 <li class="sidehead">
+                     <a ><i ></i> Buying<span class=""></span></a>
+                    <ul class="sidecontent collapse">
+                        <li>
+                             <a href="">Bids</a>
+                        </li>
+                        <li>
+                             <a href="">Offers</a>
+                       </li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="#">Events</a>
+                <li class="sidehead">
+                    <a href="#">Selling</a>
+                    <ul class="sidecontent collapse">
+                        <li>
+                             <a href="">Selling</a>
+                        </li>
+                        <li>
+                             <a href="">Offers</a>
+                       </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#">About</a>

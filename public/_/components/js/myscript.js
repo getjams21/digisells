@@ -378,11 +378,11 @@ $(document).ready(function(){
 	 		}
     }); //end of email validation
 //SIDEBAR toggle js
-	
-	 $("#page-content-wrapper").hover(function(e) {
-	        e.preventDefault();
-	        $("#wrapper").toggleClass("toggled");
-	    });
+//temporary disabled 
+	 // $("#page-content-wrapper").hover(function(e) {
+	 //        e.preventDefault();
+	 //        $("#wrapper").toggleClass("toggled");
+	 //    });
 // IMAGE UPLOAD PREVIEW FUNCTION
 	function readURL(input) {
 
@@ -400,4 +400,12 @@ $(document).ready(function(){
 	$("#userImage").change(function(){
 	    readURL(this);
 	});
+
+//SIDEBAR HOVER COLLAPSE
+	$('.sidehead').hover(function() {
+			$(this).children('ul').removeClass('collapse');
+		}, function() {
+			$(this).children('ul').addClass('collapse');
+		});
+	
 });//end of onload

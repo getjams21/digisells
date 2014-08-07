@@ -59,6 +59,13 @@
           </ul>
         </li>
 @else
+  <li>
+    @if(Auth::user()->userImage)
+    {{ HTML::image('images/users/'.Auth::user()->username."/".Auth::user()->userImage, 'profile photo', array('class' => 'nav-img')) }}
+    @else
+    {{ HTML::image('images/users/default.PNG', 'profile photo', array('class' => 'nav-img')) }}
+    @endif
+  </li>
   <li >{{ link_to_profile() }}</li>
   <li><a href="/logout">Sign out</a></li>
 @endif

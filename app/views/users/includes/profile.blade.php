@@ -1,8 +1,8 @@
-<div id="personalInformation">
+<div id="Profile" >
 	@if($user->userImage)
-	{{ HTML::image('images/'.$user->username."/".$user->userImage, 'profile photo', array('class' => 'thumb','style'=>'width:150px;height:150px;')) }}
+	{{ HTML::image(user_photos_display($user), 'profile photo', array('class' => 'thumb')) }}
 	@else
-	{{ HTML::image('images/users/default.PNG', 'profile photo', array('class' => 'thumb','style'=>'width:150px;height:150px;')) }}
+	{{ HTML::image('images/users/default.PNG', 'profile photo', array('class' => 'thumb')) }}
 	@endif
 	@if($user->firstName)
 		<h2><b>{{$user->firstName." ".$user->lastName}}<br>

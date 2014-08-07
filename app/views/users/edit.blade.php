@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('meta-title','Edit Profile')
+@section('meta-title','Dashboard')
 @section('header')
 	@include('includes.navbar')
 @stop
@@ -11,25 +11,39 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12" id="showContent" >
-                    	<div clas="col-md-6 col-md-offset-1">
-                        	{{ Form::model($user, ['method'=>'PATCH','route' => ['users.update', $user->username],'files' => true,'id'=>'fileform']) }}<h4><b><i>Personal Information</i></b></h4>
-						<hr>
+                    <div class="col-lg-4" id="showContent" >
+                        	{{ Form::model($user, ['method'=>'PATCH','route' => ['users.update', $user->username],'files' => true,'id'=>'fileform']) }}
+							<center>
+                        	<h4><b><i>Personal Information</i></b></h4>
+								<hr>
 							@if($user->userImage)
-							{{ HTML::image('images/'.$user->username."/".$user->userImage, 'profile photo', array('class' => 'thumb','style'=>'width:150px;height:150px;','id'=>'default')) }}
+							{{ HTML::image(user_photos_display($user), 'profile photo', array('class' => 'thumb','id'=>'default')) }}
 							@else
-							{{ HTML::image('images/users/default.PNG', 'profile photo', array('class' => 'thumb ','style'=>'width:150px;height:150px;','id'=>'default')) }}
+							{{ HTML::image('images/users/default.PNG', 'profile photo', array('class' => 'thumb ','id'=>'default')) }}
 							@endif
+							</center>
 							@if (Session::has('flash_message'))
 								<div class="form-group">
 									<p>{{Session::get('flash_message') }}</p>
 								</div>
 							@endif
-							<div class="form-group">
-								{{Form::label('userImage', 'Your Image')}}
-								{{Form::file('userImage',null,['class'=>' form-control square ','name'=>'file'])}}
+							<!-- <div class="input-group">
+								<span class="input-group-btn">
+									<span class="btn btn-primary btn-file">Browse&hellip; {{Form::label('userImage', 'Your Image')}}
+									{{Form::file('userImage',null,['class'=>' form-control  ','name'=>'file'])}}
+									</span>
+								</span>
+							</div> -->
+							<br><br>
+							<div class="input-group">
+							    <span class="input-group-btn">
+							        <span class="btn btn-primary btn-file">
+							            Browse&hellip; <input name="userImage" type="file" id="userImage">
+							        </span>
+							    </span>
+							    <input type="text" class="form-control" value="{{$user->userImage}}"readonly>
 							</div>
-
+							<br><br>
 							<div class="form-group">
 								{{Form::label('firstName', 'First Name')}}
 								{{Form::text('firstName',null,['class'=>'form-control square','required'=>'required'])}}
@@ -50,7 +64,6 @@
 								{{ Form::Submit('Update Profile',['class'=>'btn btn-primary']) }}
 							</div>	
 					{{ Form::close()}}
-					</div>	
                     </div>
                 </div>
             </div>

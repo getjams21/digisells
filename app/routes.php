@@ -14,6 +14,10 @@
 
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
+// Route::get('/',function(){
+// 	dd(App::environment());
+// });
+
 Route::resource('page', 'HomePageController');
 Route::get('/register','UsersController@create');
 Route::resource('users', 'UsersController');
