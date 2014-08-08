@@ -1,11 +1,16 @@
 <br>
+<!-- Error Panel -->
+    <div class="panel square error-panel">
+         <span class="glyphicon glyphicon-warning-sign" style="padding-left:9%;">&nbsp</span><span id="error-msg"></span>
+    </div>
+
 <!-- Modal for Saving and Uploading -->
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm">
     <div class="modal-content modal-prop">
         <!-- progress bar -->
       <div class="progress progress-prop">
-          <div class="progress-bar progress-bar-warning" role="progressbar" id="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+          <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" id="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
             <span id="statustxt">0%</span>
           </div>
       </div>
@@ -16,8 +21,7 @@
 <!-- End Modal -->
 
 <!-- Auction Container -->
-<div class="container">
-    <button class="btn btn-primary hide-me" id="showUploadModal" data-toggle="modal" data-target=".bs-example-modal-sm"></button>
+<div class="container auction-container">
 	<div class="col-md-12 offset-3">
         <h2>Start an Auction Event</h2>
 		<hr class="style-shadowed">
@@ -96,7 +100,7 @@
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-startDate" data-date-format="mm-dd-yyyy">
                       <input class="form-control" id="startDate" type="text" required>
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar startDateIcon"></i></span>
                     </div>
                   </div>
                 </div>  
@@ -105,7 +109,7 @@
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-endDate" data-date="" data-date-format="mm-dd-yyyy">
                       <input class="form-control" type="text" id="endDate" required>
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar endDateIcon"></i></span>
                     </div>
                   </div>
                 </div>
@@ -116,7 +120,7 @@
                       <button type="button" class="btn btn-primary" id="customized" data-container="body" data-toggle="popover" placement="left" data-content="Select Customized way of bidding incrementation rule. The minimum next bid will be the last bid price plus the value you indicated or higher.">Customized</button>
                     </div>
                     <div class="well next-bid-info">
-                        <center><p>Next bid price must be:<b><br><span name='bidPrice' id='bid-price'></span><br></b>or Higher
+                        <center><p>Next bid price must be at least:<b><br><span name='bidPrice' id='bid-price'></span></b>
                         </p></center>
                     </div>
                     <div class="well customized-bid">
@@ -130,11 +134,8 @@
                         'id'=>'bidIncrement'
                         )) }}
                     </div>
-                        <center><p>Next bid price must be:<b><br><span name='customBid' id='customBid'></span><br></b>or Higher
+                        <center><p>Next bid price must be at least:<b><br><span name='customBid' id='customBid'></span><br></b>
                         </p></center>
-                    </div>
-                    <div class="alert alert-danger validateMinPrice" role="alert">
-                        <p><span class="glyphicon glyphicon-warning-sign"></span></font>&nbsp Minimum Price must <br>NOT be '0' or EMPTY!</p>
                     </div>
                     <div class="input-group">
                     <br>
@@ -193,6 +194,18 @@
                 <br>
                 {{ Form::label('', 'Product Image Upload'); }}
                 @include('includes.file-upload.file-upload')
+                {{ Form::label('', 'Download Link (Optional)'); }}
+                {{ Form::text('DownloadLink','',
+                    array(
+                    'class'=>'form-control span3 txtbox-m',
+                    'placeholder'=>'Product Download Link',
+                    'id'=>'downloadLink',
+                    'data-container'=>'body',
+                    'data-toggle'=>'popover',
+                    'data-content'=>'If your product file is hosted on other server, include the download link here. This will be used by the customer after buying your product.'
+                    )) }}
+                <br>
+                <br>
                </div>
             </div>
                 <center><input class="btn btn-success btn-lg txtbox-s" type="Submit"  id="SubmitButton" value="Start My Auction" /></center>

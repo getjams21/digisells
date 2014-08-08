@@ -21,6 +21,21 @@ $(document).ready(function(){
         
     });
 
+    //Error properties
+    function displayError(errorMsg){
+    	$('#error-msg').text(errorMsg);
+			$( ".error-panel" ).animate({
+			    width: "100%",
+			    opacity: 1,
+			  }, 300 );
+    }
+    function hideError(){
+    	$( ".error-panel" ).animate({
+			    width: "0%",
+			    opacity: 0,
+			  }, 300 );
+    }
+
 	//get current date
 		var today = new Date();
 		var dd = today.getDate();
@@ -50,6 +65,31 @@ $(document).ready(function(){
 		$('#startDate').val(today);
 		$(this).datepicker('show');
 	});
+
+	//validate auction starting date
+	// $('#startDate').prop('disabled', true);
+	$('#startDate').change(function(event) {
+		if ($(this).val()<today) {
+			var errorMsg = 'Invalid Date! Starting Date must not be a PAST date.';
+			displayError(errorMsg);
+			$('#SubmitButton').prop('disabled', true);
+		}else{
+			hideError();
+			$('#SubmitButton').prop('disabled', false);
+		};
+	});
+	//validate auction end date
+	$('#endDate').change(function(event) {
+		if ($(this).val()<=today) {
+			var errorMsg = 'Invalid Date! End Date must not be a PAST or CURRENT date.';
+			displayError(errorMsg);
+			$('#SubmitButton').prop('disabled', true);
+		}else{
+			hideError();
+			$('#SubmitButton').prop('disabled', false);
+		};
+	});
+
 	$('#endDate, #grp-endDate').click(function() {
 		$(this).val('');
 		$(this).data('date', today);
@@ -101,33 +141,43 @@ $(document).ready(function(){
 	});
 	//bid price
 	function calculateStandardIncrementation(){
-		if ($('#MinimumPrice').val() != 0 || $('#MinimumPrice').val() != '') {
+		if ($('#MinimumPrice').val() != '') {
 			var minPrice = parseFloat($('#MinimumPrice').val());
-			var incrementPercentage = minPrice * 0.05;
-			var firstBidPrice = minPrice + incrementPercentage;
-			//alert('$ '+firstBidPrice.toFixed(2));
-			$('#bid-price').text('$'+firstBidPrice.toFixed(2));
-			$('.validateMinPrice').hide();
-			$('.customized-bid').hide();
-			$('.next-bid-info').show();
+			if (minPrice == 0){
+				displayError('Minimum Price must NOT be 0');
+			}else{
+				var incrementPercentage = minPrice * 0.05;
+				var firstBidPrice = minPrice + incrementPercentage;
+				//alert('$ '+firstBidPrice.toFixed(2));
+				$('#bid-price').text('$'+firstBidPrice.toFixed(2));
+				// $('.validateMinPrice').hide();
+				hideError();
+				$('.customized-bid').hide();
+				$('.next-bid-info').show();
+			}
 		
 		}else{
 			$('.next-bid-info').hide();
-			$('.validateMinPrice').show();
+			displayError('Minimum Price must NOT be EMPTY!');
+			// $('.validateMinPrice').show();
 		}
 	}
 	function calculateCustomizedIncrementation(incVal){
-		if ($('#MinimumPrice').val() != 0 || $('#MinimumPrice').val() != '') {
+		if ($('#MinimumPrice').val() != '') {
 			var incValue = parseFloat(incVal);
 			var minPrice = parseFloat($('#MinimumPrice').val());
-			var firstBidPrice = parseFloat(incValue + minPrice);
-			$('#customBid').text('$'+firstBidPrice.toFixed(2));
-			$('.validateMinPrice').hide();
-			$('.next-bid-info').hide();
-			$('.customized-bid').show();
+			if(minPrice == 0){
+				displayError('Minimum Price must NOT be 0');
+			}else{
+				var firstBidPrice = parseFloat(incValue + minPrice);
+				$('#customBid').text('$'+firstBidPrice.toFixed(2));
+				hideError();
+				$('.next-bid-info').hide();
+				$('.customized-bid').show();
+			}
 		}else {
 			$('.customized-bid').hide();
-			$('.validateMinPrice').show();
+			displayError('Minimum Price must NOT be EMPTY!');
 		}
 	}
 	$('#customized').click(function() {
@@ -150,8 +200,6 @@ $(document).ready(function(){
 		var incVal;
 		if($('#bidIncrement').val() == '') {
 				incVal = 0.01;
-				//$('#bidIncrement').val(incVal);
-				//incVal = $('#bidIncrement').val();
 			} else {
 				incVal = $('#bidIncrement').val();
 			}
@@ -181,8 +229,8 @@ $(document).ready(function(){
 		$('#affiliation').show();
 	});
 
-	$('#fileName').attr('disabled', true);
 	//validate Image file
+	//$('#fileName').attr('disabled', true);
 	$('#fileUpload').click(function() {
 		this.value = null;
 	});
@@ -196,10 +244,11 @@ $(document).ready(function(){
     		$('.validateImageSize').hide();
     		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
 			case 'gif': case 'jpg': case 'png': case 'bmp':
-				// $('#SubmitButton').prop('disabled', false);
+				$('#SubmitButton').prop('disabled', false);
 				$('.validateImage').hide();
 				break;
 			default:
+				$('#SubmitButton').prop('disabled', true);
 				$('.validateImage').show();
 			}
     	}else{
@@ -207,20 +256,28 @@ $(document).ready(function(){
     	}
 	});
 	// Copyright File Upload
-	$('#fileUpload').click(function() {
+	$('#copyrightFileUpload').click(function() {
 		this.value = null;
 	});
-	$('#fileUpload').change(function() {
+	$('#copyrightFileUpload').change(function() {
 		var filename = $(this).val();
 		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
-			case 'gif': case 'jpg': case 'png': case 'bmp':
-				// $('#SubmitButton').prop('disabled', false);
-				$('.validateImage').hide();
+			case 'zip': case 'rar':
+				$('#SubmitButton').prop('disabled', false);
+				$('.validateCopyrightFile').hide();
 				break;
 			default:
-				$('.validateImage').show();
+				$('#SubmitButton').prop('disabled', true);
+				$('.validateCopyrightFile').show();
 		}
 	});
+	$('#downloadLink').hover(function() {
+		$(this).popover('show');
+	}, function() {
+		$(this).popover('hide');
+	});
+	//Disable Submit Button
+	$('#SubmitButton').prop('disabled', true);
 
 	//Upload Progress...
         var progressbar     = $('#progressbar');
@@ -421,7 +478,7 @@ $(document).ready(function(){
 //submit validation. Don't eput codes next to it. this must
 //be the last codes.
 
-	$(fileupload).submit(function(){
+	$(fileupload).submit(function(event){
 		$('.bs-example-modal-sm').modal('show');
 	});	
 });//end of onload
