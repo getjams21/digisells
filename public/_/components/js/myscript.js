@@ -181,35 +181,45 @@ $(document).ready(function(){
 		$('#affiliation').show();
 	});
 
-	//disable submit button and invalid file alert
-	$('#SubmitButton').prop('disabled', true);
 	$('#fileName').attr('disabled', true);
 	//validate Image file
 	$('#fileUpload').click(function() {
-		$('#fileName').attr('disabled', false);
-		$('#fileName').focus();
+		this.value = null;
 	});
-	$('#fileName').blur(function() {
-		//alert($(this).val());
+	$('#fileUpload').change(function() {
+		var filename = $(this).val();
+		//var fileLength = $(this).get(0).files.length;
+		var fileSize = $(this).get(0).files[0].size;
+    	var maxSize = $(this).data('max-size');
+    	// fileSize = 5000001;
+    	if(fileSize<=maxSize){
+    		$('.validateImageSize').hide();
+    		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
+			case 'gif': case 'jpg': case 'png': case 'bmp':
+				// $('#SubmitButton').prop('disabled', false);
+				$('.validateImage').hide();
+				break;
+			default:
+				$('.validateImage').show();
+			}
+    	}else{
+    		$('.validateImageSize').show();
+    	}
+	});
+	// Copyright File Upload
+	$('#fileUpload').click(function() {
+		this.value = null;
+	});
+	$('#fileUpload').change(function() {
 		var filename = $(this).val();
 		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
 			case 'gif': case 'jpg': case 'png': case 'bmp':
-				$('#SubmitButton').prop('disabled', false);
+				// $('#SubmitButton').prop('disabled', false);
 				$('.validateImage').hide();
 				break;
 			default:
 				$('.validateImage').show();
 		}
-	});
-
-	//trigger to click modal toggler
-	$('#SubmitButton').click(function() {
-		$('#showUploadModal').trigger('click');
-	});
-
-	//File upload modal
-	$('#showModal').click(function() {
-		$('#myModal').modal('show');
 	});
 
 	//Upload Progress...
@@ -407,5 +417,12 @@ $(document).ready(function(){
 		}, function() {
 			$(this).children('ul').addClass('collapse');
 		});
-	
+
+//submit validation. Don't eput codes next to it. this must
+//be the last codes.
+
+	$(fileupload).submit(function(){
+		$('.bs-example-modal-sm').modal('show');
+	});	
 });//end of onload
+

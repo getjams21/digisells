@@ -64,7 +64,9 @@
                 {{ Form::text('AuctionName','',
                     array(
                     'class'=>'form-control span3 txtbox-m',
-                    'placeholder'=>'Name/Title of Auction'
+                    'placeholder'=>'Name/Title of Auction',
+                    'id'=>'AuctionName',
+                    'required'=>'required'
                     )) }}
                 <br>
                 {{ Form::label('', 'Starting Price'); }}
@@ -74,7 +76,8 @@
                     array(
                         'class'=>'form-control span3',
                         'placeholder'=>'Starting Price',
-                        'id'=>'MinimumPrice'
+                        'id'=>'MinimumPrice',
+                        'required'=>'required'
                     )) }}
                 </div>
                 <br>
@@ -92,7 +95,7 @@
                 <div class="form-group row">
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-startDate" data-date-format="mm-dd-yyyy">
-                      <input class="form-control" id="startDate" type="text">
+                      <input class="form-control" id="startDate" type="text" required>
                       <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>
@@ -101,7 +104,7 @@
                 <div class="form-group row">
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-endDate" data-date="" data-date-format="mm-dd-yyyy">
-                      <input class="form-control" type="text" id="endDate">
+                      <input class="form-control" type="text" id="endDate" required>
                       <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>
@@ -146,7 +149,7 @@
                         {{ Form::text('AffiliatePercentage','',
                         array(
                             'class'=>'form-control span3',
-                            'placeholder'=>'Commission'
+                            'placeholder'=>'Commission',
                         )) }}
                         <span class="input-group-addon">%</span>
                     </div>
@@ -165,28 +168,34 @@
                 {{ Form::text('ProductName','',
                     array(
                     'class'=>'form-control span3 txtbox-m',
-                    'placeholder'=>'Name your product'
+                    'placeholder'=>'Name your product',
+                    'id'=>'productName',
+                    'required'=>'required'
                     )) }}
                 <br>
                 {{ Form::label('', 'Product Description'); }}
                 {{ Form::textarea('ProducteDescription','',
                     array(
                     'class'=>'form-control span3 txtbox-m',
-                    'placeholder'=>'Describe your product'
+                    'placeholder'=>'Describe your product',
+                    'id'=>'productDesc',
+                    'required'=>'required'
                     )) }}
                 <br>
                 {{ Form::label('', 'Quantity'); }}
-                {{ Form::text('Qty','',
+                {{ Form::text('Qty','1',
                     array(
                     'class'=>'form-control span3 txtbox-xs',
-                    'placeholder'=>'1'
+                    'placeholder'=>'',
+                    'id'=>'qty',
+                    'required'=>'required'
                     )) }}
                 <br>
                 {{ Form::label('', 'Product Image Upload'); }}
                 @include('includes.file-upload.file-upload')
                </div>
             </div>
-                <center><input class="btn btn-warning btn-lg txtbox-s" type="Submit"  id="SubmitButton" value="Start My Auction" /></center>
+                <center><input class="btn btn-success btn-lg txtbox-s" type="Submit"  id="SubmitButton" value="Start My Auction" /></center>
         </div>
     </div>
     {{ Form::close() }}
