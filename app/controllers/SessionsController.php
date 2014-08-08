@@ -4,14 +4,14 @@ use Acme\Forms\LoginForm;
 class SessionsController extends \BaseController {
 	protected $loginForm;
 
-	function __construct( LoginForm $loginForm)
+	function __construct(LoginForm $loginForm)
 	{
 		$this->loginForm = $loginForm;
 	}
 	
 		/**
 	 * Show the form for creating a new resource.
-	 *
+	 * 
 	 * @return Response
 	 */
 	public function create()

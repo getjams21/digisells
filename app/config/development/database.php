@@ -1,6 +1,6 @@
 <?php
 
-return array([
+return array(
 	'connections' => array(
 
 		'mysql' => array(
@@ -14,4 +14,4 @@ return array([
 			'prefix'    => '',
 		)
 	)
-]);
+);

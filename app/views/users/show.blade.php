@@ -13,8 +13,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12" id="showContent">
-                        	<!-- @include('users.includes.profile') -->
-                            @include('users.includes.activities')
+                        	@include('users.includes.profile')
+                           <!--  @include('users.includes.activities') -->
                         
                     </div>
                 </div>
