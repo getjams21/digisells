@@ -26,8 +26,8 @@ class SessionsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$this->loginForm->validate($input = Input::only('username','password'));
-		
+		// $this->loginForm->validate($input = Input::only('username','password'));
+		$input = Input::only('username','password');
 		if(Auth::attempt($input))
 		{
 			return Redirect::intended('/');

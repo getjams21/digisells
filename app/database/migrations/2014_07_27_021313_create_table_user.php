@@ -20,7 +20,7 @@ class CreateTableUser extends Migration {
 			$table -> text('address')->nullable();
 			$table -> string('username',15)->unique();
 			$table -> string('email',50)->unique();
-			$table -> string('password',60);
+			$table -> string('password',100);
 			$table -> string('paymentMethod',50)->nullable();
 			$table -> string('userImage',50)->nullable();
 			$table -> string('remember_token')->nullable();

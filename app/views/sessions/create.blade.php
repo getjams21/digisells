@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('meta-title','Login')
+@section('meta-title','Login') 
 @section('header')
 	@include('includes.navbar')
 @stop

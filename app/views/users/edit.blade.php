@@ -22,19 +22,13 @@
 							{{ HTML::image('images/users/default.PNG', 'profile photo', array('class' => 'thumb ','id'=>'default')) }}
 							@endif
 							</center>
+							{{ errors_for('userImage', $errors)}}
 							@if (Session::has('flash_message'))
 								<div class="form-group">
 									<p>{{Session::get('flash_message') }}</p>
 								</div>
 							@endif
-							<!-- <div class="input-group">
-								<span class="input-group-btn">
-									<span class="btn btn-primary btn-file">Browse&hellip; {{Form::label('userImage', 'Your Image')}}
-									{{Form::file('userImage',null,['class'=>' form-control  ','name'=>'file'])}}
-									</span>
-								</span>
-							</div> -->
-							<br><br>
+							<br>
 							<div class="input-group">
 							    <span class="input-group-btn">
 							        <span class="btn btn-primary btn-file">
