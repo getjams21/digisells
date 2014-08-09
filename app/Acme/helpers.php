@@ -2,7 +2,7 @@
 
 function errors_for($attribute, $errors)
 {
-	return $errors ->first($attribute,'<span class="bg-danger error">:message</span>');
+	return $errors ->first($attribute,'<div class="alert alert-danger square">:message</div>');
 }
 
 function link_to_profile()

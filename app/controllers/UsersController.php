@@ -97,23 +97,30 @@ class UsersController extends \BaseController {
 			{
 				$file = Input::file('userImage');
 				$fileName = $file->getClientOriginalName();
+				$fileSize = Input::file('userImage')->getSize();
+				
 				// file should be an image
 				$validator = Validator::make(
-					array('image'=> $file),
-					array('image' =>'image|mimes:jpg,jpeg,bmp,png')
+					array('userImage'=> $file),
+					array('userImage' =>'image|max:2000000|mimes:jpg,jpeg,bmp,png')
 					);
-				if($validator->passes()){
-					File::exists(user_photos_path());
+				if($validator->fails()){
+					return Redirect::back()->withInput()->withErrors($validator, 'userImage');
+				}else{	
+					if($fileSize>2000000){
+				return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Image must be less than 2mb</div></center>');
+					}	
+					if (File::exists(user_photos_path())) {
+						File::deleteDirectory(user_photos_path());
+					}
 					$file->move(user_photos_path() ,$fileName);
 					$user->userImage = $fileName;
-				}else{
-					return Redirect::back()->withInput()->withFlashMessage('<p class="bg-danger error" ><b>Invalid Image type</b></p>');
 				}
 			}
 		$user->fill($input)->save();
 		$user->save();
-		File::delete(user_photos_path());
-		return Redirect::route('users.edit',$user->username)->withFlashMessage('<p class="bg-success success" ><b>Successfully Updated Profile</b></p>');
+		return Redirect::route('users.edit',$user->username)
+		->withFlashMessage('<div class="alert alert-success square" ><center><b>Successfully Updated Profile</b></center></div>');
 	}
 
 	/**

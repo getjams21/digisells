@@ -3,7 +3,7 @@
 		@if($user->userImage)
 		{{ HTML::image(user_photos_display($user), 'profile photo', array('class' => 'thumb')) }}
 		@else
-		{{ HTML::image('images/users/default.PNG', 'profile photo', array('class' => 'thumb')) }}
+		{{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'thumb')) }}
 		@endif
 		<br><br>
 		@if($user->isCurrent())

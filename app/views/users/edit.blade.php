@@ -16,19 +16,23 @@
 							<center>
                         	<h4><b><i>Personal Information</i></b></h4>
 								<hr>
+								<div class="alert alert-warning square" role="alert" >
+									<p  style="margin-left:10%;"><b>Note: </b>Image size must be less than 2mb</p>
+								</div>
 							@if($user->userImage)
 							{{ HTML::image(user_photos_display($user), 'profile photo', array('class' => 'thumb','id'=>'default')) }}
 							@else
-							{{ HTML::image('images/users/default.PNG', 'profile photo', array('class' => 'thumb ','id'=>'default')) }}
+							{{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'thumb ','id'=>'default')) }}
 							@endif
+
 							</center>
+							<br>
 							{{ errors_for('userImage', $errors)}}
 							@if (Session::has('flash_message'))
 								<div class="form-group">
 									<p>{{Session::get('flash_message') }}</p>
 								</div>
 							@endif
-							<br>
 							<div class="input-group">
 							    <span class="input-group-btn">
 							        <span class="btn btn-primary btn-file">
