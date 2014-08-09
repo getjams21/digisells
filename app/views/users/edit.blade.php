@@ -15,7 +15,7 @@
                         	{{ Form::model($user, ['method'=>'PATCH','route' => ['users.update', $user->username],'files' => true,'id'=>'fileform']) }}
 							<center>
                         	<h4><b><i>Personal Information</i></b></h4>
-								<hr>
+							<hr>
 								<div class="alert alert-warning square" role="alert" >
 									<p  style="margin-left:10%;"><b>Note: </b>Image size must be less than 2mb</p>
 								</div>
