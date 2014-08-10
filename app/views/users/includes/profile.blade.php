@@ -1,5 +1,4 @@
-<div class="row shadowed" id="Profile" >
-	<div class="col-md-3">
+<div class="col-md-3">
 		@if($user->userImage)
 		{{ HTML::image(user_photos_display($user), 'profile photo', array('class' => 'thumb')) }}
 		@else
@@ -23,6 +22,7 @@
 		<div>Active: 1 hour ago  &nbsp;&nbsp;|&nbsp;&nbsp; Member since: 2 days ago</div>
 	</div>
 	<div class="col-md-3">
-		<br><br><br><button type="button" class="btn btn-warning btn-lg pull-left"><span class="glyphicon glyphicon-star-empty"></span>Watch Seller</button>
+		<br><br><button type="button" class="btn btn-primary btn-lg pull-left"><span class="glyphicon glyphicon-star-empty"></span>Listing Profile</button>
+
+		<br><br><button type="button" class="btn btn-warning btn-lg pull-left" style="margin-top:10px;"><span class="glyphicon glyphicon-star-empty"></span>Watch Seller</button>
 	</div>
-</div>

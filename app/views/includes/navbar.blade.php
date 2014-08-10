@@ -61,7 +61,7 @@
 @else
   <li>
     @if(Auth::user()->userImage)
-    {{ HTML::image('images/users/'.Auth::user()->username."/".Auth::user()->userImage, 'profile photo', array('class' => 'nav-img')) }}
+    <a href="/users/{{Auth::user()->username}}" style="padding:0;">{{ HTML::image('images/users/'.Auth::user()->username."/".Auth::user()->userImage, 'profile photo', array('class' => 'nav-img')) }}</a>
     @else
     {{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'nav-img')) }}
     @endif
