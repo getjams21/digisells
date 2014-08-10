@@ -5,7 +5,7 @@
     <div class="modal-content modal-prop">
         <!-- progress bar -->
       <div class="progress progress-prop">
-          <div class="progress-bar progress-bar-warning" role="progressbar" id="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+          <div class="progress-bar progress-bar-primary" role="progressbar" id="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
             <span id="statustxt">0%</span>
           </div>
       </div>
@@ -14,10 +14,13 @@
   </div>
 </div>
 <!-- End Modal -->
+<!-- Error Message Panel -->
 
+<div class="panel error-panel square">
+    <span class="glyphicon glyphicon-warning-sign error-sign">&nbsp</span><span class="error-msg">Sample text</span>
+</div>
 <!-- Auction Container -->
 <div class="container">
-    <button class="btn btn-primary hide-me" id="showUploadModal" data-toggle="modal" data-target=".bs-example-modal-sm"></button>
 	<div class="col-md-12 offset-3">
         <h2>Start an Auction Event</h2>
 		<hr class="style-shadowed">
@@ -95,8 +98,8 @@
                 <div class="form-group row">
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-startDate" data-date-format="mm-dd-yyyy">
-                      <input class="form-control" id="startDate" type="text" required>
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                      <input class="form-control" id="startDate" name="StartDate" type="text" readonly required>
+                      <span class="input-group-addon calendar-icon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>
                 </div>  
@@ -104,8 +107,8 @@
                 <div class="form-group row">
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-endDate" data-date="" data-date-format="mm-dd-yyyy">
-                      <input class="form-control" type="text" id="endDate" required>
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                      <input class="form-control" type="text" id="endDate" name="EndDate" readonly required>
+                      <span class="input-group-addon calendar-icon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>
                 </div>

@@ -21,6 +21,24 @@ $(document).ready(function(){
         
     });
 
+	//Disable Submit Button
+	$('#SubmitButton').prop('disabled', true);
+	//Show Error Message
+	function displayError(errorMsg){
+		$('.error-msg').text(errorMsg);
+		$('.error-panel').animate({
+			opacity: '1', 
+			width: '100%'
+		}, 300)
+	}
+	//Hide Error Message
+	function hideError(){
+		$('.error-msg').text('');
+		$('.error-panel').animate({
+			opacity: '0', 
+			width: '0%'
+		}, 300)
+	}
 	//get current date
 		var today = new Date();
 		var dd = today.getDate();
@@ -73,6 +91,30 @@ $(document).ready(function(){
 		$(this).val(expirationDate);
 	});
 
+	//validate Auction Starting Date
+	$('#startDate').change(function(event) {
+		var dateValue = $(this).val();
+		if(dateValue<today){
+			$('#SubmitButton').prop('disabled', true);
+			displayError('Invalid Date! Starting Date must not be a PAST date.');
+		}else{
+			$('#SubmitButton').prop('disabled', false);
+			hideError();
+		}
+	});
+	//validate Auction End Date
+	$('#endDate').change(function(event) {
+		var dateValue = $(this).val();
+		//alert(dateValue);
+		if(dateValue<=today+' '+currentTime){
+			$('#SubmitButton').prop('disabled', true);
+			displayError('Invalid Date! End Date must not be a PAST or a CURRENT date.');
+		}else{
+			$('#SubmitButton').prop('disabled', false);
+			hideError();
+		}
+	});
+
 	//incrementation selection - changing active buttons
 
 	$('#standard').click(function() {
@@ -101,33 +143,40 @@ $(document).ready(function(){
 	});
 	//bid price
 	function calculateStandardIncrementation(){
-		if ($('#MinimumPrice').val() != 0 || $('#MinimumPrice').val() != '') {
+		if ($('#MinimumPrice').val() != '') {
 			var minPrice = parseFloat($('#MinimumPrice').val());
-			var incrementPercentage = minPrice * 0.05;
-			var firstBidPrice = minPrice + incrementPercentage;
-			//alert('$ '+firstBidPrice.toFixed(2));
-			$('#bid-price').text('$'+firstBidPrice.toFixed(2));
-			$('.validateMinPrice').hide();
-			$('.customized-bid').hide();
-			$('.next-bid-info').show();
-		
+			if(minPrice != 0){
+                var incrementPercentage = minPrice * 0.05;
+				var firstBidPrice = minPrice + incrementPercentage;
+				$('#bid-price').text('$'+firstBidPrice.toFixed(2));
+				$('.customized-bid').hide();
+				$('.next-bid-info').show();
+			}else{
+				$('.next-bid-info').hide();
+				displayError('Minimum Price must NOT be 0');
+			}
 		}else{
 			$('.next-bid-info').hide();
-			$('.validateMinPrice').show();
+			displayError('Minimum Price must NOT be EMPTY!');
 		}
 	}
 	function calculateCustomizedIncrementation(incVal){
-		if ($('#MinimumPrice').val() != 0 || $('#MinimumPrice').val() != '') {
-			var incValue = parseFloat(incVal);
-			var minPrice = parseFloat($('#MinimumPrice').val());
-			var firstBidPrice = parseFloat(incValue + minPrice);
-			$('#customBid').text('$'+firstBidPrice.toFixed(2));
-			$('.validateMinPrice').hide();
-			$('.next-bid-info').hide();
-			$('.customized-bid').show();
+		var minPrice = $('#MinimumPrice').val();
+		hideError();
+		if (minPrice != '') {
+			if(minPrice != 0){
+                var incValue = parseFloat(incVal);
+				minPrice = parseFloat(minPrice);
+				var firstBidPrice = parseFloat(incValue + minPrice);
+				$('#customBid').text('$'+firstBidPrice.toFixed(2));
+				$('.next-bid-info').hide();
+				$('.customized-bid').show();
+			}else{
+				displayError('Minimum Price must NOT be 0');
+			}
 		}else {
 			$('.customized-bid').hide();
-			$('.validateMinPrice').show();
+			displayError('Minimum Price must NOT be EMPTY');
 		}
 	}
 	$('#customized').click(function() {
@@ -138,13 +187,27 @@ $(document).ready(function(){
 	$('#standard').click(function() {
 		calculateStandardIncrementation();
 	});
-	$('#MinimumPrice').keyup(function() {
-		if($('#standard').hasClass('active')) {
-			calculateStandardIncrementation();
-		}else {
-			var incVal = parseFloat($('#bidIncrement').val());
-			calculateCustomizedIncrementation(incVal);
-		}
+	$('#MinimumPrice').keyup(function(event) {
+		// Allow special chars + arrows 
+        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 
+            || event.keyCode == 27 || event.keyCode == 13 
+            || (event.keyCode == 65 && event.ctrlKey === true) 
+            || (event.keyCode >= 35 && event.keyCode <= 39)){
+        	hideError();
+                return;
+        }else {
+            // If it's not a number stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                displayError('Only Numbers are accepted');
+                event.preventDefault();
+            }   
+	        if($('#standard').hasClass('active')) {
+				calculateStandardIncrementation();
+			}else {
+				var incVal = parseFloat($('#bidIncrement').val());
+				calculateCustomizedIncrementation(incVal);
+			}
+        }
 	});
 	$('#bidIncrement').keyup(function() {
 		var incVal;
@@ -193,32 +256,75 @@ $(document).ready(function(){
     	var maxSize = $(this).data('max-size');
     	// fileSize = 5000001;
     	if(fileSize<=maxSize){
-    		$('.validateImageSize').hide();
+    		hideError();
     		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
 			case 'gif': case 'jpg': case 'png': case 'bmp':
 				// $('#SubmitButton').prop('disabled', false);
-				$('.validateImage').hide();
+				$('#SubmitButton').prop('disabled', false);
+				hideError();
 				break;
 			default:
-				$('.validateImage').show();
+				$('#SubmitButton').prop('disabled', true);
+				displayError('Invalid File Format! Please select an Image file (.png, .jpg, .gif or .bmp).');
 			}
     	}else{
-    		$('.validateImageSize').show();
+    		displayError('File size limit exceeded! Please select or resize the Image to at least 5MB.')
     	}
 	});
 	// Copyright File Upload
-	$('#fileUpload').click(function() {
+	$('#copyrightFileUpload').click(function() {
 		this.value = null;
 	});
-	$('#fileUpload').change(function() {
+	$('#copyrightFileUpload').change(function() {
 		var filename = $(this).val();
 		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
-			case 'gif': case 'jpg': case 'png': case 'bmp':
-				// $('#SubmitButton').prop('disabled', false);
-				$('.validateImage').hide();
+			case 'zip': case 'rar':
+				$('#SubmitButton').prop('disabled', false);
+				hideError();
 				break;
 			default:
-				$('.validateImage').show();
+				$('#SubmitButton').prop('disabled', true);
+				displayError('Invalid File Format! Please compress your file first (.zip or .rar).');
+		}
+	});
+
+	//Product Upload
+	$('#productUpload').hover(function() {
+		$(this).popover('show');
+	}, function() {
+		$(this).popover('hide');
+	});
+
+	//Product Download Link
+	$('#downloadLink').hover(function() {
+		$(this).popover('show');
+	}, function() {
+		$(this).popover('hide');
+	});
+
+	//Provide Product Options
+	$('#productUpload').click(function() {
+		$(this).addClass('active');
+		$('#downloadLink').removeClass('active');
+		$('.downloadLink').hide();
+		$('.uploadProduct').show();
+	});
+	$('#downloadLink').click(function() {
+		$(this).addClass('active');
+		$('#productUpload').removeClass('active');
+		$('.uploadProduct').hide();
+		$('.downloadLink').show();
+	});
+
+	//validate Download Link
+	$('#download-Link').change(function(event) {
+		var url = $(this).val();
+		if(url.substr(0,7) != 'http://'){
+			$('#SubmitButton').prop('disabled', true);
+		    displayError('Invalid URL! Download link must start with http://');
+		}else{
+			$('#SubmitButton').prop('disabled', true);
+			hideError();
 		}
 	});
 
@@ -420,9 +526,14 @@ $(document).ready(function(){
 
 //submit validation. Don't eput codes next to it. this must
 //be the last codes.
-
 	$(fileupload).submit(function(){
-		$('.bs-example-modal-sm').modal('show');
+		var startDateValue = $('#startDate').val();
+		var endDateValue = $('#endDate').val();
+		var productImage = $('#fileUpload').val();
+		var copyrightFile = $('#copyrightFileUpload').val();
+		if(startDateValue != '' && endDateValue != '' && productImage != '' && copyrightFile != ''){
+			$('.bs-example-modal-sm').modal('show');
+		}
 	});	
 });//end of onload
 
