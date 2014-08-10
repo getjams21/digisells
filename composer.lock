@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "a8dfe40e7d192fa31d3077da6f614074",
     "packages": [
@@ -1798,6 +1799,7 @@
     "stability-flags": {
         "intervention/image": 20
     },
+    "prefer-stable": false,
     "platform": [
 
     ],
