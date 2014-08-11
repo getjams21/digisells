@@ -55,6 +55,7 @@ App::error(function(Laracasts\Validation\FormValidationException $exception, $co
 {
 	return Redirect::back()->withInput()->withErrors($exception->getErrors());
 });
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler

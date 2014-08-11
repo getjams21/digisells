@@ -391,7 +391,12 @@ $(document).ready(function(){
 	$("#Register a:contains('Register')").parent().addClass('active');
 	$("#Home a:contains('Home')").parent().addClass('active');
 	$("#Dashboard a:contains('Dashboard')").parent().addClass('active');
-
+	$("#Edit a:contains('Profile')").parent().addClass('active');
+	$("#Invoices a:contains('Invoices')").parent().addClass('active');
+	if(a =='Bids'){
+		$("#Bids a:contains('Bids')").parent().addClass('active');
+		$(".sidehead ul:contains('Bids')").removeClass('collapse');
+	}	
 //password validation
 //color variables
 	var goodColor = "#66cc66";
@@ -413,7 +418,7 @@ $(document).ready(function(){
 		    var pass2 = document.getElementById('password_confirmation');
 		    var message = document.getElementById('confirmMessage');
 		    var message2 = document.getElementById('confirmMessage2');
-		    if((pass.length >= 4) && (pass.length <= 15))
+		    if((pass.length >= 6) && (pass.length <= 20))
 		    {
 		    	message.innerHTML = " "
 			 	if(pass1.value == pass2.value){
@@ -432,7 +437,7 @@ $(document).ready(function(){
 					message2.innerHTML = " "
 					pass1.style.backgroundColor = badColor;
 			        message.style.color = badText;
-			        message.innerHTML = "Passwords Must be 4 to 15 characters only!"
+			        message.innerHTML = "Passwords Must be 6 to 20 characters only!"
 			}
 	}
 //username validation start
@@ -518,10 +523,8 @@ $(document).ready(function(){
 	});
 
 //SIDEBAR HOVER COLLAPSE
-	$('.sidehead').hover(function() {
-			$(this).children('ul').removeClass('collapse');
-		}, function() {
-			$(this).children('ul').addClass('collapse');
+	$('.sidehead').click(function() {
+			$(this).children('ul').toggleClass('collapse');
 		});
 
 //submit validation. Don't eput codes next to it. this must

@@ -108,7 +108,7 @@
     background-color:#2B65EC; 
 }
 
-.sidebar-nav > .sidebar-brand a:hover {
+.sidebar-nav > .sidebar-brand a {
     color: #fff;
     background: black;
 }

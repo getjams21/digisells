@@ -7,7 +7,7 @@ function errors_for($attribute, $errors)
 
 function link_to_profile()
 {
-	return link_to('/users/'.Auth::user()->username, 'Dashboard');
+	return link_to('/users/'.Auth::user()->username.'/dashboard/', 'Dashboard');
 }
 function user_photos_path()
 {
@@ -16,4 +16,12 @@ function user_photos_path()
 function user_photos_display($user)
 {
 	return '/images/users/'.$user->username."/".$user->userImage;
+}
+function auth_redirect($user)
+{
+	if($user == Auth::user()->username){
+		return true;
+	}else{
+		return false;
+	}
 }

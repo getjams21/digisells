@@ -31,7 +31,7 @@
 						{{ errors_for('password', $errors)}}
 					</div>
 					<div class="form-group" >
-						<a href="#">Forgot your Password?</a>
+						<a href="/password/remind">Forgot your Password?</a>
 					</div>
 					<div class="form-group" style="width:30%;margin-left:65%;" >
 							{{ Form::Submit('Sign in',['class'=>'btn btn-primary square','style'=>'width:100%;']) }}

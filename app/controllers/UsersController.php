@@ -8,7 +8,7 @@ class UsersController extends \BaseController {
 	function __construct(RegistrationForm $registrationForm)
 	{
 		$this->registrationForm = $registrationForm;
-
+		$this->beforeFilter('csrf', array('on'=>'post'));
 		$this->beforeFilter('currentUser',['only' => ['edit','update']]);
 	}
 	
@@ -161,6 +161,32 @@ class UsersController extends \BaseController {
   				return Response::json(0);
   			}
   		}
+	}
+	public function updateAccount()
+	{
+  		$user = Auth::user();
+	    $rules = array(
+	        'old_password' => 'required|alphaNum|between:6,16',
+	        'password' => 'required|alphaNum|between:6,16|confirmed'
+	    );
+	    $validator = Validator::make(Input::only('old_password','password','password_confirmation'), $rules);
+	    if ($validator->fails()) 
+	    {
+	        return Redirect::back()->withErrors($validator,'old_password');
+	    }else{
+		    if (!Hash::check(Input::get('old_password'), $user->password)) 
+	        {
+	            return Redirect::back()->withFlashMessage('<center><div class="alert alert-danger square">Your Old password does not match</div></center>');
+	        }
+	        else
+	        {
+	            $user->password = Input::get('password');
+	            $user->save();
+	            Auth::logout();
+	            return Redirect::to('login')->withFlashMessage('<center><div class="alert alert-success square">You have successfully changed your password.<br>Login to continue</div></center>');
+	        }
+	    }
+
 	}
 
 }
