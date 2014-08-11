@@ -8,7 +8,6 @@ class UsersController extends \BaseController {
 	function __construct(RegistrationForm $registrationForm)
 	{
 		$this->registrationForm = $registrationForm;
-		$this->beforeFilter('csrf', array('on'=>'post'));
 		$this->beforeFilter('currentUser',['only' => ['edit','update']]);
 	}
 	

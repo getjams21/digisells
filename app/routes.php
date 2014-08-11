@@ -22,7 +22,7 @@ Route::resource('users', 'UsersController');
 #Selling
 Route::resource('/selling', 'SellingController');
 Route::resource('/auction', 'AuctionController');
-
+Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
 #Registration
 Route::get('/register','UsersController@create')->before('guest');
 Route::resource('users', 'UsersController');

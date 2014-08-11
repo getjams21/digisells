@@ -10,9 +10,8 @@ class AuctionController extends \BaseController {
 	public function index()
 	{
 		$category = Category::lists('categoryName','id');
-
-		//return $category;
-		return View::make('pages.auction', compact('category'));
+		$subCategories = DB::table('Subcategory')->where('categoryID', 1)->lists('name','id');
+		return View::make('pages.auction', compact('category','subCategories'));
 	}
 
 
@@ -85,5 +84,13 @@ class AuctionController extends \BaseController {
 		//
 	}
 
+	public function fetchSubCategory(){
+		if(Request::ajax()){
+  			$input = Input::all();
+  			$val = $input['val'];
+  			$subCategories = DB::table('Subcategory')->where('categoryID', $val)->lists('name','id');
+			return Response::json($subCategories);
+  		}
+	}
 
 }
