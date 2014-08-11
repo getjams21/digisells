@@ -29,14 +29,7 @@
 	<div class="col-md-12">
         <div class="col-md-6">
             {{ Form::label('Category', 'Select Category'); }}
-            {{ Form::select('Category',
-                array(
-                    'Apps'=>'Apps/Softwares',
-                    'Business'=>'Business/Marketing',
-                    'Domains'=>'Domains/Websites',
-                    'Music'=>'Music',
-                    'WSO'=>'WSO'
-                ),
+            {{ Form::select('Category',$category,
                 null,
                 array('class'=>'form-control sqaure')) }}
         </div>
@@ -197,6 +190,7 @@
                 {{ Form::label('', 'Product Image Upload'); }}
                 @include('includes.file-upload.file-upload')
                </div>
+               <br>
             </div>
                 <center><input class="btn btn-success btn-lg txtbox-s" type="Submit"  id="SubmitButton" value="Start My Auction" /></center>
         </div>

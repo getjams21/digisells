@@ -9,7 +9,10 @@ class AuctionController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('pages.auction');
+		$category = Category::lists('categoryName','id');
+
+		//return $category;
+		return View::make('pages.auction', compact('category'));
 	}
 
 
