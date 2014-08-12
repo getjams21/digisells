@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreaTableProduct extends Migration {
+class CreatTableWatchlist extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,16 +12,12 @@ class CreaTableProduct extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('product', function(Blueprint $table)
+		Schema::create('watchlist', function(Blueprint $table)
 		{
 			$table -> increments('id');
-			$table -> integer('subcategoryID')->unsigned();
+			$table -> integer('productID')->unsigned();
 			$table -> integer('userID')->unsigned();
-			$table -> string('productName');
-			$table -> text('productDescription');
-			$table -> integer('quantity');
-			$table -> string('imageURL');
-			$table -> string('downloadLink');
+			$table -> boolean('status')->default(0);
 			$table -> timestamps();
 		});
 	}
@@ -33,7 +29,7 @@ class CreaTableProduct extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('product');
+		Schema::drop('watchlist');
 	}
 
 }

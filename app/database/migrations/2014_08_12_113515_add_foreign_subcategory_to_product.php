@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeyToProductTable extends Migration {
+class AddForeignSubcategoryToProduct extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,7 +14,7 @@ class AddForeignKeyToProductTable extends Migration {
 	{
 		Schema::table('product', function(Blueprint $table)
 		{
-			$table-> foreign('userID')->references('id')->on('user')
+			$table-> foreign('subcategoryID')->references('id')->on('subcategory')
 			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
@@ -28,7 +28,7 @@ class AddForeignKeyToProductTable extends Migration {
 	{
 		Schema::table('product', function(Blueprint $table)
 		{
-			$table->dropForeign('product_userID_foreign');
+			$table->dropForeign('product_subcategoryID_foreign');
 		});
 	}
 

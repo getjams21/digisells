@@ -38,7 +38,7 @@
                     'WSO'=>'WSO'
                 ),
                 null,
-                array('class'=>'form-control sqaure')) }}
+                array('class'=>'form-control sqaure','id'=>'Category')) }}
         </div>
         <div class="col-md-6">
             {{ Form::label('SCategory', 'Select Sub Category'); }}

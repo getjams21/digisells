@@ -14,6 +14,12 @@
 
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
+// Route::get('/',function(){
+	
+// 	// $user = Subcategory::wherecategoryid('1')->get();
+// 	$user2= DB::table('Subcategory')->select('name')->wherecategoryid('1')->get();
+// 	return $user2;
+// });
 
 Route::resource('page', 'HomePageController');
 Route::get('/register','UsersController@create');
@@ -22,7 +28,6 @@ Route::resource('users', 'UsersController');
 #Selling
 Route::resource('/selling', 'SellingController');
 Route::resource('/auction', 'AuctionController');
-
 #Registration
 Route::get('/register','UsersController@create')->before('guest');
 Route::resource('users', 'UsersController');

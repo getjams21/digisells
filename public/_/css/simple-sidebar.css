@@ -123,7 +123,7 @@
     }
 
     #sidebar-wrapper {
-        width: 200px;
+        width: 15%;
     }
 
     #wrapper.toggled #sidebar-wrapper {
@@ -137,5 +137,6 @@
     #wrapper.toggled #page-content-wrapper {
         position: relative;
         margin-right: 0;
+        padding-left:35px;
     }
 }
