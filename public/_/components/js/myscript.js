@@ -328,6 +328,25 @@ $(document).ready(function(){
 		}
 	});
 
+	//Category Selection
+	$('#selectCategory').change(function(event) {
+		var val = $(this).val();
+		$.post('fetchSubCategory',{val:val},function(data){
+		//removing currrent options on select
+		$('#subCategory')
+		.find('option')
+		.remove()
+		.end();
+		//populating the new options on select
+   		$.each(data, function(key, value) {   
+	        $('#subCategory')
+	        	.append(
+	            $('<option/>').val( key ).text( value )
+	        );
+	    });
+      });
+	});
+
 	//Upload Progress...
         var progressbar     = $('#progressbar');
         var statustxt       = $('#statustxt');
@@ -442,7 +461,7 @@ $(document).ready(function(){
 	}
 //username validation start
   $('#username').on('blur', function(e){ 
-      e.preventDefault();
+      e.preventDefault(); 
       
       var username = $('#username').val();
  	  $.post('searchUser',{username: username},function(data){

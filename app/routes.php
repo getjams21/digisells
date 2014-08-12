@@ -28,6 +28,8 @@ Route::resource('users', 'UsersController');
 #Selling
 Route::resource('/selling', 'SellingController');
 Route::resource('/auction', 'AuctionController');
+#Subcategory select option ajax post
+Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
 #Registration
 Route::get('/register','UsersController@create')->before('guest');
 Route::resource('users', 'UsersController');

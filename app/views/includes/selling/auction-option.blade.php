@@ -29,29 +29,16 @@
 	<div class="col-md-12">
         <div class="col-md-6">
             {{ Form::label('Category', 'Select Category'); }}
-            {{ Form::select('Category',
-                array(
-                    'Apps'=>'Apps/Softwares',
-                    'Business'=>'Business/Marketing',
-                    'Domains'=>'Domains/Websites',
-                    'Music'=>'Music',
-                    'WSO'=>'WSO'
-                ),
-                null,
-                array('class'=>'form-control sqaure','id'=>'Category')) }}
+            {{ Form::select('Category',$category,
+                Input::old('Category'),
+                array('class'=>'form-control sqaure','id'=>'selectCategory')) }}
         </div>
         <div class="col-md-6">
             {{ Form::label('SCategory', 'Select Sub Category'); }}
             {{ Form::select('SubCategory',
-                array(
-                    'Apps'=>'Apps/Softwares',
-                    'Business'=>'Business/Marketing',
-                    'Domains'=>'Domains/Websites',
-                    'Music'=>'Music',
-                    'WSO'=>'WSO'
-                ),
+                $subCategories,
                 null,
-                array('class'=>'form-control sqaure')) }}
+                array('class'=>'form-control sqaure', 'id'=>'subCategory')) }}
         </div>
 	</div>
     <div class="col-md-12">
@@ -197,6 +184,7 @@
                 {{ Form::label('', 'Product Image Upload'); }}
                 @include('includes.file-upload.file-upload')
                </div>
+               <br>
             </div>
                 <center><input class="btn btn-success btn-lg txtbox-s" type="Submit"  id="SubmitButton" value="Start My Auction" /></center>
         </div>
