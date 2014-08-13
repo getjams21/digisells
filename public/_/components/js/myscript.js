@@ -346,7 +346,6 @@ $(document).ready(function(){
 	    });
       });
 	});
-
 	//Upload Progress...
         var progressbar     = $('#progressbar');
         var statustxt       = $('#statustxt');
@@ -553,9 +552,22 @@ $(document).ready(function(){
 		var endDateValue = $('#endDate').val();
 		var productImage = $('#fileUpload').val();
 		var copyrightFile = $('#copyrightFileUpload').val();
+		var productUpload = $('#productUpload').val();
+		var downloadLink = $('#download-Link').val();
 		if(startDateValue != '' && endDateValue != '' && productImage != '' && copyrightFile != ''){
-			$('.bs-example-modal-sm').modal('show');
+			if(productUpload != '' || downloadLink != ''){
+				$('.bs-example-modal-sm').modal('show');
+			}else{
+				displayError('Please provide the Product item or its download link');
+			}
+		}else{
+			// $('#errorHandler').val(1);
 		}
+
+		// var isEmpty = $('#errorHandler').val();
+		// $.get('auction-listing/store',{isEmpty:isEmpty},function(data){
+		// 	// alert(data);
+		// });
 	});	
 });//end of onload
 

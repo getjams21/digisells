@@ -19,10 +19,11 @@ Route::resource('page', 'HomePageController');
 Route::get('/register','UsersController@create');
 Route::resource('users', 'UsersController');
 
-#Selling
+#Auction Selling
 Route::resource('/selling', 'SellingController');
 Route::resource('/auction', 'AuctionController');
 Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
+Route::resource('/auction-listing', 'AuctionController');
 #Registration
 Route::get('/register','UsersController@create')->before('guest');
 Route::resource('users', 'UsersController');

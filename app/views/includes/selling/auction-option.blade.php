@@ -25,7 +25,7 @@
         <h2>Start an Auction Event</h2>
 		<hr class="style-shadowed">
 	</div>
-    {{ Form::open(['route'=>'uploadImage.store','id'=>'fileupload','files'=>true]) }}
+    {{ Form::open(['route'=>'auction-listing.store','id'=>'fileupload','files'=>true]) }}
 	<div class="col-md-12">
         <div class="col-md-6">
             {{ Form::label('Category', 'Select Category'); }}
