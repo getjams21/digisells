@@ -518,10 +518,12 @@ $(document).ready(function(){
     }); //end of email validation
 //SIDEBAR toggle js
 //temporary disabled 
-	 // $("#page-content-wrapper").hover(function(e) {
-	 //        e.preventDefault();
-	 //        $("#wrapper").toggleClass("toggled");
-	 //    });
+	 $("#page-content-wrapper").hover(function(e) {
+	        e.preventDefault();
+	        $("#wrapper").addClass("toggled");
+	    }, function() {
+		$("#wrapper").removeClass('toggled');
+	});
 // IMAGE UPLOAD PREVIEW FUNCTION
 	function readURL(input) {
 
@@ -569,5 +571,6 @@ $(document).ready(function(){
 		// 	// alert(data);
 		// });
 	});	
+
 });//end of onload
 

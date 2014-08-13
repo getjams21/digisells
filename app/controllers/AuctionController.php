@@ -117,7 +117,6 @@ class AuctionController extends \BaseController {
 	{
 		//
 	}
-
 	public function fetchSubCategory(){
 		if(Request::ajax()){
   			$input = Input::all();

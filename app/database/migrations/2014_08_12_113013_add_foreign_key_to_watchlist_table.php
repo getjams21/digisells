@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeyToProductTable extends Migration {
+class AddForeignKeyToWatchlistTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,8 +12,10 @@ class AddForeignKeyToProductTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('product', function(Blueprint $table)
+		Schema::table('watchlist', function(Blueprint $table)
 		{
+			$table-> foreign('productID')->references('id')->on('product')
+			->onDelete('restrict')->onUpdate('cascade');
 			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
 		});
@@ -26,9 +28,10 @@ class AddForeignKeyToProductTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('product', function(Blueprint $table)
+		Schema::table('watchlist', function(Blueprint $table)
 		{
-			$table->dropForeign('product_userID_foreign');
+			$table->dropForeign('watchlist_productID_foreign');
+			$table->dropForeign('watchlist_userID_foreign');
 		});
 	}
 
