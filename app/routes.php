@@ -55,5 +55,6 @@ Route::group(["before" => "auth"], function() {
   Route::resource('users.dashboard','DashboardController');
   Route::get('users/{username}/invoices','DashboardController@invoices');
   Route::get('users/{username}/bids','DashboardController@bids');
+  Route::get('users/{username}/watchlist','DashboardController@watchlist');
 });
 

@@ -33,6 +33,14 @@ class DashboardController extends \BaseController {
 			return Redirect::home();
 		}
 	}
+	public function watchlist($username)
+	{
+		if(auth_redirect($username)){
+		return View::make('dashboard.watchlist');
+		}else{
+			return Redirect::home();
+		}
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 * GET /dashboard/create

@@ -15,6 +15,9 @@
                     <a href="/users/{{Auth::user()->username}}/edit" >Update Profile</a>
                 </li>
                 <li>
+                    <a href="#">Messages <span class="badge alert-info" style="text-indent:0;">0</span></a>
+                </li>
+                <li>
                     <a href="/users/{{Auth::user()->username}}/invoices">Invoices</a>
                 </li>
                  <li class="sidehead">
@@ -24,29 +27,26 @@
                              <a href="/users/{{Auth::user()->username}}/bids"><i>Bids</i></a>
                         </li>
                         <li>
-                             <a href=""><i>Offers</i></a>
-                       </li>
+                             <a href="/users/{{Auth::user()->username}}/watchlist"><i>Watchlist</i></a>
+                        </li>
                     </ul>
                 </li>
                 <li class="sidehead">
                     <a href="#"><b>Selling &nbsp;&nbsp;<span class="caret"></span></b></a>
                     <ul class="sidecontent collapse">
                         <li>
-                             <a href=""><i>Selling</i></a>
+                             <a href=""><i>My Listings</i></a>
                         </li>
                         <li>
-                             <a href=""><i>Offers</i></a>
+                             <a href="/selling"><i>Create a Listing</i></a>
                        </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Funds</a>
                 </li>
                 <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
+                    <a href="#">Credits</a>
                 </li>
             </ul>
             </div>

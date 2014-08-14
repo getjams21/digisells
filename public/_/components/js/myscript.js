@@ -407,15 +407,11 @@ $(document).ready(function(){
 		});
 	}
 //set active navbar
-	$("#Register a:contains('Register')").parent().addClass('active');
-	$("#Home a:contains('Home')").parent().addClass('active');
-	$("#Dashboard a:contains('Dashboard')").parent().addClass('active');
+	$("#"+a+" a:contains('"+a+"')").parent().addClass('active');
 	$("#Edit a:contains('Profile')").parent().addClass('active');
-	$("#Invoices a:contains('Invoices')").parent().addClass('active');
-	if(a =='Bids'){
-		$("#Bids a:contains('Bids')").parent().addClass('active');
-		$(".sidehead ul:contains('Bids')").removeClass('collapse');
-	}	
+//set active sidebar
+		$("#"+a+" a:contains("+a+")").parent().addClass('active');
+		$(".sidehead ul:contains("+a+")").removeClass('collapse');
 //password validation
 //color variables
 	var goodColor = "#66cc66";
@@ -519,7 +515,13 @@ $(document).ready(function(){
     }); //end of email validation
 //SIDEBAR toggle js
 //temporary disabled 
-	 $("#page-content-wrapper").hover(function(e) {
+	//  $("#page-content-wrapper").hover(function(e) {
+	//         e.preventDefault();
+	//         $("#wrapper").addClass("toggled");
+	//     }, function() {
+	// 	$("#wrapper").removeClass('toggled');
+	// });
+ $("#sidebar-wrapper").hover(function(e) {
 	        e.preventDefault();
 	        $("#wrapper").addClass("toggled");
 	    }, function() {
@@ -543,7 +545,7 @@ $(document).ready(function(){
 	    readURL(this);
 	});
 
-//SIDEBAR HOVER COLLAPSE
+//SIDEBAR CLICK COLLAPSE
 	$('.sidehead').click(function() {
 			$(this).children('ul').toggleClass('collapse');
 		});
