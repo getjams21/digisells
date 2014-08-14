@@ -21,16 +21,12 @@ Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // 	return $user2;
 // });
 
-Route::resource('page', 'HomePageController');
+Route::get('page', 'HomePageController');
 Route::get('/register','UsersController@create');
 Route::resource('users', 'UsersController');
 
-#Auction Selling
-Route::resource('/selling', 'SellingController');
-Route::resource('/auction', 'AuctionController');
 #Subcategory select option ajax post
 Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
-Route::resource('/auction-listing', 'AuctionController');
 #Registration
 Route::get('/register','UsersController@create')->before('guest');
 Route::resource('users', 'UsersController');
@@ -53,6 +49,13 @@ Route::patch( '/updateAccount', 'UsersController@updateAccount' );
 #Users dashboard routes set auth to login users
 Route::group(["before" => "auth"], function() {
 
+  #Selling Platform Option
+  Route::get('/selling', 'HomePageController@selling');
+  #Auction Selling Platform
+  Route::resource('/auction', 'AuctionController');
+  Route::resource('/auction-listing', 'AuctionController');
+  #Direct Selling Platform
+  Route::resource('/direct-selling', 'DirectSellingController');
   Route::resource('users.dashboard','DashboardController');
   Route::get('users/{username}/invoices','DashboardController@invoices');
   Route::get('users/{username}/bids','DashboardController@bids');

@@ -39,7 +39,7 @@
                 Browse&hellip; <input name="productUpload" type="file" id="productUpload">
             </span>
         </span>
-        <input type="text" class="form-control" readonly>
+        <input type="text" class="form-control" id="productFile" readonly>
     </div>
     <div class="form-group downloadLink">
         {{ Form::label('', 'Provide Product Download Link'); }}

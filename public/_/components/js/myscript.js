@@ -346,6 +346,44 @@ $(document).ready(function(){
 	    });
       });
 	});
+
+	//number only input
+	function numberOnlyInput(e){
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+      	}
+	}
+
+	//quantity number only input
+	$("#qty").keydown(function (e) {
+		// var input = $(this).val();
+		numberOnlyInput(e);
+	});
+	//affiliate percentage
+	$("#affiliatePercentage").keydown(function(e){
+		numberOnlyInput(e);
+	});
+	//customized bid number only input
+	$("#bidIncrement").keydown(function(e){
+		numberOnlyInput(e);
+	});
+	$("#MinimumPrice").keydown(function(e){
+		numberOnlyInput(e);
+	});
+	$("#buyoutPrice").keydown(function(e){
+		numberOnlyInput(e);
+	});
+
 	//Upload Progress...
         var progressbar     = $('#progressbar');
         var statustxt       = $('#statustxt');
@@ -554,7 +592,7 @@ $(document).ready(function(){
 		var endDateValue = $('#endDate').val();
 		var productImage = $('#fileUpload').val();
 		var copyrightFile = $('#copyrightFileUpload').val();
-		var productUpload = $('#productUpload').val();
+		var productUpload = $('#productFile').val();
 		var downloadLink = $('#download-Link').val();
 		if(startDateValue != '' && endDateValue != '' && productImage != '' && copyrightFile != ''){
 			if(productUpload != '' || downloadLink != ''){

@@ -24,6 +24,7 @@ class CreaTableAuction extends Migration {
 			$table -> string('incrementation');
 			$table -> float('affiliatePercentage');
 			$table -> boolean('sold')->default(0);
+			$table -> timestamps();
 		});
 	}
 

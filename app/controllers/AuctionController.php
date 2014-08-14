@@ -64,8 +64,29 @@ class AuctionController extends \BaseController {
 					$imageFile = $imageFile->move(public_path().'/product/images/', $imageFileName);
 					
 					$product->imageURL = $imageFileName;
-
+					//saving product info to database
 					$product->save();
+					
+					$copyright->productID = $product->id;
+
+					$copyrightFileName = time().'-'.$copyrightFile->getClientOriginaLName();
+					//save file to directory
+					$copyrightFile = $copyrightFile->move(public_path().'/product/copyrights/', $copyrightFileName);
+					$copyright->supportingFiles = $copyrightFileName;
+					//save copyright to db
+					$copyright->save();
+  					
+  					//saving auction event
+  					$auction->auctionName = Input::get('auctionName');
+  					$auction->productID = $product->id;
+  					$auction->minimumPrice = Input::get('minimumPrice');
+  					$auction->buyoutPrice = Input::get('buyoutPrice');
+  					$auction->startDate = Input::get('startDate');
+  					$auction->endDate = Input::get('endDate');
+  					$auction->incrementation = Input::get('incrementation');
+  					$auction->affiliatePercentage = Input::get('affiliatePercentage');
+
+  					$auction->save();
   				}
   			}
 	}
