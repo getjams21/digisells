@@ -4,7 +4,7 @@ class Product extends \Eloquent {
 	protected $table = 'product';
 	protected $guarded = ['id'];
 	protected $fillable = [
-		'categoryID',
+		'subcategoryID',
 		'userID',
 		'productName',
 		'productDescription',

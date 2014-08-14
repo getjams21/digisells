@@ -25,7 +25,7 @@
         <h2>Start an Auction Event</h2>
 		<hr class="style-shadowed">
 	</div>
-    {{ Form::open(['route'=>'uploadImage.store','id'=>'fileupload','files'=>true]) }}
+    {{ Form::open(['route'=>'auction-listing.store','id'=>'fileupload','files'=>true]) }}
 	<div class="col-md-12">
         <div class="col-md-6">
             {{ Form::label('Category', 'Select Category'); }}
@@ -51,7 +51,7 @@
         <div class="well auction-page">
             <div class="col-md-6 left-padding">
                 {{ Form::label('', 'Auction Name'); }}
-                {{ Form::text('AuctionName','',
+                {{ Form::text('auctionName','',
                     array(
                     'class'=>'form-control span3 txtbox-m',
                     'placeholder'=>'Name/Title of Auction',
@@ -62,7 +62,7 @@
                 {{ Form::label('', 'Starting Price'); }}
                 <div class="input-group txtbox-s">
                     <span class="input-group-addon">$</span>
-                    {{ Form::text('MinimumPrice','',
+                    {{ Form::text('minimumPrice','',
                     array(
                         'class'=>'form-control span3',
                         'placeholder'=>'Starting Price',
@@ -74,10 +74,11 @@
                 {{ Form::label('', 'Buyout Price'); }}
                 <div class="input-group txtbox-s">
                     <span class="input-group-addon">$</span>
-                    {{ Form::text('BuyoutPrice','',
+                    {{ Form::text('buyoutPrice','',
                     array(
                         'class'=>'form-control span3',
-                        'placeholder'=>'Buyout Price'
+                        'placeholder'=>'Buyout Price',
+                        'id'=>'buyoutPrice'
                     )) }}
                 </div>
                 <br>
@@ -85,7 +86,7 @@
                 <div class="form-group row">
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-startDate" data-date-format="mm-dd-yyyy">
-                      <input class="form-control" id="startDate" name="StartDate" type="text" readonly required>
+                      <input class="form-control" id="startDate" name="startDate" type="text" readonly required>
                       <span class="input-group-addon calendar-icon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>
@@ -94,7 +95,7 @@
                 <div class="form-group row">
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-endDate" data-date="" data-date-format="mm-dd-yyyy">
-                      <input class="form-control" type="text" id="endDate" name="EndDate" readonly required>
+                      <input class="form-control" type="text" id="endDate" name="endDate" readonly required>
                       <span class="input-group-addon calendar-icon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>
@@ -113,7 +114,7 @@
                         {{ Form::label('', 'Incremented by:'); }}
                     <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        {{ Form::text('bidIncrement','0.01',
+                        {{ Form::text('incrementation','0.01',
                         array(
                         'class'=>'form-control span3 square',
                         'placeholder'=>'Increment value',
@@ -122,9 +123,6 @@
                     </div>
                         <center><p>Next bid price must be:<b><br><span name='customBid' id='customBid'></span><br></b>or Higher
                         </p></center>
-                    </div>
-                    <div class="alert alert-danger validateMinPrice" role="alert">
-                        <p><span class="glyphicon glyphicon-warning-sign"></span></font>&nbsp Minimum Price must <br>NOT be '0' or EMPTY!</p>
                     </div>
                     <div class="input-group">
                     <br>
@@ -136,10 +134,11 @@
                     <div class="well affiliation">
                         {{ Form::label('', 'Affiliate Commission Percentage'); }}
                     <div class="input-group txtbox-m">
-                        {{ Form::text('AffiliatePercentage','',
+                        {{ Form::text('affiliatePercentage','',
                         array(
                             'class'=>'form-control span3',
                             'placeholder'=>'Commission',
+                            'id'=>'affiliatePercentage'
                         )) }}
                         <span class="input-group-addon">%</span>
                     </div>

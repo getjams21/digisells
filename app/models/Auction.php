@@ -4,7 +4,7 @@ class Auction extends \Eloquent {
 	protected $table = 'auction';
 	protected $guarded = ['id'];
 	protected $fillable = [
-		'AuctionName',
+		'auctionName',
 		'productID',
 		'minimumPrice',
 		'buyoutPrice',

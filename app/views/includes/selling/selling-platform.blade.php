@@ -13,7 +13,7 @@
                     	<h3>Auction</h3>
                     </div>
                     <div class="panel-body">
-                    	<p>Sell any digital goods you have. You can sell it through Auction or Direct Selling. Your first 10 product listings are FREE. Build sales pages and choose your themes. Enable product affiliation to boost the product promotion. Reach customers anytime, anywhere.</p>
+                    	<p>If you think your product is worth the bidders, choose this auction selling option. With this platform you can leverage your profit if you think your product has high demands. You can choose whether to customize the bidding increment or choose the default increment for your auction event. You can also enable product affiliation program so your product will be more exposed. Do you have something to auction?</p>
                     	<a href="/auction" class="btn btn-primary square">I have a product for Auction</a>
                     </div>
                 </div>
@@ -26,8 +26,8 @@
                     	<h3>Direct Selling</h3>
                     </div>
                     <div class="panel-body">
-                    	<p>Sell any digital goods you have. You can sell it through Auction or Direct Selling. Your first 10 product listings are FREE. Build sales pages and choose your themes. Enable product affiliation to boost the product promotion. Reach customers anytime, anywhere.</p>
-                    	<a href="#" class="btn btn-primary square">I have something to Sell directly</a>
+                    	<p>With direct selling you don't have to wait for couple of days to acquire your profit. List your product directly and see sales pouring from time to time. You can list up to 10 items for FREE! Yes, it's no kidding, you read it right it's free! You can also enable product affiliation program so your product will be more exposed. More exporsure, means more chances of getting sales. Do you have something to sell?</p>
+                    	<a href="/direct-selling" class="btn btn-primary square">I have something to Sell directly</a>
                     </div>
                 </div>
             </center>
