@@ -50,11 +50,6 @@
           				
           			</li>
           		</div>
-          		<!-- <li>Username: &nsbp </li>
-	            <li><a href="#">Another action</a></li>
-	            <li><a href="#">Something else here</a></li>
-	            <li class="divider"></li>
-	            <li><a href="#">Separated link</a></li> -->
           	{{ Form::close() }}
           </ul>
         </li>
@@ -63,10 +58,20 @@
     @if(Auth::user()->userImage)
     <a href="/users/{{Auth::user()->username}}" style="padding:0;">{{ HTML::image('images/users/'.Auth::user()->username."/".Auth::user()->userImage, 'profile photo', array('class' => 'nav-img')) }}</a>
     @else
-    {{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'nav-img')) }}
+    <a href="/users/{{Auth::user()->username}}" style="padding:0;">
+    {{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'nav-img')) }}</a>
     @endif
   </li>
-  <li >{{ link_to_profile() }}</li>
+  <li ><a href="/dashboard">{{Auth::user()->username}} &nbsp;
+      <span class="badge alert-info" style="text-indent:0;">
+         $
+        @if(Config::get('currentfund'))
+        {{Config::get('currentfund')}}
+        @else
+        0 USD
+        @endif
+      </span></a>
+  </li>
   <li><a href="/logout">Sign out</a></li>
 @endif
       </ul>

@@ -46,21 +46,40 @@ Route::post( '/searchUser', 'UsersController@searchPostUser' );
 Route::post( '/searchEmail', 'UsersController@searchPostEmail' );
 #direct change password patch
 Route::patch( '/updateAccount', 'UsersController@updateAccount' );
+#Selling Platform Option
+Route::get('/selling', 'HomePageController@selling');
 #Users dashboard routes set auth to login users
 Route::group(["before" => "auth"], function() {
 
-  #Selling Platform Option
-  Route::get('/selling', 'HomePageController@selling');
+  
   #Auction Selling Platform
   Route::resource('/auction', 'AuctionController');
   Route::resource('/auction-listing', 'AuctionController');
   #Direct Selling Platform
   Route::resource('/direct-selling', 'DirectSellingController');
+<<<<<<< HEAD
+  #Dashboard pages
+  Route::get('/dashboard','DashboardController@index');
+  Route::get('/invoices','DashboardController@invoices');
+  Route::get('/bids','DashboardController@bids');
+  Route::get('/watchlist','DashboardController@watchlist');  
+  Route::get('/listings','DashboardController@listings');  
+  #Funds Controller
+  Route::resource('funds', 'FundsController');
+  Route::get('/addFunds','FundsController@create');
+  #PAYMENT
+  Route::resource('payment', 'PaymentController');
+  Route::post('paypal', 'PaymentController@paypal');
+  Route::get('execute', 'PaymentController@execute');
+=======
   Route::post('direct-selling/{step}', array('as' => 'direct-selling', 'uses' => 'DirectSellingController@listingSteps'));
   Route::resource('/product-selling', 'DirectSellingController');
   #Dashboard
   Route::resource('users.dashboard','DashboardController');
   Route::get('users/{username}/invoices','DashboardController@invoices');
   Route::get('users/{username}/bids','DashboardController@bids');
+>>>>>>> 73842fadd4f51710eca3e1679c739d08df0f2bb2
 });
+
+
 

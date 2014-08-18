@@ -18,6 +18,12 @@
 		@endif
 		<h4><small><b>No feedback received yet</b></small></h4>
 		<h4><small><b>No transactions successfully completed</b></small></h4>
+		<hr><h5><b>You have <a href="/funds">$
+		@if(Config::get('currentfund'))
+        {{Config::get('currentfund')}}</a> funds left.
+        @else
+        $0.00
+        @endif </b></h5>
 		<br>
 		<div>Active: 1 hour ago  &nbsp;&nbsp;|&nbsp;&nbsp; Member since: 2 days ago</div>
 	</div>

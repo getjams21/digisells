@@ -387,6 +387,19 @@ $(document).ready(function(){
 	$("#buyoutPrice").keydown(function(e){
 		numberOnlyInput(e);
 	});
+	$("[name='amount']").keydown(function(e){
+		numberOnlyInput(e);
+	});
+	$("[name='amount']").blur(function() {
+                var amt = parseFloat(this.value);
+                $(this).val(amt.toFixed(2));
+    });
+	$("#cvv2").keydown(function(e){
+		numberOnlyInput(e);
+	});
+	$("#cardNumber").keydown(function(e){
+		numberOnlyInput(e);
+	});
 	$('#productPrice,#discountPrice,#affiliatePercentage').keydown(function(event) {
 		numberOnlyInput(event);
 	});
@@ -400,25 +413,7 @@ $(document).ready(function(){
 		parent.history.back();
 		return false;
 	});
-	//Direct Selling - Product list date range
 
-		 // function DateFromString(str){ 
-	  //       str = str.split(/\D+/);
-	  //       str = new Date(str[2],str[0]-1,(parseInt(str[1])+30));
-	  //       return MMDDYYYY(str);
-	  //   }
-	    
-	  //   function MMDDYYYY(str) {
-	  //       var ndateArr = str.toString().split(' ');
-	  //       var Months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec';
-	  //       return (parseInt(Months.indexOf(ndateArr[1])/4)+1)+'/'+ndateArr[2]+'/'+ndateArr[3];
-	  //   }
-
-	  //   function AddDays() {
-	  //       var date = $('#start_date').val();
-	  //       var ndate = DateFromString(date);
-	  //       return ndate;
-	  //   }
 
 	  //   $('#start_date').change(function(){
 	  //       $('#end_date').val(AddDays());
@@ -529,15 +524,11 @@ $(document).ready(function(){
 		});
 	}
 //set active navbar
-	$("#Register a:contains('Register')").parent().addClass('active');
-	$("#Home a:contains('Home')").parent().addClass('active');
-	$("#Dashboard a:contains('Dashboard')").parent().addClass('active');
+	$("#"+a+" a:contains('"+a+"')").parent().addClass('active');
 	$("#Edit a:contains('Profile')").parent().addClass('active');
-	$("#Invoices a:contains('Invoices')").parent().addClass('active');
-	if(a =='Bids'){
-		$("#Bids a:contains('Bids')").parent().addClass('active');
-		$(".sidehead ul:contains('Bids')").removeClass('collapse');
-	}	
+//set active sidebar
+		$("#"+a+" a:contains("+a+")").parent().addClass('active');
+		$(".sidehead ul:contains("+a+")").removeClass('collapse');
 //password validation
 //color variables
 	var goodColor = "#66cc66";
@@ -641,7 +632,13 @@ $(document).ready(function(){
     }); //end of email validation
 //SIDEBAR toggle js
 //temporary disabled 
-	 $("#page-content-wrapper").hover(function(e) {
+	//  $("#page-content-wrapper").hover(function(e) {
+	//         e.preventDefault();
+	//         $("#wrapper").addClass("toggled");
+	//     }, function() {
+	// 	$("#wrapper").removeClass('toggled');
+	// });
+ $("#sidebar-wrapper").hover(function(e) {
 	        e.preventDefault();
 	        $("#wrapper").addClass("toggled");
 	    }, function() {
@@ -665,7 +662,7 @@ $(document).ready(function(){
 	    readURL(this);
 	});
 
-//SIDEBAR HOVER COLLAPSE
+//SIDEBAR CLICK COLLAPSE
 	$('.sidehead').click(function() {
 			$(this).children('ul').toggleClass('collapse');
 		});

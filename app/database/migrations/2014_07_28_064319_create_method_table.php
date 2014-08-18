@@ -16,8 +16,8 @@ class CreateMethodTable extends Migration {
 		{
 			//
 			$table -> increments('id');
-			$table -> string('methodType');
-			$table -> integer('percentage');
+			$table -> string('methodName');
+			$table -> string('methodDesc');
 			$table -> timestamps();
 		});
 	}

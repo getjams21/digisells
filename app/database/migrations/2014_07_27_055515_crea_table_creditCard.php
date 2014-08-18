@@ -17,11 +17,8 @@ class CreaTableCreditCard extends Migration {
 			$table -> increments('id');
 			$table -> string('cardType');
 			$table -> string('cardNumber');
-			$table -> string('cardName');
-			$table -> date('expirationDate');
-			$table -> text('billingAddress');
-			$table -> string('email');
 			$table -> integer('fundID')->unsigned();
+			$table -> string('paymentID');
 			$table -> timestamps();
 		});
 	}
