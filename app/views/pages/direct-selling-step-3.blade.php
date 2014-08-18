@@ -4,5 +4,5 @@
 	@include('includes.navbar')
 @stop
 @section('content')
-		@include('includes.selling.direct-selling-option.step-1')
+		@include('includes.selling.direct-selling-option.step-3')
 @stop

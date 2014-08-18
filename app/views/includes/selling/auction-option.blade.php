@@ -49,7 +49,7 @@
     <div class="col-md-12">
         <br>
         <div class="well auction-page">
-            <div class="col-md-6 left-padding">
+            <div class="col-md-6">
                 {{ Form::label('', 'Auction Name'); }}
                 {{ Form::text('auctionName','',
                     array(
@@ -145,14 +145,14 @@
                     <br>
                     <hr class='style-fade'>
                     <br>
-                    <center><button type="button" class='btn btn-danger' id='disableAffiliation'><span class='glyphicon glyphicon-remove'></span>&nbsp No, I don't need Affiliation</button></center>
+                    <center><button type="button" class='btn btn-danger' id='disableAffiliation'><span class='glyphicon glyphicon-remove'></span>&nbsp; No, I don't need Affiliation</button></center>
                     </div>
                     <!-- div for affiliation option warning -->
                 </div>
                 </div>
             </div>
             <div class="container">
-               <div class="col-md-6">
+               <div class="col-md-5">
                 {{ Form::label('', 'Product Name'); }}
                 {{ Form::text('ProductName','',
                     array(

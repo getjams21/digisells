@@ -261,9 +261,11 @@ $(document).ready(function(){
 			case 'gif': case 'jpg': case 'png': case 'bmp':
 				// $('#SubmitButton').prop('disabled', false);
 				$('#SubmitButton').prop('disabled', false);
+				$('#submitSelling').prop('disabled', false);
 				hideError();
 				break;
 			default:
+				$('#submitSelling').prop('disabled', true);
 				$('#SubmitButton').prop('disabled', true);
 				displayError('Invalid File Format! Please select an Image file (.png, .jpg, .gif or .bmp).');
 			}
@@ -280,10 +282,12 @@ $(document).ready(function(){
 		switch(filename.substring(filename.lastIndexOf('.')+1).toLowerCase()){
 			case 'zip': case 'rar':
 				$('#SubmitButton').prop('disabled', false);
+				$('#submitSelling').prop('disabled', false);
 				hideError();
 				break;
 			default:
 				$('#SubmitButton').prop('disabled', true);
+				$('#submitSelling').prop('disabled', true);
 				displayError('Invalid File Format! Please compress your file first (.zip or .rar).');
 		}
 	});
@@ -383,12 +387,93 @@ $(document).ready(function(){
 	$("#buyoutPrice").keydown(function(e){
 		numberOnlyInput(e);
 	});
+	$('#productPrice,#discountPrice,#affiliatePercentage').keydown(function(event) {
+		numberOnlyInput(event);
+	});
 
-	//Upload Progress...
+	//Direct Selling - Product Info (step 1)
+	$('.step-1,.step-2,.step-3').animate({
+		width: '100%',
+		opacity: 1
+	}, 800);
+	$('#btn-step-1,#btn-step-2-back').click(function(event) {
+		parent.history.back();
+		return false;
+	});
+	//Direct Selling - Product list date range
+
+		 // function DateFromString(str){ 
+	  //       str = str.split(/\D+/);
+	  //       str = new Date(str[2],str[0]-1,(parseInt(str[1])+30));
+	  //       return MMDDYYYY(str);
+	  //   }
+	    
+	  //   function MMDDYYYY(str) {
+	  //       var ndateArr = str.toString().split(' ');
+	  //       var Months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec';
+	  //       return (parseInt(Months.indexOf(ndateArr[1])/4)+1)+'/'+ndateArr[2]+'/'+ndateArr[3];
+	  //   }
+
+	  //   function AddDays() {
+	  //       var date = $('#start_date').val();
+	  //       var ndate = DateFromString(date);
+	  //       return ndate;
+	  //   }
+
+	  //   $('#start_date').change(function(){
+	  //       $('#end_date').val(AddDays());
+	  //   });
+
+	//Auction Upload Progress...
         var progressbar     = $('#progressbar');
         var statustxt       = $('#statustxt');
         var submitbutton    = $("#SubmitButton");
         var myform          = $("#fileupload");
+        var saving			= $('.saving');
+        var saved			= $('.saved');
+        var completed       = '0%';
+ 
+                $(myform).ajaxForm({
+                    beforeSend: function() { //brfore sending form
+                        submitbutton.attr('disabled', ''); // disable upload button
+                        statustxt.empty();
+                        progressbar.css({
+                        	width: completed
+                        });; //initial value 0% of progressbar
+                        //statustxt.html(completed); //set status text
+                        statustxt.css('color','#000'); //initial color of status text
+                    },
+                    uploadProgress: function(event, position, total, percentComplete) { //on progress
+                        progressbar.css({
+                        	width: percentComplete + '%'
+                        });; //update progressbar percent complete
+                        statustxt.css({
+                        	html: percentComplete + '%'
+                        }); //update status text
+                        if(percentComplete>50)
+                            {
+                                statustxt.css('color','#fff'); //change status text to white after 50%
+                            }
+                        },
+                    complete: function(response) { // on complete
+                        statustxt.css({
+                        	html:'100%'
+                        });
+                        saving.css({
+                        	display: 'none'
+                        });
+                        saved.css({
+                        	display: 'block'
+                        });
+                        //myform.resetForm();  // reset form
+                        submitbutton.removeAttr('disabled'); //enable submit button
+                    }
+            });
+//Direct Selling Upload Progress
+ 		var progressbar     = $('#progressbar');
+        var statustxt       = $('#statustxt');
+        var submitbutton    = $("#SubmitButton");
+        var myform          = $("#directSelling");
         var saving			= $('.saving');
         var saved			= $('.saved');
         var completed       = '0%';
@@ -587,7 +672,25 @@ $(document).ready(function(){
 
 //submit validation. Don't eput codes next to it. this must
 //be the last codes.
-	$(fileupload).submit(function(){
+	//Direct Selling Submit
+	$('#submitSelling').prop('disabled', true);
+	$('#submitSelling').click(function(event) {
+		$(directSelling).submit(function(){
+			var productImage = $('#fileUpload').val();
+			var productUpload = $('#productFile').val();
+			var downloadLink = $('#download-Link').val();
+			if(productImage != ''){
+				if(productUpload != '' || downloadLink != ''){
+					$('.bs-example-modal-sm').modal('show');
+				}else{
+				displayError('Please provide the Product item or its download link');
+				}
+			}
+		});	
+	});
+	//Auction Submit
+	$('#SubmitButton').click(function(event) {
+		$(fileupload).submit(function(){
 		var startDateValue = $('#startDate').val();
 		var endDateValue = $('#endDate').val();
 		var productImage = $('#fileUpload').val();
@@ -601,14 +704,8 @@ $(document).ready(function(){
 				displayError('Please provide the Product item or its download link');
 			}
 		}else{
-			// $('#errorHandler').val(1);
 		}
-
-		// var isEmpty = $('#errorHandler').val();
-		// $.get('auction-listing/store',{isEmpty:isEmpty},function(data){
-		// 	// alert(data);
-		// });
 	});	
-
+	});
 });//end of onload
 

@@ -81,8 +81,25 @@ class AuctionController extends \BaseController {
   					$auction->productID = $product->id;
   					$auction->minimumPrice = Input::get('minimumPrice');
   					$auction->buyoutPrice = Input::get('buyoutPrice');
-  					$auction->startDate = Input::get('startDate');
-  					$auction->endDate = Input::get('endDate');
+  					$date = Input::get('startDate');
+  					$convDate = strtotime($date);
+  					//convert date to datetime of StartDate
+  						$originDate = Input::get('startDate');
+  						$copyYear = substr($originDate, -4);
+  						$cutYear = substr($originDate, 0, -5);
+  						$convertedDate = $copyYear.'-'.$cutYear;
+  					$auction->startDate = date('Y-m-d', strtotime($convertedDate));
+  					////convert date to datetime of endDate
+  						$originDateTime = Input::get('endDate');
+  						$copyTime = substr($originDateTime, -8);
+						$copyDate = substr($originDateTime, 0, -8);
+						  	//convert date
+						  	$copyYear = substr($copyDate, -4);
+						  	$cutYear = substr($copyDate, 0, -5);
+						  	$convertedDate = $copyYear.'-'.$cutYear;
+						  	$convertedDate = date('Y-m-d', strtotime($convertedDate));
+						  	$newDateTime = $convertedDate.$copyTime;
+  					$auction->endDate = $newDateTime;
   					$auction->incrementation = Input::get('incrementation');
   					$auction->affiliatePercentage = Input::get('affiliatePercentage');
 
