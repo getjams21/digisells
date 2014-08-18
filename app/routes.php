@@ -15,10 +15,10 @@
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
-	
-// 	// $user = Subcategory::wherecategoryid('1')->get();
-// 	$user2= DB::table('Subcategory')->select('name')->wherecategoryid('1')->get();
-// 	return $user2;
+// 	// $user=Auth::user();
+// 	$user=Auth::user()->last_activity;
+//   $date = Carbon::createFromTimestamp($user);
+//   return $date->diffForHumans();
 // });
 
 Route::get('page', 'HomePageController');
@@ -38,7 +38,7 @@ Route::resource('sessions', 'SessionsController',['only' => ['create','store','d
 Route::resource('uploadImage', 'ImageUploadController');
 #profiles
 Route::get('/users/{username}', ['as' => 'profile', 'uses' => 'UsersController@show']);
-Route::get('/profile','UsersController@show');
+// Route::get('/profile','UsersController@show');
 #password reminders
 Route::controller('password','RemindersController');
 #registration validation posts
@@ -57,7 +57,6 @@ Route::group(["before" => "auth"], function() {
   Route::resource('/auction-listing', 'AuctionController');
   #Direct Selling Platform
   Route::resource('/direct-selling', 'DirectSellingController');
-<<<<<<< HEAD
   #Dashboard pages
   Route::get('/dashboard','DashboardController@index');
   Route::get('/invoices','DashboardController@invoices');
@@ -71,14 +70,12 @@ Route::group(["before" => "auth"], function() {
   Route::resource('payment', 'PaymentController');
   Route::post('paypal', 'PaymentController@paypal');
   Route::get('execute', 'PaymentController@execute');
-=======
   Route::post('direct-selling/{step}', array('as' => 'direct-selling', 'uses' => 'DirectSellingController@listingSteps'));
   Route::resource('/product-selling', 'DirectSellingController');
   #Dashboard
   Route::resource('users.dashboard','DashboardController');
   Route::get('users/{username}/invoices','DashboardController@invoices');
   Route::get('users/{username}/bids','DashboardController@bids');
->>>>>>> 73842fadd4f51710eca3e1679c739d08df0f2bb2
 });
 
 

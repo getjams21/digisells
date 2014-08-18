@@ -1,7 +1,7 @@
 <?php
 use Acme\Forms\RegistrationForm;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Carbon\Carbon;
 class UsersController extends \BaseController {
 	protected $registrationForm;
 
@@ -60,7 +60,9 @@ class UsersController extends \BaseController {
 		try
 		{
 			$user = User::whereUsername($username)->firstOrFail();
-			return View::make('users.show',['user' => $user]);	
+			$activity=$user->last_activity->diffForHumans();
+			$member=$user->created_at->diffForHumans();
+			return View::make('users.show',['user' => $user,'activity' => $activity,'member' => $member]);	
 		}
 		catch(ModelNotFoundException $e)
 		{

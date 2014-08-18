@@ -13,9 +13,14 @@
 
 App::before(function($request)
 {
-	//
-});
+	if (Auth::user()) {
+        $user = Auth::user();
+        $now = new DateTime();
+        $user->last_activity = $now;
+        $user->save();
+    }
 
+});
 
 App::after(function($request, $response)
 {

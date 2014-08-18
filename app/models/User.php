@@ -2,6 +2,7 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Carbon\Carbon;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
@@ -11,7 +12,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'user';
-	protected $fillable = ['firstName','lastName','address','username','email','password'];
+	protected $fillable = ['firstName','lastName','address','username','email','password','last_activity'];
 	protected $guarded = array('id');
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -19,7 +20,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	protected $hidden = array('password');
-
+	public function getDates(){
+		return ['created_at','updated_at','last_activity'];
+	}
 	/**
 	 * Get the unique identifier for the user.
 	 *
