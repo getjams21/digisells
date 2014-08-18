@@ -7,7 +7,7 @@ function errors_for($attribute, $errors)
 
 function link_to_profile()
 {
-	return link_to('/users/'.Auth::user()->username.'/dashboard/', 'Dashboard');
+	return link_to('/dashboard', 'Dashboard');
 }
 function user_photos_path()
 {

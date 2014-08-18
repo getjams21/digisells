@@ -15,8 +15,10 @@ class CreaTablePaypal extends Migration {
 		Schema::create('paypal', function(Blueprint $table)
 		{
 			$table -> increments('id');
-			$table -> string('paypalEmail');
-			$table -> integer('fundID')->unsigned();
+			$table -> string('paypalEmail')->nullable();
+			$table -> string('paymentID');
+			$table -> decimal('amount', 19, 2);
+			$table -> integer('fundID')->nullable()->unsigned();
 			$table -> timestamps();
 		});
 	}

@@ -16,11 +16,12 @@ class CreaTableFunds extends Migration {
 		{
 			$table -> increments('id');
 			$table -> integer('userID')->unsigned();
-			$table -> decimal('amountAdded', 19, 4);
-			$table -> decimal('amountDeducted', 19, 4);
+			$table -> decimal('amountAdded', 19, 2)->default(0);
+			$table -> decimal('amountDeducted', 19, 2)->default(0);
 			$table -> integer('methodID')->unsigned();
-			$table -> integer('salesID')->default(0)->unsigned();
-			$table -> integer('biddingID')->default(0)->unsigned();
+			$table -> integer('salesID')->nullable()->unsigned();
+			$table -> integer('biddingID')->nullable()->unsigned();
+			$table -> boolean('status')->default(0);
 			$table -> timestamps();
 		});
 	}

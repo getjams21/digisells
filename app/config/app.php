@@ -121,6 +121,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Laracasts\Validation\ValidationServiceProvider',
+		'Anouar\Paypalpayment\PaypalpaymentServiceProvider',
 		// 'Intervention\Image\ImageServiceProvider'
 	),
 
@@ -187,6 +188,7 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+		'Paypalpayment'   => 'Anouar\Paypalpayment\Facades\PaypalPayment',
 		// 'Image'			  =>  'Intervention\Image\Facades\Image'
 
 	),

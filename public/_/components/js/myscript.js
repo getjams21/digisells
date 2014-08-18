@@ -383,6 +383,19 @@ $(document).ready(function(){
 	$("#buyoutPrice").keydown(function(e){
 		numberOnlyInput(e);
 	});
+	$("[name='amount']").keydown(function(e){
+		numberOnlyInput(e);
+	});
+	$("[name='amount']").blur(function() {
+                var amt = parseFloat(this.value);
+                $(this).val(amt.toFixed(2));
+    });
+	$("#cvv2").keydown(function(e){
+		numberOnlyInput(e);
+	});
+	$("#cardNumber").keydown(function(e){
+		numberOnlyInput(e);
+	});
 
 	//Upload Progress...
         var progressbar     = $('#progressbar');

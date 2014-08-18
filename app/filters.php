@@ -35,7 +35,7 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) return Redirect::guest('login')->withFlashMessage('<center><div class="alert alert-danger square"><b>Please Login to continue</b></div></center>');;
 });
 
 

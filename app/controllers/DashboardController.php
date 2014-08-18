@@ -4,7 +4,6 @@ class DashboardController extends \BaseController {
 
 	public function __construct() {
     $this->beforeFilter('csrf', array('on'=>'post'));
-    $this->beforeFilter('currentUser',['only' => ['index']]);
 	}
 	/**
 	 * Display a listing of the resource.
@@ -16,30 +15,21 @@ class DashboardController extends \BaseController {
 	{
 		return View::make('dashboard.index');
 	}
-
-	public function invoices($username)
+	public function invoices()
 	{
-		if(auth_redirect($username)){
 		return View::make('dashboard.invoices');
-		}else{
-			return Redirect::home();
-		}
 	}
-	public function bids($username)
+	public function bids()
 	{
-		if(auth_redirect($username)){
 		return View::make('dashboard.bids');
-		}else{
-			return Redirect::home();
-		}
 	}
-	public function watchlist($username)
+	public function watchlist()
 	{
-		if(auth_redirect($username)){
 		return View::make('dashboard.watchlist');
-		}else{
-			return Redirect::home();
-		}
+	}
+	public function listings()
+	{
+		return View::make('dashboard.listings');
 	}
 	/**
 	 * Show the form for creating a new resource.
