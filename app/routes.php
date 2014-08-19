@@ -15,10 +15,10 @@
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
-	
-// 	// $user = Subcategory::wherecategoryid('1')->get();
-// 	$user2= DB::table('Subcategory')->select('name')->wherecategoryid('1')->get();
-// 	return $user2;
+// 	// $user=Auth::user();
+// 	$user=Auth::user()->last_activity;
+//   $date = Carbon::createFromTimestamp($user);
+//   return $date->diffForHumans();
 // });
 
 Route::get('page', 'HomePageController');
@@ -38,7 +38,7 @@ Route::resource('sessions', 'SessionsController',['only' => ['create','store','d
 Route::resource('uploadImage', 'ImageUploadController');
 #profiles
 Route::get('/users/{username}', ['as' => 'profile', 'uses' => 'UsersController@show']);
-Route::get('/profile','UsersController@show');
+// Route::get('/profile','UsersController@show');
 #password reminders
 Route::controller('password','RemindersController');
 #registration validation posts

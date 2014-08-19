@@ -77,7 +77,6 @@ class PaymentController extends \BaseController {
         }
 
         $response=$payment->toArray();
-
         // print_r($payment->toArray());
         $paymentId=$payment->getId();
     	//payment execution
@@ -90,7 +89,6 @@ class PaymentController extends \BaseController {
 	    $card= new CreditCard;
 	    $card->cardType=$input['cardType'];
 	    $card->cardNumber=$input['cardNumber'];
-	    $card->amount=$input['amount'];
 	    $card->fundID=$fid;
 	    $card->paymentID=$paymentId;
 	    $card->save();
@@ -176,7 +174,6 @@ class PaymentController extends \BaseController {
 	         return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Invalid Credentials</div></center>');
 
 	    }
-
 	    foreach($payment->getLinks() as $link) {
 	        if($link->getRel() == 'approval_url') {
 	            $redirectUrl = $link->getHref();

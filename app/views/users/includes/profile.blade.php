@@ -18,14 +18,16 @@
 		@endif
 		<h4><small><b>No feedback received yet</b></small></h4>
 		<h4><small><b>No transactions successfully completed</b></small></h4>
-		<hr><h5><b>You have <a href="/funds">$
-		@if(Config::get('currentfund'))
-        {{Config::get('currentfund')}}</a> funds left.
-        @else
-        $0.00
-        @endif </b></h5>
+		@if(Auth::user()->id==$user->id)
+		<hr><h5><b>You have <a href="/funds">
+			@if(Config::get('currentfund'))
+	        ${{Config::get('currentfund')}}
+	        @else
+	        $0.00
+	        @endif </a> funds left.</b></h5>
+	    @endif
 		<br>
-		<div>Active: 1 hour ago  &nbsp;&nbsp;|&nbsp;&nbsp; Member since: 2 days ago</div>
+		<div>Active: {{$activity}}  &nbsp;&nbsp;|&nbsp;&nbsp; Member since: {{$member}}</div>
 	</div>
 	<div class="col-md-3">
 		<br><br><button type="button" class="btn btn-primary btn-lg pull-left"><span class="glyphicon glyphicon-star-empty"></span>Listing Profile</button>
