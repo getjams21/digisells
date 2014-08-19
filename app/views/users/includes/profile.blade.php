@@ -1,8 +1,8 @@
 <div class="col-md-3">
 		@if($user->userImage)
-		{{ HTML::image(user_photos_display($user), 'profile photo', array('class' => 'thumb')) }}
+		{{ HTML::image(user_photos_display($user), 'profile photo', array('class' => 'thumb shadowed')) }}
 		@else
-		{{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'thumb')) }}
+		{{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'thumb shadowed')) }}
 		@endif
 		<br><br>
 		@if($user->isCurrent())
@@ -18,19 +18,21 @@
 		@endif
 		<h4><small><b>No feedback received yet</b></small></h4>
 		<h4><small><b>No transactions successfully completed</b></small></h4>
-		@if(Auth::user()->id==$user->id)
-		<hr><h5><b>You have <a href="/funds">
-			@if(Config::get('currentfund'))
-	        ${{Config::get('currentfund')}}
-	        @else
-	        $0.00
-	        @endif </a> funds left.</b></h5>
-	    @endif
+		@if(Auth::user())
+			@if(Auth::user()->id==$user->id)
+			<hr><h5><b>You have <a href="/funds">
+				@if(Config::get('currentfund'))
+		        ${{Config::get('currentfund')}}
+		        @else
+		        $0.00
+		        @endif </a> funds left.</b></h5>
+		    @endif
+		@endif
 		<br>
 		<div>Active: {{$activity}}  &nbsp;&nbsp;|&nbsp;&nbsp; Member since: {{$member}}</div>
 	</div>
 	<div class="col-md-3">
-		<br><br><button type="button" class="btn btn-primary btn-lg pull-left"><span class="glyphicon glyphicon-star-empty"></span>Listing Profile</button>
+		<br><br><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-star-empty"></span>Listing Profile</button>
 
-		<br><br><button type="button" class="btn btn-warning btn-lg pull-left" style="margin-top:10px;"><span class="glyphicon glyphicon-star-empty"></span>Watch Seller</button>
+		<br><button type="button" class="btn btn-warning btn-lg" style="margin-top:5px;"><span class="glyphicon glyphicon-star-empty"></span>Watch Seller</button>
 	</div>

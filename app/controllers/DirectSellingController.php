@@ -65,7 +65,6 @@ class DirectSellingController extends \BaseController {
 					$product->downloadLink = Input::get('DownloadLink');
 				}
 				$product->save();
-
 				//retrieve selling info from sessions and save on db
 				$selling->sellingName = Session::get('sellingName');
 				$selling->productID = $product->id;
@@ -164,6 +163,8 @@ class DirectSellingController extends \BaseController {
 			Session::put('discount', Input::get('discount'));
 			Session::put('affiliatePercentage', Input::get('affiliatePercentage'));
 			return View::make('pages.direct-selling-step-3');
+		}else if($step == ''){
+			return Redirect::route('direct-selling');
 		}
 	}
 }
