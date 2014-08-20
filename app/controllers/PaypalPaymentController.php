@@ -11,6 +11,7 @@ class PaypalPaymentController extends \BaseController {
 
 	    public function __construct()
 	    {
+            
 	        // ### Api Context
 	        // Pass in a `ApiContext` object to authenticate 
 	        // the call. You can also send a unique request id 
