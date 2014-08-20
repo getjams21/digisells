@@ -90,6 +90,10 @@ class DirectSellingController extends \BaseController {
 					$copyright->supportingFiles = $copyrightFileName;
 					$copyright->save();
 				}
+
+				//Saving necessary id's for future use in session
+				Session::put('productID',$product->id);
+				Session::put('sellingID',$selling->id);
 			}
 			
 		}
@@ -105,10 +109,7 @@ class DirectSellingController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
 	}
-
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -145,7 +146,6 @@ class DirectSellingController extends \BaseController {
 	}
 
 	public function listingSteps($step){
-	
 		if($step == 'step-1'){
 			$category = Category::lists('categoryName','id');
 			$subCategories = DB::table('Subcategory')->where('categoryID', 1)->lists('name','id');
@@ -163,8 +163,8 @@ class DirectSellingController extends \BaseController {
 			Session::put('discount', Input::get('discount'));
 			Session::put('affiliatePercentage', Input::get('affiliatePercentage'));
 			return View::make('pages.direct-selling-step-3');
-		}else if($step == ''){
-			return Redirect::route('direct-selling');
+		}else {
+			return Redirect::to('direct-selling');
 		}
 	}
 }

@@ -27,5 +27,6 @@
 		{{ HTML::script('_/js/bootstrap-datepicker.js') }}
 		{{ HTML::script('_/js/jquery.form.js') }}
 		{{ HTML::script('_/js/myscript.js')}}
+		@yield('scripts')
 	</body>
 </html>

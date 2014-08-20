@@ -419,7 +419,7 @@ $(document).ready(function(){
 	  //       $('#end_date').val(AddDays());
 	  //   });
 
-	//Auction Upload Progress...
+//Auction Upload Progress...
         var progressbar     = $('#progressbar');
         var statustxt       = $('#statustxt');
         var submitbutton    = $("#SubmitButton");
@@ -507,6 +507,9 @@ $(document).ready(function(){
                         });
                         //myform.resetForm();  // reset form
                         submitbutton.removeAttr('disabled'); //enable submit button
+                    	setTimeout(function(){
+                    		window.location = "http://digisells.com/sales-page-default";
+                    	},2500);
                     }
             });
 //change body tag with its meta-title
