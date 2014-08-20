@@ -13,7 +13,10 @@ class DashboardController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('dashboard.index');
+		$user= Auth::user()->id;
+		$fund =DB::select('select a.*,b.methodDesc from funds as a inner join method as b on a.methodID=b.id where a.userID='.$user." order by created_at desc");
+		$counter=1;
+		return View::make('dashboard.index',['fund' => $fund,'counter'=>$counter]);
 	}
 	public function invoices()
 	{

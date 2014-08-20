@@ -29,7 +29,6 @@ Route::resource('users', 'UsersController');
 Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
 #Registration
 Route::get('/register','UsersController@create')->before('guest');
-Route::resource('users', 'UsersController');
 #Authentication
 Route::get('login',['as' => 'login', 'uses' =>'SessionsController@create']);
 Route::get('logout',['as'=>'logout', 'uses' =>'SessionsController@destroy']);
