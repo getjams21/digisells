@@ -104,6 +104,10 @@ class AuctionController extends \BaseController {
   					$auction->affiliatePercentage = Input::get('affiliatePercentage');
 
   					$auction->save();
+
+  					//Save id's on Session for default sales page
+  					Session::put('productID', $product->id);
+  					Session::put('auctionID', $auction->id);
   				}
   			}
 	}
@@ -162,6 +166,15 @@ class AuctionController extends \BaseController {
   			$subCategories = DB::table('Subcategory')->where('categoryID', $val)->lists('name','id');
 			return Response::json($subCategories);
   		}
+	}
+	public function showAuctionDefault(){
+		if(Session::has('productID') && Session::has('auctionID')){
+			$product = Product::find(Session::get('productID'));
+			$auction = Auction::find(Session::get('auctionID'));
+			return View::make('pages.product.auction-page-default', compact('product','auction'));
+		}else{
+			return Redirect::to('auction');
+		}
 	}
 
 }
