@@ -1211,6 +1211,7 @@ return array(
     'Psr\\Log\\LoggerTrait' => $vendorDir . '/psr/log/Psr/Log/LoggerTrait.php',
     'Psr\\Log\\NullLogger' => $vendorDir . '/psr/log/Psr/Log/NullLogger.php',
     'RemindersController' => $baseDir . '/app/controllers/RemindersController.php',
+    'SalesPageController' => $baseDir . '/app/controllers/SalesPageController.php',
     'Selling' => $baseDir . '/app/models/Selling.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
     'SessionsController' => $baseDir . '/app/controllers/SessionsController.php',

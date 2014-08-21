@@ -1,5 +1,5 @@
 <?php
-
+use Carbon\Carbon;
 class Selling extends \Eloquent {
 	protected $table = 'selling';
 	protected $guarded = ['id'];
@@ -12,4 +12,7 @@ class Selling extends \Eloquent {
 		'expirationDate',
 		'affiliatePercentage'
 	];
+	public function getDates(){
+		return ['created_at','updated_at','expirationDate'];
+	}
 }

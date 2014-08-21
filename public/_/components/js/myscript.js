@@ -419,7 +419,7 @@ $(document).ready(function(){
 	  //       $('#end_date').val(AddDays());
 	  //   });
 
-	//Auction Upload Progress...
+//Auction Upload Progress...
         var progressbar     = $('#progressbar');
         var statustxt       = $('#statustxt');
         var submitbutton    = $("#SubmitButton");
@@ -507,6 +507,9 @@ $(document).ready(function(){
                         });
                         //myform.resetForm();  // reset form
                         submitbutton.removeAttr('disabled'); //enable submit button
+                    	setTimeout(function(){
+                    		window.location = "http://digisells.com/sales-page-default";
+                    	},2500);
                     }
             });
 //change body tag with its meta-title
@@ -630,14 +633,11 @@ $(document).ready(function(){
 		      });
 	 		}
     }); //end of email validation
-//SIDEBAR toggle js
-//temporary disabled 
-	//  $("#page-content-wrapper").hover(function(e) {
-	//         e.preventDefault();
-	//         $("#wrapper").addClass("toggled");
-	//     }, function() {
-	// 	$("#wrapper").removeClass('toggled');
-	// });
+//CLICKABLE TABLE ROW
+$(".clickableRow").click(function() {
+            window.document.location = $(this).attr("href");
+      });
+//end
  $("#sidebar-wrapper").hover(function(e) {
 	        e.preventDefault();
 	        $("#wrapper").addClass("toggled");

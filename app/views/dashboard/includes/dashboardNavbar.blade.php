@@ -39,7 +39,7 @@
                              <a href="/listings"><i>My Listings</i></a>
                         </li>
                         <li>
-                             <a href="/selling"><i>Create a Listing</i></a>
+                             <a href="/selling"><i>Create Listing</i></a>
                        </li>
                     </ul>
                 </li>

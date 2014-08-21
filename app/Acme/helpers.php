@@ -25,3 +25,8 @@ function auth_redirect($user)
 		return false;
 	}
 }
+function carbonize($value)
+{
+	$date = new Carbon($value);
+	return $date;
+}
