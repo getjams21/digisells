@@ -54,6 +54,7 @@ Route::group(["before" => "auth"], function() {
   #Auction Selling Platform
   Route::resource('/auction', 'AuctionController');
   Route::resource('/auction-listing', 'AuctionController');
+  Route::get('sales-page/default', 'AuctionController@showAuctionDefault');
   #Direct Selling Platform
   Route::resource('/direct-selling', 'DirectSellingController');
   Route::resource('/sales-page-default', 'SalesPageController');

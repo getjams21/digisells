@@ -30,3 +30,9 @@ function carbonize($value)
 	$date = new Carbon($value);
 	return $date;
 }
+function dateformat($date){
+	return date("d F Y",strtotime($date));
+}
+function timeformat($time){
+	return date("g:ha",strtotime($time));
+}

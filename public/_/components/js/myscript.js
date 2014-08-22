@@ -462,6 +462,9 @@ $(document).ready(function(){
                         });
                         //myform.resetForm();  // reset form
                         submitbutton.removeAttr('disabled'); //enable submit button
+                    	setTimeout(function(){
+                    		window.location = "http://digisells.com/sales-page/default";
+                    	},2500);
                     }
             });
 //Direct Selling Upload Progress

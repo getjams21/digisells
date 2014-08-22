@@ -20,9 +20,9 @@
             <td>{{$auction->auctionName}}</td>
             <td>{{$auction->quantity}}</td>
             <td>{{$auction->minimumPrice}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>0</td>
+            <td>None</td>
+            <td>-</td>
             <td>{{date("d F Y",strtotime($auction->startDate)) }} at {{ date("g:ha",strtotime($auction->startDate)) }}</td>
             <td>{{date("d F Y",strtotime($auction->endDate)) }} at {{ date("g:ha",strtotime($auction->endDate)) }}</td>
             <td>

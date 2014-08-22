@@ -32,11 +32,11 @@
                             <th>Bidding Id</th>
                           </tr>
                           @foreach($fund as $funds)
-                            <tr>
+                            <tr class="clickableRow" href="payment/{{$funds->paymentID}}">
                                 <td>{{$counter++}}</td>
                                 <td>{{$funds->methodName}}</td>
                                 <td>{{$funds->amountAdded+$funds->amountDeducted." USD"}}</td>
-                                <td>{{$funds->created_at}}</td>
+                                <td>{{dateformat($funds->created_at)}} at {{timeformat($funds->created_at)}}</td>
                                 <td>@if($funds->salesID)
                                     {{$funds->salesID}}
                                     @else

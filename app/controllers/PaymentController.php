@@ -103,9 +103,13 @@ class PaymentController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($paymentID)
 	{
-		//
+		$payment = Paypalpayment::get($paymentID,$this->_apiContext);
+
+       echo "<pre>";
+
+       print_r($payment);
 	}
 
 

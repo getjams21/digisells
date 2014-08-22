@@ -10,7 +10,7 @@ class FundsController extends \BaseController {
 	public function index()
 	{
 		$user= Auth::user()->id;
-		$fund =DB::select('select a.*,b.methodName from funds as a inner join method as b on a.methodID=b.id where a.userID='.$user." order by created_at desc");
+		$fund =DB::select('select a.*,b.methodName,c.paymentID from funds as a inner join method as b on a.methodID=b.id inner join paypal as c on a.id=c.fundID where a.userID='.$user." order by created_at desc");
 		$counter=1;
 		return View::make('funds.index',['fund' => $fund,'counter'=>$counter]);
 	}

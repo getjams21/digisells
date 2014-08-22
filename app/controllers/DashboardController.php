@@ -36,7 +36,6 @@ class DashboardController extends \BaseController {
 		$selling=DB::select('select a.*,b.userID,b.quantity from selling as a inner join product as b on a.productID=b.id where b.userID='.$user." order by created_at desc");
 		$auction=DB::select('select a.*,b.userID,b.quantity from auction as a inner join product as b on a.productID=b.id where b.userID='.$user." order by created_at desc");
 		$counter=1;
-		$a = $auction[0];
 		return View::make('dashboard.listings',['selling' => $selling,'auction' => $auction,'counter'=>$counter]);
 		// dd($selling);
 	}
