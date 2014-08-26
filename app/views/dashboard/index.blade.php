@@ -1,24 +1,24 @@
 @extends('layouts.master')
-@section('meta-title','Dashboard')
+@section('meta-title','Notifications')
 @section('header')
 	@include('includes.navbar')
 @stop
 @section('content')
 <div clas="row" >
-    <div id="wrapper">
+  <div id="wrapper">
     @include('dashboard.includes.dashboardNavbar')
-     <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                  <div class="col-md-12 shadowed">
-                    @include('dashboard.includes.activitiesPartial')
-
-                  </div>
-                </div>
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12 shadowed">
+              <div class="">
+                   @include('dashboard.includes.notifications')
+              
+              </div>
             </div>
+          </div>
         </div>
-        <!-- /#page-content-wrapper -->
-    </div>
-  </div>  
+      </div>
+  </div>
+</div>  
 @stop

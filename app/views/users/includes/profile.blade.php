@@ -32,7 +32,10 @@
 		<div>Active: {{$activity}}  &nbsp;&nbsp;|&nbsp;&nbsp; Member since: {{$member}}</div>
 	</div>
 	<div class="col-md-3">
-		<br><br><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-star-empty"></span>Listing Profile</button>
+		<br><br>	
+	@if(Auth::user()->id!=$user->id)
+			<button  type="button" class="btn btn-warning btn-lg watchUser<?php if(!$watched || $watched[0]->status==0){echo '';}else{echo ' hidden';};?>" style="margin-top:5px;" value="{{$user->id}}"><span class="glyphicon glyphicon-eye-open"></span> Watch Seller</button>
 
-		<br><button type="button" class="btn btn-warning btn-lg" style="margin-top:5px;"><span class="glyphicon glyphicon-star-empty"></span>Watch Seller</button>
+			<button type="button" class="btn btn-success btn-lg unwatchUser <?php if(!$watched || $watched[0]->status==0){echo ' hidden';}else{echo ' ';};?>" style="margin-top:5px;" value="{{$user->id}}"><span class="glyphicon glyphicon-ok"></span> Watched Seller</button>
+	@endif
 	</div>

@@ -18,6 +18,8 @@ class AddForeignKeyToWatchlistTable extends Migration {
 			->onDelete('restrict')->onUpdate('cascade');
 			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
+			$table-> foreign('watcherID')->references('id')->on('user')
+			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
@@ -32,6 +34,7 @@ class AddForeignKeyToWatchlistTable extends Migration {
 		{
 			$table->dropForeign('watchlist_productID_foreign');
 			$table->dropForeign('watchlist_userID_foreign');
+			$table->dropForeign('watchlist_watcherID_foreign');
 		});
 	}
 

@@ -10,7 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
+// Route::when('*', 'csrf', array('post'));
 
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
@@ -59,11 +59,14 @@ Route::group(["before" => "auth"], function() {
   Route::resource('/direct-selling', 'DirectSellingController');
   Route::resource('/sales-page-default', 'SalesPageController');
   #Dashboard pages
-  Route::get('/dashboard','DashboardController@index');
+  Route::get('/notifications','DashboardController@index');
   Route::get('/invoices','DashboardController@invoices');
-  Route::get('/bids','DashboardController@bids');
-  Route::get('/watchlist','DashboardController@watchlist');  
-  Route::get('/listings','DashboardController@listings');  
+  Route::get('/wonbids','DashboardController@wonbids');
+  Route::get('/inactivebids','DashboardController@inactivebids');
+  Route::get('/auctionList','DashboardController@auctionList'); 
+  Route::get('/directSellingList','DashboardController@directSellingList'); 
+  #NOTIFICATIONS
+  Route::post( '/readNotif', 'DashboardController@readNotif' );
   #Funds Controller
   Route::resource('funds', 'FundsController');
   Route::get('/addFunds','FundsController@create');
@@ -73,10 +76,12 @@ Route::group(["before" => "auth"], function() {
   Route::get('execute', 'PaymentController@execute');
   Route::post('direct-selling/{step}', array('as' => 'direct-selling', 'uses' => 'DirectSellingController@listingSteps'));
   Route::resource('/product-selling', 'DirectSellingController');
-  #Dashboard
-  Route::resource('users.dashboard','DashboardController');
-  Route::get('users/{username}/invoices','DashboardController@invoices');
-  Route::get('users/{username}/bids','DashboardController@bids');
+  #watchlist
+  Route::post( '/watchUser', 'WatchlistController@watchUser' );
+  Route::post( '/unwatchUser', 'WatchlistController@unwatchUser' );
+  Route::resource('watchlist','WatchlistController');
+  Route::get('/watchers', 'WatchlistController@watchers');
+
 });
 
 

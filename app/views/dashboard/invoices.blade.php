@@ -14,6 +14,7 @@
               <div class=""><br>
                   <h4 class="capital"><b><a href="/users/{{Auth::user()->username}}">{{ Auth::user()->username }}'s</a> Invoices</h4></b><br>
                   <hr class="style-fade">
+                   <div class="table-responsive" style="border-top: 1px solid #C0C0C0;">    
                       <table class="table table-hover">
                           <tr>
                             <th>Invoice Number</th>
@@ -25,6 +26,7 @@
                             <td colspan="4"></td>
                           </tr>
                       </table>
+                  </div>  
                     <h3><small>You don't have any invoices with Digisells just yet.</small></h3>
               </div>
             </div>

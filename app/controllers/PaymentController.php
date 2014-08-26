@@ -86,13 +86,12 @@ class PaymentController extends \BaseController {
 	    $fund->methodID=1;
 	    $fund->save();
 	    $fid = $fund->id;
-	    $card= new CreditCard;
-	    $card->cardType=$input['cardType'];
-	    $card->cardNumber=$input['cardNumber'];
+	    $card= new Paypal;
 	    $card->fundID=$fid;
 	    $card->paymentID=$paymentId;
+	    $card->amount = $input['amount'];
 	    $card->save();
- return Redirect::to('/funds')->withFlashMessage('<center><div class="alert alert-success square">Successfully Added Funds</div></center>');
+ return Redirect::to('/payment/'.$card->paymentID)->withFlashMessage('<center><div class="alert alert-success square">Successfully Added Funds</div></center>');
 
 	}
 
@@ -107,9 +106,10 @@ class PaymentController extends \BaseController {
 	{
 		$payment = Paypalpayment::get($paymentID,$this->_apiContext);
 
-       echo "<pre>";
+       // echo "<pre>";
 
-       print_r($payment);
+       // dd($payment->payer->payment_method);
+		return View::make('funds.showPayment',['payment'=>$payment]);
 	}
 
 
@@ -175,7 +175,8 @@ class PaymentController extends \BaseController {
 	    try {
 	        $payment->create($this->_apiContext);
 	    } catch (PayPal\Exception\PPConnectionException $ex) {
-	         return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Invalid Credentials</div></center>');
+	         return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please provide 
+	         	Valid Credentials or check your Internet Connections.</div></center>');
 
 	    }
 	    foreach($payment->getLinks() as $link) {
@@ -212,7 +213,7 @@ class PaymentController extends \BaseController {
 	    DB::table('paypal')->where('id', '=', $id)
 	->update(array('fundID' => $fid));
     
- return Redirect::to('/funds')->withFlashMessage('<center><div class="alert alert-success square">Successfully Added Funds</div></center>');
+ return Redirect::to('/payment/'.$paymentId)->withFlashMessage('<center><div class="alert alert-success square">Successfully Added Funds</div></center>');
 
 }
 

@@ -15,36 +15,62 @@
                     <a href="/users/{{Auth::user()->username}}/edit" >Update Profile</a>
                 </li>
                 <li>
-                    <a href="/invoices">Invoices</a>
+                    <a href="/notifications">Notifications</a>
                 </li>
                  <li class="sidehead">
                      <a href="#">
-                        <b>Buying &nbsp;&nbsp;<span class="caret"></span></b>
+                        <b>Bids &nbsp;&nbsp;<span class="caret"></span></b>
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
-                             <a href="/bids"><i>Bids</i></a>
+                             <a href="/wonbids"><i>Won Bids</i></a>
                         </li>
                         <li>
-                             <a href="/watchlist"><i>Watchlist</i></a>
+                             <a href="/inactivebids"><i>Inactive Bids</i></a>
                         </li>
                     </ul>
                 </li>
                 <li class="sidehead">
                     <a href="#">
-                        <b>Selling &nbsp;&nbsp;<span class="caret"></span></b>
+                        <b>Listings &nbsp;&nbsp;<span class="caret"></span></b>
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
-                             <a href="/listings"><i>My Listings</i></a>
+                             <a href="/auctionList"><i>Auction</i></a>
                         </li>
                         <li>
-                             <a href="/selling"><i>Create Listing</i></a>
+                             <a href="/directSellingList"><i>Direct Selling</i></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidehead">
+                    <a href="#">
+                        <b>Funds &nbsp;&nbsp;<span class="caret"></span></b>
+                    </a>
+                    <ul class="sidecontent collapse">
+                        <li>
+                             <a href="/funds"><i>Deposits</i></a>
+                        </li>
+                        <li>
+                             <a href="#"><i>Withdrawals</i></a>
+                       </li>
+                    </ul>
+                </li>
+                <li class="sidehead">
+                    <a href="#">
+                        <b>Watchlist &nbsp;&nbsp;<span class="caret"></span></b>
+                    </a>
+                    <ul class="sidecontent collapse">
+                        <li>
+                             <a href="/watchlist"><i>Watching</i></a>
+                        </li>
+                        <li>
+                             <a href="/watchers"><i>Watchers</i></a>
                        </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="/funds">Funds</a>
+                    <a href="/invoices">Invoices</a>
                 </li>
                 <li>
                     <a href="#">Credits</a>

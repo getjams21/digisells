@@ -13,6 +13,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12 shadowed">
+              <div class="col-md-12">
                <div class="row shadowed" id="Profile" >
                   @include('users.includes.profile')
                </div>
@@ -43,6 +44,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
           </div>
         </div>

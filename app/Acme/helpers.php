@@ -33,6 +33,6 @@ function carbonize($value)
 function dateformat($date){
 	return date("d F Y",strtotime($date));
 }
-function timeformat($time){
-	return date("g:ha",strtotime($time));
+function timeformat($date){
+	return date("g:i a",strtotime($date));
 }

@@ -54,25 +54,58 @@
           </ul>
         </li>
 @else
+ 
   <li>
-    @if(Auth::user()->userImage)
-    <a href="/users/{{Auth::user()->username}}" style="padding:0;">{{ HTML::image('images/users/'.Auth::user()->username."/".Auth::user()->userImage, 'profile photo', array('class' => 'nav-img')) }}</a>
-    @else
-    <a href="/users/{{Auth::user()->username}}" style="padding:0;">
-    {{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'nav-img')) }}</a>
-    @endif
-  </li>
-  <li ><a href="/dashboard">{{Auth::user()->username}} &nbsp;
-      <span class="badge alert-info" style="text-indent:0;">
-         $
+    <a href="/funds"> <b>FUNDS: 
+     <span class="glyphicon glyphicon-usd"></span>
         @if(Config::get('currentfund'))
-        {{Config::get('currentfund')}}
+         {{Config::get('currentfund')}}
         @else
-        0 USD
+        0
         @endif
-      </span></a>
+      </b>
+    </a>
   </li>
-  <li><a href="/logout">Sign out</a></li>
+  <li class="dropdown" >
+    
+    <a href="/notifications" class="dropdown-toggle" style="height:50px;">
+       @if(Auth::user()->userImage){{ HTML::image('images/users/'.Auth::user()->username."/".Auth::user()->userImage, 'profile photo', array('class' => 'nav-img')) }}
+    @else
+    {{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'nav-img')) }}
+    @endif
+      {{Auth::user()->username}}
+      <span class="badge alert-danger" id="unreadNotif">{{Config::get('currentNotifications')}}</span>
+      <span class="caret" ></span></a>
+      
+      <ul class="dropdown-menu logout-link" role="menu" >
+
+      <li>
+        <a href="/selling">
+         <span class="glyphicon glyphicon-pencil"></span> Create Listing
+        </a>
+      </li>
+      <li>
+        <a href="/notifications" >
+          <span class="glyphicon glyphicon-bell"></span> Notifications
+        </a>
+      </li>
+      <li>
+        <a href="/users/{{Auth::user()->username}}" >
+          <span class="glyphicon glyphicon-user"></span> Profile
+        </a>
+      </li>
+      <li>
+        <a href="/watchlist">
+         <span class="glyphicon glyphicon-eye-open"></span> Watchlist
+        </a>
+      </li>
+      <li  class="divider"></li>
+      <li>
+        <a href="/logout" ><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+      </li>
+  </ul>
+
+  </li>
 @endif
       </ul>
     </div><!-- /.navbar-collapse -->

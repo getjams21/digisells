@@ -1,5 +1,4 @@
 <?php
-
 class Auction extends \Eloquent {
 	protected $table = 'auction';
 	protected $guarded = ['id'];

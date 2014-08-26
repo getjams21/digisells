@@ -7,6 +7,11 @@ $(document).on('change', '.btn-file :file', function() {
 });
 
 $(document).ready(function(){
+	// $.ajaxSetup({
+	//     headers: {
+	//         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+	//     }
+	// });
 	//file browser display file name
 	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         
@@ -667,7 +672,7 @@ $(".clickableRow").click(function() {
 
 //SIDEBAR CLICK COLLAPSE
 	$('.sidehead').click(function() {
-			$(this).children('ul').toggleClass('collapse');
+			$(this).children('ul').first().stop(true, true).slideToggle(500);;
 		});
 
 //submit validation. Don't eput codes next to it. this must
@@ -705,7 +710,39 @@ $(".clickableRow").click(function() {
 			}
 		}else{
 		}
-	});	
+		});	
 	});
+
+// watchUser ajax
+ $('.watchUser').on('click', function(e){ 
+      e.preventDefault(); 
+      var userid=$(this).val();
+        $(this).addClass('hidden');
+        $('.unwatchUser').removeClass('hidden');
+ 	  $.post('/watchUser',{id:userid},function(data){
+      });
+    });
+ //unwatchUser ajax
+ $('.unwatchUser').on('click', function(e){ 
+      e.preventDefault(); 
+      var userid=$(this).val();
+      $(this).addClass('hidden');
+      $('.watchUser').removeClass('hidden');
+ 	  $.post('/unwatchUser',{id:userid},function(data){
+      });
+    });
+
+
+ $('.unread').hover(function(e) {
+ 	e.preventDefault(); 
+ 	var notifid=$(this).children('.notifID').text();
+ 	$(this).removeClass('unread');
+    $(this).children('.readStatus').text('Read');
+ 	  $.post('/readNotif',{id:notifid},function(data){
+ 	  	   $('#unreadNotif').text(data);
+      });
+
+	});
+
 });//end of onload
 

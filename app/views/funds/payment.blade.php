@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('meta-title','Funds')
+@section('meta-title','Deposits')
 @section('header')
 	@include('includes.navbar')
 @stop
@@ -26,7 +26,7 @@
                          @include('funds.includes.creditCard') 
                       </div>
                       <div class="tab-pane" id="paypal">
-                          @include('funds.includes.paypal') 
+                         @include('funds.includes.paypal') 
                       </div>
                       </div>
                       </div>

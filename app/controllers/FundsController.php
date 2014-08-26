@@ -10,9 +10,11 @@ class FundsController extends \BaseController {
 	public function index()
 	{
 		$user= Auth::user()->id;
-		$fund =DB::select('select a.*,b.methodName,c.paymentID from funds as a inner join method as b on a.methodID=b.id inner join paypal as c on a.id=c.fundID where a.userID='.$user." order by created_at desc");
-		$counter=1;
-		return View::make('funds.index',['fund' => $fund,'counter'=>$counter]);
+		$fund =DB::select("select b.methodName,c.* from funds as a inner join method as b on a.methodID=b.id inner join paypal as c on a.id=c.fundID where a.userID=".$user." and b.id = 1 or b.id=2 order by c.created_at desc");
+		$currentPage = Input::get('page') - 1;
+		$pagedData = array_slice($fund, $currentPage * 10, 10);
+		$fund = Paginator::make($pagedData, count($fund), 10);
+		return View::make('funds.index',['fund' => $fund]);
 	}
 
 
