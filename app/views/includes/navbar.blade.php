@@ -21,7 +21,26 @@
       	<li><a href="/">Home</a></li>
         <li><a href="/selling">Sell</a></li>
         <li><a href="#">Affiliate</a></li>
-        <li><a href="#">Marketplace</a></li>
+        <li class="dropdown" >
+          <a href="" class="dropdown-toggle" style="height:50px;">
+            Marketplace
+            <span class="caret" ></span></a>
+            
+            <ul class="dropdown-menu logout-link" role="menu" style="width: 127px;">
+
+            <li>
+              <a href="/auction-listings">
+                Auctions
+              </a>
+            </li>
+            <li>
+              <a href="/direct-selling-listings" >
+                Listings
+              </a>
+            </li>
+        </ul>
+
+       </li>
       </ul>
       <form class="navbar-form navbar-left" role="submit">
         <div class="form-group">
