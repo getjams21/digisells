@@ -395,7 +395,7 @@ $(document).ready(function(){
 	$("[name='amount']").keydown(function(e){
 		numberOnlyInput(e);
 	});
-	$("[name='amount']").blur(function() {
+	$("[name='amount']").change(function() {
                 var amt = parseFloat(this.value);
                 $(this).val(amt.toFixed(2));
     });

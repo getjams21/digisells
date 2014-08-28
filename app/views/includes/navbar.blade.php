@@ -94,11 +94,6 @@
           <span class="glyphicon glyphicon-user"></span> Profile
         </a>
       </li>
-      <li>
-        <a href="/watchlist">
-         <span class="glyphicon glyphicon-eye-open"></span> Watchlist
-        </a>
-      </li>
       <li  class="divider"></li>
       <li>
         <a href="/logout" ><span class="glyphicon glyphicon-log-out"></span> Logout</a>

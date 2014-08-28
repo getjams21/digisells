@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "9fd24510f06668b3a8e051385f17f07d",
+    "hash": "646fd2cd4e8adb32f701854a2dcf08fe",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -143,12 +143,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "2fb5e286e4210cd55151e8e8d2ce0ac2bd20fec2"
+                "reference": "28f156432e774b31a53c5fe08d164edd111f9482"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/2fb5e286e4210cd55151e8e8d2ce0ac2bd20fec2",
-                "reference": "2fb5e286e4210cd55151e8e8d2ce0ac2bd20fec2",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/28f156432e774b31a53c5fe08d164edd111f9482",
+                "reference": "28f156432e774b31a53c5fe08d164edd111f9482",
                 "shasum": ""
             },
             "require": {
@@ -191,7 +191,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2014-08-06 18:37:17"
+            "time": "2014-08-23 15:47:12"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -286,12 +286,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
-                "reference": "9edb05ed0b78e8b3dc59163680f362e4e2200e1b"
+                "reference": "3ef5ee7858c5f1d543405d361e417e90bc74522a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/9edb05ed0b78e8b3dc59163680f362e4e2200e1b",
-                "reference": "9edb05ed0b78e8b3dc59163680f362e4e2200e1b",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/3ef5ee7858c5f1d543405d361e417e90bc74522a",
+                "reference": "3ef5ee7858c5f1d543405d361e417e90bc74522a",
                 "shasum": ""
             },
             "type": "library",
@@ -319,7 +319,7 @@
                 "jquery",
                 "star"
             ],
-            "time": "2014-07-21 06:20:57"
+            "time": "2014-08-23 00:57:12"
         },
         {
             "name": "laracasts/validation",

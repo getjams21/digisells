@@ -15,10 +15,9 @@
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
-// 	// $user=Auth::user();
-// 	$user=Auth::user()->last_activity;
-//   $date = Carbon::createFromTimestamp($user);
-//   return $date->diffForHumans();
+//   $user= User::whereId(2)->first()->roles()->attach(1);
+
+
 // });
 
 Route::get('page', 'HomePageController');
@@ -48,9 +47,8 @@ Route::patch( '/updateAccount', 'UsersController@updateAccount' );
 #Selling Platform Option
 Route::get('/selling', 'HomePageController@selling');
 #Users dashboard routes set auth to login users
+#AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
-
-  
   #Auction Selling Platform
   Route::resource('/auction', 'AuctionController');
   Route::resource('/auction-listing', 'AuctionController');
@@ -83,6 +81,20 @@ Route::group(["before" => "auth"], function() {
   Route::get('/watchers', 'WatchlistController@watchers');
 
 });
+
+Route::group(["before" => "role:admin"], function() {
+ Route::get('/admin', function(){
+
+  return 'hi Admin';
+ });
+
+
+
+
+});
+
+
+
 
 
 

@@ -36,10 +36,8 @@ class CreateTableNotifications extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('notifications', function(Blueprint $table)
-		{
-			Schema::drop('notifications');
-		});
+		Schema::drop('notifications');
+
 	}
 
 }

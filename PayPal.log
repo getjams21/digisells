@@ -45,3 +45,16 @@ PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0
 PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015XPLHZYkYnhTaglUBFBbxIXw-E1CbSEuZ-lemZiWRu5w
 PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064335992140904569536575
 PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QVRwNnVCQXBkdVVZa0NMZTVpT0toRDdsUWhmYzhrZG1LYzJkdnRsTGFDZmlZRG1tb2xETW9BdTJ2d0FKOkVOdlVXUkNTSmYwNlhwQWRLYWlOdFZMQU1wQjR1dnVwY2lxbG9ORXhVeVFZSzEzWlJiUTc4QmN1cFZzdA==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"credit_card","funding_instruments":[{"credit_card":{"type":"visa","number":"12","expire_month":"1","expire_year":"2014","cvv2":"1","first_name":"12","last_name":"12"}}]},"transactions":[{"amount":{"currency":"USD","total":"0.00"},"description":"Deposit Digisells Funds : 0.00 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015EmGCNHs30zrdJ9k30pLQmROm.XLwBSCAk7la0Raxzqw
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 2130706433583614092509151452
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file

@@ -47,5 +47,7 @@
 	
 	"require-dev": {
     "anouar/paypalpayment": "dev-master"
-	}
+	},
+        "paypal/adaptivepayments-sdk-php":"v3.6.106"
+
 }

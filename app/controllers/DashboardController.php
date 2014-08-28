@@ -14,7 +14,7 @@ class DashboardController extends \BaseController {
 	{
 		$id= Auth::user()->id;
 		$user = User::find($id);
-		$notifications = $user->notifications()->orderBy('created_at','desc')->get()->toArray();
+		$notifications = $user->notifications()->orderBy('created_at','desc')->remember(60)->get()->toArray();
 		if(!Input::get('page')){
 		$currentPage = Input::get('page');
 		}else{
