@@ -15,10 +15,9 @@
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
-// 	// $user=Auth::user();
-// 	$user=Auth::user()->last_activity;
-//   $date = Carbon::createFromTimestamp($user);
-//   return $date->diffForHumans();
+//   $user= User::whereId(2)->first()->roles()->attach(1);
+
+
 // });
 
 Route::get('page', 'HomePageController');
@@ -53,9 +52,8 @@ Route::post('/load-more-auction', 'AuctionController@loadMoreAuction');
 Route::get('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionController@placingBid']);
   #Bidding Process
 #Users dashboard routes set auth to login users
+#AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
-
-  
   #Auction Selling Platform
   Route::resource('/auction', 'AuctionController');
   Route::resource('/auction-listing', 'AuctionController');
@@ -83,12 +81,23 @@ Route::group(["before" => "auth"], function() {
   Route::post('direct-selling/{step}', array('as' => 'direct-selling', 'uses' => 'DirectSellingController@listingSteps'));
   Route::resource('/product-selling', 'DirectSellingController');
   #watchlist
+  Route::post( '/watchProduct', 'WatchlistController@watchProduct' );
+  Route::post( '/unwatchProduct', 'WatchlistController@unwatchProduct' );
   Route::post( '/watchUser', 'WatchlistController@watchUser' );
   Route::post( '/unwatchUser', 'WatchlistController@unwatchUser' );
   Route::resource('watchlist','WatchlistController');
   Route::get('/watchers', 'WatchlistController@watchers');
 
 });
+
+Route::group(["before" => "role:admin"], function() {
+
+ Route::get('/admin',['as' => 'admin', 'uses' =>'AdminController@index']);
+
+});
+
+
+
 
 
 

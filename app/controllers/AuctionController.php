@@ -111,10 +111,28 @@ class AuctionController extends \BaseController {
   					$bidding->amount = $auction->minimumPrice;
   					$bidding->save();
 
+  					$watchers = DB::select("select watcherID,productID from watchlist where userID=".Auth::user()->id." and status=1 ");
+					foreach($watchers as $watcher)
+					{
+						if(!$watcher->productID){
+  						$id = $watcher->watcherID;
+  						$thisproduct = Auction::find($auction->id);
+			  			$addProduct = User::find($id);
+						$addProduct->newNotification()
+						    ->withType('AddProduct')
+						    ->withSubject(Auth::user()->username)
+						    ->withBody("has Added a new Auction event <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a>")
+						    ->regarding($thisproduct)
+						    ->deliver();
+						}    
+			  		}
   					//Save id's on Session for default sales page
   					Session::put('productID', $product->id);
   					Session::put('auctionID', $auction->id);
-  				}
+
+
+  					}
+  				
   			}
 	}
 
@@ -133,18 +151,13 @@ class AuctionController extends \BaseController {
 		// 	order by auction.created_at desc limit 4
 		//fetch auction event
 		$auctionEvent = DB::select('
-			select a.*,(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount, p.imageURL,p.productDescription
-			from auction as a
-			inner join product as p on a.productID = p.id
-			where a.id = '.$id.'
-		');
-		// $auctionEvent = DB::select('
-		// 	select a.id, a.auctionName, a.productID, a.buyoutPrice, a.startDate, a.endDate, a.incrementation,a.
-		// 	(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount, p.imageURL,p.productDescription
-		// 	from auction as a
-		// 	inner join product as p on a.productID = p.id
-		// 	where a.id = '.$id.'
-		// ');
+
+			select a.*,(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
+			p.imageURL,p.productDescription,p.userID,w.status as watched 
+			from auction as a inner join product as p on a.productID = p.id 
+			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
+			on a.productID=w.productID where a.id ='.$id
+		);
 		return View::make('pages.auction.show',compact('auctionEvent'));
 	}
 
@@ -205,9 +218,9 @@ class AuctionController extends \BaseController {
 		//If bidded, set minimum price to highest bidder
 		//else, set minimum price to starting price
 		$listings = DB::select('
-			select a.id,a.buyoutPrice, a.auctionName, p.imageURL,p.productDescription,
-			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice from auction as a 
-			inner join product as p on a.productID=p.id 
+			select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
+			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice , w.status as watched from auction as a 
+			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
 			where a.sold=0 and a.endDate != NOW() 
 			order by a.created_at desc limit 4
 		');
@@ -221,10 +234,9 @@ class AuctionController extends \BaseController {
 		if(Request::ajax()){
 			$lastID = Session::get('lastID');
 			$listings = DB::select('
-				select a.id,a.buyoutPrice, a.auctionName, p.imageURL,p.productDescription,
-				(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice
-				from auction as a 
-				inner join product as p on a.productID=p.id 
+				select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
+			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice , w.status as watched from auction as a 
+			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
 				where a.sold=0 and a.endDate != NOW() and a.id < '.$lastID.'
 				order by a.created_at desc limit 4
 			');

@@ -36,7 +36,24 @@
 			                	</div>
 			                	<div class="btn-group">
 								<button class="btn btn-primary"><span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid</button>
-								<button class="btn btn-warning"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Watch this</button>
+								
+								<button id="watch{{$auction->productID}}" 
+									class="btn btn-warning watchProduct <?php if(!$auction->watched || $auction->watched==0){echo '';}else{echo ' hidden';};?>" 
+									onclick="$(this).watchProduct({{$auction->userID}},{{$auction->productID}}, 1)" 
+									<?php if($auction->userID == Auth::user()->id){
+										echo "disabled";
+									};?>>
+									<span class="glyphicon glyphicon-eye-open">
+									</span>&nbsp;Watch this</button>
+
+								<button id="unWatch{{$auction->productID}}" 
+									style="background-color:green;" 
+									class="btn btn-success unwatchProduct <?php if(!$auction->watched || $auction->watched==0){echo 'hidden';}else{echo ' ';};?>" 
+									onclick="$(this).unwatchProduct({{$auction->userID}},{{$auction->productID}})">
+									<span class="glyphicon glyphicon-ok">
+									</span>&nbsp; Watched </button>
+
+
 								</div>
 							</div>
 							<br>

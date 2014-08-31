@@ -12,11 +12,11 @@
     </thead> 
     <tbody>
   		@foreach($notifications as $notification)
-        @if($notification['type'] == "UserWatched")
-
+        
           <tr class="<?php if($notification['is_read'] == 0){echo "unread";};?>">
             <td class="notifID hidden">{{$notification['id']}}</td>
-            <td><a href="/users/{{$notification['subject']}}"><b>{{$notification['subject']}}</b></a> {{$notification['body']}}</td>
+            <td><a href="/users/{{$notification['subject']}}"><b>{{$notification['subject']}}</b></a> {{$notification['body']}} 
+            </td>
             <td>{{carbonize($notification['sent_at'])->diffForHumans();}}</td>
             <td class="readStatus"><i>
               @if($notification['is_read'] == 1)
@@ -26,7 +26,6 @@
               @endif
             </i></td>
           </tr>
-        @endif
 
       @endforeach
       {{$notifications->links()}}

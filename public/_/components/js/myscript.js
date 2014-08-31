@@ -1,10 +1,23 @@
 //file browser
 $(document).on('change', '.btn-file :file', function() {
-  var input = $(this),
       numFiles = input.get(0).files ? input.get(0).files.length : 1,
       label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
   input.trigger('fileselect', [numFiles, label]);
 });
+
+	 
+$.fn.watchProduct = function(userID, prodID, type){
+  		$(this).addClass('hidden');
+    	$('#unWatch'+prodID).removeClass('hidden');
+ 	  $.post('/watchProduct',{userID:userID,prodID:prodID,type:type},function(data){
+	 }); 
+}
+$.fn.unwatchProduct = function(userID, prodID){
+  		$(this).addClass('hidden');
+    	$('#watch'+prodID).removeClass('hidden');
+ 	  $.post('/unwatchProduct',{userID:userID,prodID:prodID},function(data){
+		 }); 
+}
 
 $(document).ready(function(){
 	// $.ajaxSetup({
@@ -395,7 +408,7 @@ $(document).ready(function(){
 	$("[name='amount']").keydown(function(e){
 		numberOnlyInput(e);
 	});
-	$("[name='amount']").blur(function() {
+	$("[name='amount']").change(function() {
                 var amt = parseFloat(this.value);
                 $(this).val(amt.toFixed(2));
     });
@@ -732,8 +745,10 @@ $(".clickableRow").click(function() {
       });
     });
 
- $('.unread').hover(function(e) {
+
+ $('.unread').one('mouseenter',function(e) {
  	e.preventDefault(); 
+
  	var notifid=$(this).children('.notifID').text();
  	$(this).removeClass('unread');
     $(this).children('.readStatus').text('Read');
@@ -849,5 +864,7 @@ $(".clickableRow").click(function() {
 	    "moreText"  : "Read More >>",
 	    "lessText"  : "<< Less",
 	 });
+
 });//end of onload
+
 

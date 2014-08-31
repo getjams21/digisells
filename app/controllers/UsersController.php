@@ -44,6 +44,7 @@ class UsersController extends \BaseController {
 		$input = Input::only('username','email','password','password_confirmation');
 		$this->registrationForm->validate($input);
 		$user = User::create($input);
+		$user->roles()->attach(1);
 		Auth::login($user);
 
 		return Redirect::home();
