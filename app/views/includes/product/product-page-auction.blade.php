@@ -1,5 +1,3 @@
-<!-- <img src="product/images/{{$product->imageURL}}"> -->
-
 <div class="col-md-12">
 	<div class="container">
 		<div class="well product-well-prop">
@@ -44,12 +42,12 @@
 					<div class="desc-text-prop">
 						<center><p>{{$product->productDescription}}</p></center>
 					</div>
-					<!-- <div class="call-to-action">
+					<div class="call-to-action">
 						<div class="btn-group btn-group-lg btn-group-lg-prop">
 						<button class="btn btn-success btn-prop-prod"><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this</button>
 						<button class="btn btn-warning btn-prop-prod"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Watch this</button>
 						</div>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>

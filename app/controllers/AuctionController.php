@@ -105,10 +105,29 @@ class AuctionController extends \BaseController {
 
   					$auction->save();
 
+  					$watchers = DB::select("select watcherID,productID from watchlist where userID=".Auth::user()->id." and status=1 ");
+					foreach($watchers as $watcher)
+					{
+						if(!$watcher->productID){
+  						$id = $watcher->watcherID;
+  						$thisproduct = Auction::find($auction->id);
+			  			$addProduct = User::find($id);
+						$addProduct->newNotification()
+						    ->withType('AddProduct')
+						    ->withSubject(Auth::user()->username)
+						    ->withBody('has Added new Auction!')
+						    ->regarding($thisproduct)
+						    ->deliver();
+						}    
+			  		}
+
   					//Save id's on Session for default sales page
   					Session::put('productID', $product->id);
   					Session::put('auctionID', $auction->id);
-  				}
+
+
+  					}
+  				
   			}
 	}
 
@@ -121,7 +140,18 @@ class AuctionController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		// select auction.*, product.* from auction as auction 
+		// 	inner join product as product on auction.productID=product.id 
+		// 	where auction.sold=0 and auction.endDate != NOW() 
+		// 	order by auction.created_at desc limit 4
+		//fetch auction event
+		$auctionEvent = DB::select('
+			select a.*,p.imageURL,p.productDescription
+			from auction as a
+			inner join product as p on a.productID = p.id
+			where a.id = '.$id.'
+		');
+		return View::make('pages.auction.show',compact('auctionEvent'));
 	}
 
 
@@ -204,5 +234,13 @@ class AuctionController extends \BaseController {
 				return Response::json($listings);
 			}
 		}
+	}
+	public function placingBid($val){
+		if(Request::ajax()){
+  			$auctionEvent = DB::select('
+  				select auctionName, minimumPrice from auction where id = '.$val.'
+  				');
+			return Response::json($auctionEvent);
+  		}
 	}
 }

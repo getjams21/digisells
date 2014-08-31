@@ -732,7 +732,6 @@ $(".clickableRow").click(function() {
       });
     });
 
-
  $('.unread').hover(function(e) {
  	e.preventDefault(); 
  	var notifid=$(this).children('.notifID').text();
@@ -743,5 +742,107 @@ $(".clickableRow").click(function() {
       });
 
 	});
+ //bid-modal ajax request
+ 	function displayBidModal(val){
+	 	$.post('placing-bid/'+val+'',{val:val},function(data){
+			if(data){                 
+				$.each(data, function(key,value) {
+				var minimumPrice = Math.round(value.minimumPrice*100)/100;
+				  $('.bid-body')
+					.find('div')
+					.remove()
+					.end();
+				  $(".bid-body").append('\
+				  <div class="modal-header">\
+			        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>\
+			        <center><h4 class="modal-title">'+value.auctionName+'</h4></center>\
+			      </div>\
+				  	<div class="modal-body bid-body">\
+				  	<div class="well well-bid" style="background-color: #7CBFF8;">\
+						<center><div class="price">\
+							<span><h2>Starting Bid: &nbsp;$'+minimumPrice+'</h2></span>\
+						</div>\
+						<span>Enter Bid $'+minimumPrice+' or higher</span>\
+						<div class="input-group txtbox-s prop-s">\
+		                    <span class="input-group-addon">$</span>\
+		                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text" value="">\       
+	                	</div>\
+	                	<div class="btn-group">\
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
+						<button class="btn btn-primary"><span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid</button>\
+						</div>\
+					</div>\
+					</div>\
+				  	');
+				});
+				$('#bidPrice').focus();
+				$('#bid-modal').modal('show');
+	        }
+	    });
+ 	}
+	 $('.bid').click(function(event) {
+	 	// alert($(this).val());
+	 	var val = $(this).val();
+	 	displayBidModal(val);
+	 });
+
+	//load-more event for auction list
+	$('.load-more').click(function(event) {
+			$('#loading-img').show();
+			setTimeout(function(){
+			$('div.lists').show();
+	 	$.post('load-more-auction',{},function(data){
+			if(data)
+	            {                 
+				$.each(data, function(key,value) {
+				var minimumPrice = Math.round(value.minimumPrice*100)/100;
+				var buyoutPrice = Math.round(value.buyoutPrice*100)/100;
+				  $(".lists").append('\
+				  	<div class="well listing-prop">\
+				  		<div class="container-fluid">\
+				  			<div class="col-md-3">\
+				  				<div class="thumbnail shadow-default">\
+				  					<a href="/auction-listing/'+value.id+'"><img src="../product/images/'+value.imageURL+'" class="listing-img-prop"></a>\
+				  				</div>\
+				  			</div>\
+				  			<div class="col-md-9">\
+				  				<a href="/auction-listing/'+value.id+'"><div class="breadcrumb default-blue shadow-default"><center><h4>'+value.auctionName+'</h4></center></div></a>\
+								<h5><b>Starting Bid: <font color="#992D31">$'+minimumPrice+'</font></b></h5>\
+								<p class="desc">'+value.productDescription+'</p>\
+								<center>\
+								<div class="btn-group">\
+									<button class="btn btn-primary bid" value="'+value.id+'"><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>\
+									<button class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>$'+buyoutPrice+'</font></b></button>\
+									<button class="btn btn-warning"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Watch this</button>\
+								</div>\
+								</center>\
+							</div>\
+				  		</div>\
+				  	</div>\
+				  	');
+				});
+			$(".desc").shorten({
+		    "showChars" : 150,
+		    "moreText"  : "Read More >>",
+		    "lessText"  : "<< Less",
+			});
+			$('.bid').click(function(event) {
+			 	var val = $(this).val();
+	 			displayBidModal(val);
+			 });
+			$('#loading-img').hide();
+	            }else
+	            {
+	                $('div.loading').html('<center>- End of Listings -</center>');
+	            }
+	    });
+		},1500);
+	});
+	//description shortening
+	 $(".comment").shorten({
+	    "showChars" : 150,
+	    "moreText"  : "Read More >>",
+	    "lessText"  : "<< Less",
+	 });
 });//end of onload
 
