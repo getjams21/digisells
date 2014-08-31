@@ -23,6 +23,7 @@
 							<div class="thumbnail shadow-default">
 								<a href="/auction-listing/{{$list->id}}"><img src="../product/images/{{$list->imageURL}}" class="listing-img-prop"></a>
 							</div>
+							<button class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>${{round($list->buyoutPrice, 2)}}</font></b></button>
 						</div>
 						<div class="col-md-9">
 							<a href="/auction-listing/{{$list->id}}"><div class="breadcrumb default-blue shadow-default"><center><h4>{{$list->auctionName}}</h4></center></div></a>
@@ -31,9 +32,23 @@
 							<center>
 							<div class="btn-group">
 								<button class="btn btn-primary bid" value="{{$list->id}}"><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>
-								<button class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>${{round($list->buyoutPrice, 2)}}</font></b></button>
-								<button class="btn btn-warning"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Watch this</button>
-								
+								<button class="btn btn-success"><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>
+
+								<button id="watch{{$list->productID}}" 
+									class="btn btn-warning watchProduct <?php if(!$list->watched || $list->watched==0){echo '';}else{echo ' hidden';};?>" 
+									onclick="$(this).watchProduct({{$list->userID}},{{$list->productID}}, 1)" 
+									<?php if($list->userID == Auth::user()->id){
+										echo "disabled";
+									};?>>
+									<span class="glyphicon glyphicon-eye-open">
+									</span>&nbsp;Watch this</button>
+
+								<button id="unWatch{{$list->productID}}" 
+									style="background-color:green;" 
+									class="btn btn-success unwatchProduct <?php if(!$list->watched || $list->watched==0){echo 'hidden';}else{echo ' ';};?>" 
+									onclick="$(this).unwatchProduct({{$list->userID}},{{$list->productID}})">
+									<span class="glyphicon glyphicon-ok">
+									</span>&nbsp;Watched </button>
 							</div>
 							</center>
 						</div>

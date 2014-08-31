@@ -46,6 +46,11 @@ Route::post( '/searchEmail', 'UsersController@searchPostEmail' );
 Route::patch( '/updateAccount', 'UsersController@updateAccount' );
 #Selling Platform Option
 Route::get('/selling', 'HomePageController@selling');
+
+Route::get('/auction-listings', 'AuctionController@showAuctionListings');
+Route::post('/load-more-auction', 'AuctionController@loadMoreAuction');
+Route::get('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionController@placingBid']);
+  #Bidding Process
 #Users dashboard routes set auth to login users
 #AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
@@ -53,9 +58,7 @@ Route::group(["before" => "auth"], function() {
   Route::resource('/auction', 'AuctionController');
   Route::resource('/auction-listing', 'AuctionController');
   Route::get('sales-page/default', 'AuctionController@showAuctionDefault');
-  Route::get('/auction-listings', 'AuctionController@showAuctionListings');
-  Route::post('/load-more-auction', 'AuctionController@loadMoreAuction');
-  Route::post('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionController@placingBid']);
+  Route::resource('/place-bid', 'BiddingController');
   #Direct Selling Platform
   Route::resource('/direct-selling', 'DirectSellingController');
   Route::resource('/sales-page-default', 'SalesPageController');
@@ -78,6 +81,8 @@ Route::group(["before" => "auth"], function() {
   Route::post('direct-selling/{step}', array('as' => 'direct-selling', 'uses' => 'DirectSellingController@listingSteps'));
   Route::resource('/product-selling', 'DirectSellingController');
   #watchlist
+  Route::post( '/watchProduct', 'WatchlistController@watchProduct' );
+  Route::post( '/unwatchProduct', 'WatchlistController@unwatchProduct' );
   Route::post( '/watchUser', 'WatchlistController@watchUser' );
   Route::post( '/unwatchUser', 'WatchlistController@unwatchUser' );
   Route::resource('watchlist','WatchlistController');

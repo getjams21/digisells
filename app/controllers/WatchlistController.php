@@ -80,7 +80,62 @@ class WatchlistController extends \BaseController {
   			return Response::json($watchlist);
   			
   		}
+
+	}
+	public function watchProduct()
+	{
+  		if(Request::ajax()){
+			$input=Input::all();
+			$userID=$input['userID'];
+			$prodID=$input['prodID'];
+			$type=$input['type'];
+			$watchlist = DB::select("select * from watchlist where watcherID=".Auth::user()->id." and userID=".$userID." and productID=".$prodID);
 	
+  			if($watchlist)
+			{
+				DB::table('watchlist')->where('id', '=', $watchlist[0]->id)
+	->update(array('status' => 1));
+  			}else{
+  			$watchlist = new Watchlist;
+  			$watchlist->userID=$userID;
+  			$watchlist->watcherID=Auth::user()->id;
+  			$watchlist->productID=$prodID;
+  			$watchlist->status=1;
+  			$watchlist->save();
+  			}
+			$thisuser = User::find($userID);
+  			$watchProduct = $thisuser;
+  			if($type == 1){
+  				$product= Auction::where('productID', '=', $prodID)->first();
+  				$watchProduct->newNotification()
+			    ->withType('ProductWatched')
+			    ->withSubject(Auth::user()->username)
+			    ->withBody("has started watching your <a href='/auction-listing/".$product->id."'> <b>".$product->auctionName." </b></a> ")
+				->regarding($product)
+			    ->deliver();
+	  		}else{
+	  			// Direct selling watchlist here
+  				$product= Selling::where('productID', '=', $prodID)->first();
+  			}
+  			
+			  // return Response::json($product);
+  			
+  		}	
+  	}
+  	public function unwatchProduct()
+	{
+		if(Request::ajax()){
+			$input=Input::all();
+			$userID=$input['userID'];
+			$prodID=$input['prodID'];
+			$watchlist = DB::select("select * from watchlist where watcherID=".Auth::user()->id." and userID=".$userID." and productID=".$prodID);
+			
+			DB::table('watchlist')->where('id', '=', $watchlist[0]->id)
+	->update(array('status' => 0));
+  			return Response::json($watchlist);
+  			
+  		}
+
 	}
 	/**
 	 * Show the form for creating a new resource.
