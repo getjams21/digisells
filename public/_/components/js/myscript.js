@@ -744,7 +744,7 @@ $(".clickableRow").click(function() {
 	});
  //bid-modal ajax request
  	function displayBidModal(val){
-	 	$.post('placing-bid/'+val+'',{val:val},function(data){
+	 	$.get('placing-bid/'+val+'',{val:val},function(data){
 			if(data){                 
 				$.each(data, function(key,value) {
 				var minimumPrice = Math.round(value.minimumPrice*100)/100;
@@ -763,14 +763,18 @@ $(".clickableRow").click(function() {
 							<span><h2>Starting Bid: &nbsp;$'+minimumPrice+'</h2></span>\
 						</div>\
 						<span>Enter Bid $'+minimumPrice+' or higher</span>\
+						<form method="GET" action="http://digisells.com/place-bid/create" accept-charset="UTF-8" enctype="multipart/form-data">\
 						<div class="input-group txtbox-s prop-s">\
 		                    <span class="input-group-addon">$</span>\
 		                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text" value="">\       
+	                		<input type="hidden" name="id" value="'+value.id+'">
+	                		<input type="hidden" name="minPrice" value="'+minimumPrice+'">
 	                	</div>\
 	                	<div class="btn-group">\
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
-						<button class="btn btn-primary"><span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid</button>\
+						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid</button>\
 						</div>\
+						</form>\
 					</div>\
 					</div>\
 				  	');
@@ -804,6 +808,7 @@ $(".clickableRow").click(function() {
 				  				<div class="thumbnail shadow-default">\
 				  					<a href="/auction-listing/'+value.id+'"><img src="../product/images/'+value.imageURL+'" class="listing-img-prop"></a>\
 				  				</div>\
+				  				<button class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>$'+buyoutPrice+'</font></b></button>\
 				  			</div>\
 				  			<div class="col-md-9">\
 				  				<a href="/auction-listing/'+value.id+'"><div class="breadcrumb default-blue shadow-default"><center><h4>'+value.auctionName+'</h4></center></div></a>\
@@ -812,7 +817,7 @@ $(".clickableRow").click(function() {
 								<center>\
 								<div class="btn-group">\
 									<button class="btn btn-primary bid" value="'+value.id+'"><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>\
-									<button class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>$'+buyoutPrice+'</font></b></button>\
+									<button class="btn btn-success"><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>\
 									<button class="btn btn-warning"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Watch this</button>\
 								</div>\
 								</center>\

@@ -37,6 +37,7 @@ class AuctionController extends \BaseController {
 		$product = new Product;
 		$auction = new Auction;
 		$copyright = new Copyright;
+		$bidding = new Bidding;
 		$imageFile = Input::file('fileUpload');
 		$copyrightFile = Input::file('copyrightFileUpload');
 
@@ -102,8 +103,13 @@ class AuctionController extends \BaseController {
   					$auction->endDate = $newDateTime;
   					$auction->incrementation = Input::get('incrementation');
   					$auction->affiliatePercentage = Input::get('affiliatePercentage');
-
   					$auction->save();
+
+  					//save default bid amount
+  					$bidding->auctionID = $auction->id;
+  					$bidding->userID = Auth::user()->id;
+  					$bidding->amount = $auction->minimumPrice;
+  					$bidding->save();
 
   					//Save id's on Session for default sales page
   					Session::put('productID', $product->id);
@@ -188,12 +194,17 @@ class AuctionController extends \BaseController {
 		}
 	}
 	public function showAuctionListings(){
+		//check if there are bidders
+		//If bidded, set minimum price to highest bidder
+		//else, set minimum price to starting price
 		$listings = DB::select('
-			select auction.*, product.* from auction as auction 
-			inner join product as product on auction.productID=product.id 
-			where auction.sold=0 and auction.endDate != NOW() 
-			order by auction.created_at desc limit 4
+			select a.id,a.buyoutPrice, a.auctionName, p.imageURL,p.productDescription,
+			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice from auction as a 
+			inner join product as p on a.productID=p.id 
+			where a.sold=0 and a.endDate != NOW() 
+			order by a.created_at desc limit 4
 		');
+		// dd($listings);
 		$lastItem = end($listings);
 		$lastID = $lastItem->id;
 		Session::put('lastID', $lastID);
@@ -203,10 +214,12 @@ class AuctionController extends \BaseController {
 		if(Request::ajax()){
 			$lastID = Session::get('lastID');
 			$listings = DB::select('
-				select auction.*, product.* from auction as auction 
-				inner join product as product on auction.productID=product.id 
-				where auction.sold=0 and auction.endDate != NOW() and auction.id < '.$lastID.'
-				order by auction.created_at desc limit 4
+				select a.id,a.buyoutPrice, a.auctionName, p.imageURL,p.productDescription,
+				(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice
+				from auction as a 
+				inner join product as p on a.productID=p.id 
+				where a.sold=0 and a.endDate != NOW() and a.id < '.$lastID.'
+				order by a.created_at desc limit 4
 			');
 			if($listings != NULL){
 				$lastItem = end($listings);
@@ -219,7 +232,9 @@ class AuctionController extends \BaseController {
 	public function placingBid($val){
 		if(Request::ajax()){
   			$auctionEvent = DB::select('
-  				select auctionName, minimumPrice from auction where id = '.$val.'
+  				select id, auctionName, 
+  				(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$val.') as minimumPrice 
+  				from auction where id = '.$val.'
   				');
 			return Response::json($auctionEvent);
   		}
