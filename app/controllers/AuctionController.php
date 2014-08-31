@@ -133,11 +133,18 @@ class AuctionController extends \BaseController {
 		// 	order by auction.created_at desc limit 4
 		//fetch auction event
 		$auctionEvent = DB::select('
-			select a.*,p.imageURL,p.productDescription
+			select a.*,(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount, p.imageURL,p.productDescription
 			from auction as a
 			inner join product as p on a.productID = p.id
 			where a.id = '.$id.'
 		');
+		// $auctionEvent = DB::select('
+		// 	select a.id, a.auctionName, a.productID, a.buyoutPrice, a.startDate, a.endDate, a.incrementation,a.
+		// 	(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount, p.imageURL,p.productDescription
+		// 	from auction as a
+		// 	inner join product as p on a.productID = p.id
+		// 	where a.id = '.$id.'
+		// ');
 		return View::make('pages.auction.show',compact('auctionEvent'));
 	}
 
