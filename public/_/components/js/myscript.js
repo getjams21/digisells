@@ -469,7 +469,7 @@ $(document).ready(function(){
                         submitbutton.removeAttr('disabled'); //enable submit button
                     	setTimeout(function(){
                     		window.location = "http://digisells.com/sales-page/default";
-                    	},2500);
+                    	},1500);
                     }
             });
 //Direct Selling Upload Progress
@@ -517,7 +517,7 @@ $(document).ready(function(){
                         submitbutton.removeAttr('disabled'); //enable submit button
                     	setTimeout(function(){
                     		window.location = "http://digisells.com/sales-page-default";
-                    	},2500);
+                    	},1500);
                     }
             });
 //change body tag with its meta-title
@@ -743,6 +743,5 @@ $(".clickableRow").click(function() {
       });
 
 	});
-
 });//end of onload
 

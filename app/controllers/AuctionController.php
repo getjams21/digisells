@@ -176,5 +176,33 @@ class AuctionController extends \BaseController {
 			return Redirect::to('auction');
 		}
 	}
-
+	public function showAuctionListings(){
+		$listings = DB::select('
+			select auction.*, product.* from auction as auction 
+			inner join product as product on auction.productID=product.id 
+			where auction.sold=0 and auction.endDate != NOW() 
+			order by auction.created_at desc limit 4
+		');
+		$lastItem = end($listings);
+		$lastID = $lastItem->id;
+		Session::put('lastID', $lastID);
+		return View::make('pages.auction.auction-listings',compact('listings'));
+	}
+	public function loadMoreAuction(){
+		if(Request::ajax()){
+			$lastID = Session::get('lastID');
+			$listings = DB::select('
+				select auction.*, product.* from auction as auction 
+				inner join product as product on auction.productID=product.id 
+				where auction.sold=0 and auction.endDate != NOW() and auction.id < '.$lastID.'
+				order by auction.created_at desc limit 4
+			');
+			if($listings != NULL){
+				$lastItem = end($listings);
+				$lastID = $lastItem->id;
+				Session::put('lastID', $lastID);
+				return Response::json($listings);
+			}
+		}
+	}
 }
