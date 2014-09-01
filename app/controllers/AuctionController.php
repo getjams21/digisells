@@ -151,7 +151,9 @@ class AuctionController extends \BaseController {
 		// 	order by auction.created_at desc limit 4
 		//fetch auction event
 		$auctionEvent = DB::select('
-			select a.*,p.imageURL,p.productDescription,p.userID,w.status as watched 
+
+			select a.*,(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
+			p.imageURL,p.productDescription,p.userID,w.status as watched 
 			from auction as a inner join product as p on a.productID = p.id 
 			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
 			on a.productID=w.productID where a.id ='.$id

@@ -27,9 +27,9 @@
 							</div>
 							<div class="well well-bid">
 								<center><div class="price">
-									<span><h2>Starting Bid: &nbsp;${{round($auction->minimumPrice, 2)}}</h2></span>
+									<span><h2>Starting Bid: &nbsp;${{round($auction->amount, 2)}}</h2></span>
 								</div>
-								<span>Enter Bid ${{round($auction->minimumPrice, 2)}} or higher</span>
+								<span>Enter Bid ${{round($auction->amount, 2)}} or higher</span>
 								<div class="input-group txtbox-s prop-s">
 				                    <span class="input-group-addon">$</span>
 				                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text" value="">         
