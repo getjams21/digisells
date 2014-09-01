@@ -8,9 +8,15 @@ class WatchlistController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{
-		$watchlist = DB::select("select a.*,b.username,c.productName from watchlist as a inner join
-		user as b on a.userID=b.id left join product as c on a.productID=c.id where a.watcherID=".Auth::user()->id." and a.status= 1 order by created_at desc");
+	{	$sortBy= Request::get('sortBy') ?: 'created_at' ;
+		$direction = Request::get('direction') ?: 'desc' ;
+		$watchlist = DB::select("select a.*,b.username,c.id as auctionID,c.auctionName,
+			d.id as sellingID,d.sellingName from watchlist as a inner join
+		user as b on a.userID=b.id left join auction as c 
+		on a.productID=c.productID left join selling as d 
+		on a.productID=d.productID where a.watcherID=".Auth::user()->id." 
+		and a.status= 1 order by ".$sortBy." ".$direction);
+
 		if(!Input::get('page')){
 		$currentPage = Input::get('page');
 		}else{
@@ -18,13 +24,21 @@ class WatchlistController extends \BaseController {
 		}
 		$pagedData = array_slice($watchlist, $currentPage *10, 10);
 		$watchlist = Paginator::make($pagedData, count($watchlist), 10);
-		return View::make('dashboard.watchlist',['watchlists' => $watchlist]);
+		$event="Watching";
+		return View::make('dashboard.watchlist',['watchlists' => $watchlist,'event'=>$event]);
 		// dd($watchlist);
 	}
 	public function watchers()
-	{
-		$watchers = DB::select("select a.*,b.username,c.productName from watchlist as a inner join
-		user as b on a.watcherID=b.id left join product as c on a.productID=c.id where a.userID=".Auth::user()->id." and a.status= 1 order by created_at desc");
+	{	
+		$sortBy= Request::get('sortBy') ?: 'created_at' ;
+		$direction = Request::get('direction') ?: 'desc' ;
+		$watchers = DB::select("select a.*,b.username,c.id as auctionID,c.auctionName,
+			d.id as sellingID,d.sellingName from watchlist as a inner join
+			user as b on a.watcherID=b.id left join auction as c 
+			on a.productID=c.productID left join selling as d 
+			on a.productID=d.productID where a.userID=".Auth::user()->id." 
+			and a.status= 1 order by ".$sortBy." ".$direction );
+
 		if(!Input::get('page')){
 		$currentPage = Input::get('page');
 		}else{
@@ -32,9 +46,8 @@ class WatchlistController extends \BaseController {
 		}
 		$pagedData = array_slice($watchers, $currentPage *10, 10);
 		$watchers = Paginator::make($pagedData, count($watchers), 10);
-		return View::make('dashboard.watchers',['watchers' => $watchers]);
-		// echo '<pre>';
-		// dd($watchers);
+		$event="Watchers";
+		return View::make('dashboard.watchlist',['watchlists' => $watchers,'event'=>$event]);
 	}
 
 	public function watchUser()
@@ -42,7 +55,8 @@ class WatchlistController extends \BaseController {
 		if(Request::ajax()){
 			$user=Input::all();
 			$userid=$user['id'];
-			$watchlist = DB::select("select * from watchlist where watcherID=".Auth::user()->id." and userID=".$userid);
+			$watchlist = DB::select("select * from watchlist where watcherID=".Auth::user()->id.
+				" and userID=".$userid." and productID is null");
 			if($watchlist)
 			{
 				DB::table('watchlist')->where('id', '=', $watchlist[0]->id)
@@ -73,7 +87,8 @@ class WatchlistController extends \BaseController {
 		if(Request::ajax()){
 			$user=Input::all();
 			$userid=$user['id'];
-			$watchlist = DB::select("select * from watchlist where watcherID=".Auth::user()->id." and userID=".$userid);
+			$watchlist = DB::select("select * from watchlist where watcherID=".Auth::user()->id.
+				" and userID=".$userid." and productID is null");
 			
 			DB::table('watchlist')->where('id', '=', $watchlist[0]->id)
 	->update(array('status' => 0));

@@ -36,3 +36,8 @@ function dateformat($date){
 function timeformat($date){
 	return date("g:i a",strtotime($date));
 }
+function sortBy($column,$body,$route)
+{
+	$direction = (Request::get('direction')=='asc') ? 'desc' : 'asc';
+	return link_to_route($route, $body, ['sortBy'=>$column,'direction'=>$direction]);
+}

@@ -64,7 +64,7 @@ class UsersController extends \BaseController {
 			$user = User::whereUsername($username)->firstOrFail();
 			$activity=$user->last_activity->diffForHumans();
 			$member=$user->created_at->diffForHumans();
-			$watched =DB::select("select status from watchlist where watcherID=".Auth::user()->id." and userID=".$user->id);
+			$watched =DB::select("select status from watchlist where watcherID=".Auth::user()->id." and userID=".$user->id. " and productID is null");
 			return View::make('users.show',['user' => $user,'activity' => $activity,'member' => $member,'watched'=>$watched]);	
 		}
 		catch(ModelNotFoundException $e)

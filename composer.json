@@ -9,7 +9,8 @@
 		"laracasts/validation": "~1.0",
 		"intervention/image": "dev-master",
 		"nesbot/carbon": "1.10.0",
-		"kartik-v/bootstrap-star-rating": "dev-master"
+		"kartik-v/bootstrap-star-rating": "dev-master",
+		 "paypal/adaptivepayments-sdk-php":"v3.6.106"
 	},
 	"autoload": {
 		"classmap": [
@@ -47,7 +48,6 @@
 	
 	"require-dev": {
     "anouar/paypalpayment": "dev-master"
-	},
-        "paypal/adaptivepayments-sdk-php":"v3.6.106"
-
+	}
+       
 }
