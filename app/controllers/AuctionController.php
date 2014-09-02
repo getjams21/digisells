@@ -145,20 +145,24 @@ class AuctionController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		// select auction.*, product.* from auction as auction 
-		// 	inner join product as product on auction.productID=product.id 
-		// 	where auction.sold=0 and auction.endDate != NOW() 
-		// 	order by auction.created_at desc limit 4
-		//fetch auction event
 		$auctionEvent = DB::select('
-
-			select a.*,(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
+			select a.*,
+			(SELECT COUNT(id) from bidding where auctionID = '.$id.') as bidders,
+			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
 			p.imageURL,p.productDescription,p.userID,w.status as watched 
 			from auction as a inner join product as p on a.productID = p.id 
 			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
 			on a.productID=w.productID where a.id ='.$id
 		);
-		return View::make('pages.auction.show',compact('auctionEvent'));
+		// @foreach ($auctionEvent as $auction)
+		// 	if ($auction->incrementation == '0'){
+		// 		$incBy = $auction->amount * 0.05;
+		// 		$incValue = $auction->amount + $incBy;
+		// 	}else{
+		// 		$incValue = $auction->amount + $auction->incrementation;
+		// 	}
+		// @endforeach
+		return View::make('pages.auction.show',compact('auctionEvent','incValue'));
 	}
 
 
@@ -219,6 +223,7 @@ class AuctionController extends \BaseController {
 		//else, set minimum price to starting price
 		$listings = DB::select('
 			select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
+			(SELECT COUNT(id) from bidding where auctionID = a.id) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice , w.status as watched from auction as a 
 			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
 			where a.sold=0 and a.endDate != NOW() 
@@ -234,7 +239,8 @@ class AuctionController extends \BaseController {
 		if(Request::ajax()){
 			$lastID = Session::get('lastID');
 			$listings = DB::select('
-				select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
+			select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
+			(SELECT COUNT(id) from bidding where auctionID = a.id) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice , w.status as watched from auction as a 
 			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
 				where a.sold=0 and a.endDate != NOW() and a.id < '.$lastID.'
@@ -250,10 +256,12 @@ class AuctionController extends \BaseController {
 	}
 	public function placingBid($val){
 		if(Request::ajax()){
-  			$auctionEvent = DB::select('
-  				select id, auctionName, 
-  				(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$val.') as minimumPrice 
-  				from auction where id = '.$val.'
+  			$auctionEvent = DB::select('               
+			select a.id, a.auctionName, a.incrementation,
+				COUNT(b.id) as bidders, MAX(b.amount) as minimumPrice
+			    from auction as a
+			    inner join bidding as b on a.id=b.auctionID
+			    where a.id = '.$val.'
   				');
 			return Response::json($auctionEvent);
   		}

@@ -114,7 +114,7 @@
                         {{ Form::label('', 'Incremented by:'); }}
                     <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        {{ Form::text('incrementation','0.01',
+                        {{ Form::text('incrementation','0',
                         array(
                         'class'=>'form-control span3 square',
                         'placeholder'=>'Increment value',

@@ -763,6 +763,14 @@ $(".clickableRow").click(function() {
 			if(data){                 
 				$.each(data, function(key,value) {
 				var minimumPrice = Math.round(value.minimumPrice*100)/100;
+				var incrementation = value.incrementation;
+				var incrementValue;
+				if(incrementation == '0'){
+					var incrementBy = parseFloat(minimumPrice * 0.05);
+					incrementValue = Math.round(parseFloat(incrementBy + minimumPrice)*100)/100;
+				}else{
+					incrementValue = Math.round(parseFloat(minimumPrice + incrementation)*100)/100;
+				}
 				  $('.bid-body')
 					.find('div')
 					.remove()
@@ -775,15 +783,15 @@ $(".clickableRow").click(function() {
 				  	<div class="modal-body bid-body">\
 				  	<div class="well well-bid" style="background-color: #7CBFF8;">\
 						<center><div class="price">\
-							<span><h2>Starting Bid: &nbsp;$'+minimumPrice+'</h2></span>\
+							<span><h2>Current Bid: &nbsp;$'+minimumPrice+'</h2></span>\
 						</div>\
-						<span>Enter Bid $'+minimumPrice+' or higher</span>\
-						<form method="GET" action="http://digisells.com/place-bid/create" accept-charset="UTF-8" enctype="multipart/form-data">\
+						<span>Enter Bid <font color="#992D31"><b>$'+incrementValue+'</b></font> or higher</span>\
+						<form method="POST" action="http://digisells.com/place-bid/create" accept-charset="UTF-8" enctype="multipart/form-data">\
 						<div class="input-group txtbox-s prop-s">\
 		                    <span class="input-group-addon">$</span>\
 		                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text" value="">\       
-	                		<input type="hidden" name="id" value="'+value.id+'">
-	                		<input type="hidden" name="minPrice" value="'+minimumPrice+'">
+	                		<input type="hidden" name="auctionID" value="'+value.id+'">
+	                		<input type="hidden" name="minPrice" value="'+incrementValue+'">
 	                	</div>\
 	                	<div class="btn-group">\
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
@@ -827,7 +835,7 @@ $(".clickableRow").click(function() {
 				  			</div>\
 				  			<div class="col-md-9">\
 				  				<a href="/auction-listing/'+value.id+'"><div class="breadcrumb default-blue shadow-default"><center><h4>'+value.auctionName+'</h4></center></div></a>\
-								<h5><b>Starting Bid: <font color="#992D31">$'+minimumPrice+'</font></b></h5>\
+								<h5><b>Current Bid: <font color="#992D31">$'+minimumPrice+'</font>&nbsp;&nbsp;&nbsp;Number of Bidders:&nbsp;<font color="#992D31">'+value.bidders+'</font></b></h5>\
 								<p class="desc">'+value.productDescription+'</p>\
 								<center>\
 								<div class="btn-group">\
@@ -864,6 +872,8 @@ $(".clickableRow").click(function() {
 	    "moreText"  : "Read More >>",
 	    "lessText"  : "<< Less",
 	 });
+
+	//varify bid
 
 });//end of onload
 

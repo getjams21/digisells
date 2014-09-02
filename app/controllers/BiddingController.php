@@ -20,14 +20,7 @@ class BiddingController extends \BaseController {
 	 */
 	public function create()
 	{
-		//verify the bid if it is higher than the minimum price
-		if(Input::get('bidPrice') >= Input::get('minPrice')){
-			$bidding = new Bidding;
-			$bidding->auctionID = Input::get('id');
-			$bidding->userID = Auth::user()->id;
-			$bidding->amount = Input::get('bidPrice');
-			$bidding->save();
-		}
+		
 	}
 
 
@@ -38,7 +31,16 @@ class BiddingController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		//verify the bid if it is higher than the minimum price
+		if(parseFloat(Input::get('bidPrice')) >= parseFloat(Input::get('minPrice'))){
+			$bidding = new Bidding;
+			$bidding->auctionID = Input::get('auctionID');
+			$bidding->userID = Auth::user()->id;
+			$bidding->amount = Input::get('bidPrice');
+			dd(Input::get('bidPrice'));
+			//bidding->save();
+
+		}
 	}
 
 
