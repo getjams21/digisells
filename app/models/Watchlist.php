@@ -5,5 +5,8 @@ class Watchlist extends \Eloquent {
 	protected $guarded = ['id'];
 	protected $fillable = [];
 
-
+// public function user()
+//     {
+//         return $this->belongsTo('User');
+//     }
 }

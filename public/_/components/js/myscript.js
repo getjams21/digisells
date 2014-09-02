@@ -824,6 +824,19 @@ $(".clickableRow").click(function() {
 				$.each(data, function(key,value) {
 				var minimumPrice = Math.round(value.minimumPrice*100)/100;
 				var buyoutPrice = Math.round(value.buyoutPrice*100)/100;
+				var currentID = $('#currentID').val();
+				if(currentID == value.userID){
+					var current = 'disabled';
+				}else{
+					var current = ' ';
+				}
+				if(value.watched == 1){
+					var watched = ' ';
+					var notwatched = 'hidden';
+					}else{
+					var watched = 'hidden';
+					var notwatched = ' ';
+					}
 				  $(".lists").append('\
 				  	<div class="well listing-prop">\
 				  		<div class="container-fluid">\
@@ -841,7 +854,16 @@ $(".clickableRow").click(function() {
 								<div class="btn-group">\
 									<button class="btn btn-primary bid" value="'+value.id+'"><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>\
 									<button class="btn btn-success"><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>\
-									<button class="btn btn-warning"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Watch this</button>\
+								<button id="watch'+value.productID+'"\
+									class="btn btn-warning watchProduct '+notwatched+'"\
+									onclick="$(this).watchProduct('+value.userID+','+value.productID+', 1)" '+current+'>\
+									<span class="glyphicon glyphicon-eye-open">\
+									</span>&nbsp;Watch this</button>\
+								<button id="unWatch'+value.productID+'" style="background-color:green; "\ 
+									class="btn btn-success unwatchProduct '+watched+' "\ 
+									onclick="$(this).unwatchProduct('+value.userID+','+value.productID+')">\
+									<span class="glyphicon glyphicon-ok">\
+									</span>&nbsp;Watched </button>\
 								</div>\
 								</center>\
 							</div>\

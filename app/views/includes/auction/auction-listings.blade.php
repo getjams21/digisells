@@ -17,6 +17,7 @@
 		<div class="col-md-3">
 		</div>
 		<div class="col-md-9" style="background-color:white;">
+			<input id="currentID" type="text" value="{{Auth::user()->id}}" hidden>
 			@foreach($listings as $list)
 			<br>
 			<div class="container-fluid">

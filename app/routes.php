@@ -15,9 +15,6 @@
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
-//   $user= User::whereId(2)->first()->roles()->attach(1);
-
-
 // });
 
 Route::get('page', 'HomePageController');
@@ -85,8 +82,10 @@ Route::group(["before" => "auth"], function() {
   Route::post( '/unwatchProduct', 'WatchlistController@unwatchProduct' );
   Route::post( '/watchUser', 'WatchlistController@watchUser' );
   Route::post( '/unwatchUser', 'WatchlistController@unwatchUser' );
-  Route::resource('watchlist','WatchlistController');
-  Route::get('/watchers', 'WatchlistController@watchers');
+  Route::get('/watchlist', ['as' => 'watchlist', 'uses' => 'WatchlistController@index']);
+  // Route::resource('watchlist','WatchlistController');
+  Route::get('/watchers', ['as' => 'watchers', 'uses' => 'WatchlistController@watchers']);
+
 
 });
 

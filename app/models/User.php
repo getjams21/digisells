@@ -125,4 +125,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->roles()->detach($role);
 	}
+	// public function watchlists()
+	// {
+	// 	return $this->belongsToMany('Watchlist','userID');
+	// }
 }
