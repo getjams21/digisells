@@ -154,14 +154,6 @@ class AuctionController extends \BaseController {
 			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
 			on a.productID=w.productID where a.id ='.$id
 		);
-		// @foreach ($auctionEvent as $auction)
-		// 	if ($auction->incrementation == '0'){
-		// 		$incBy = $auction->amount * 0.05;
-		// 		$incValue = $auction->amount + $incBy;
-		// 	}else{
-		// 		$incValue = $auction->amount + $auction->incrementation;
-		// 	}
-		// @endforeach
 		return View::make('pages.auction.show',compact('auctionEvent','incValue'));
 	}
 

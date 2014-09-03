@@ -30,7 +30,7 @@
 							<span><h2>Current Bid: ${{round($auction->amount, 2)}}</h2></span>
 						</div>
 						<div class="bidders">
-							<span>Number of Bidders: &nbsp;<font color="#992D31" size="3"><b>{{$auction->bidders}}</b></font></span>
+							<span>Number of Bids: &nbsp;<font color="#992D31" size="3"><b>{{($auction->bidders)-1}}</b></font></span>
 						</div>
 						<span>Enter Bid
 							@if ($auction->incrementation == '0')
@@ -45,10 +45,20 @@
 		                    <span class="input-group-addon">$</span>
 		                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text" value="">
 		                    <input type="hidden" name="auctionID" value="{{$auction->id}}">
-	                		<input type="hidden" name="minPrice" value="'{{$incValue}}'">        
+	                		<input type="hidden" name="minPrice" value="{{$incValue}}">        
 	                	</div>
+	                	@if (Session::has('flash_message'))
+							<div class="form-group ">
+								<p>{{Session::get('flash_message') }}</p>
+							</div>
+						@endif
 	                	<div class="btn-group">
-						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid</button>
+						<button type="submit" class="btn btn-primary"
+							<?php if($auction->userID == Auth::user()->id){
+									echo "disabled";
+								};?>>
+							<span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid
+						</button>
 						{{ Form::close() }}
 						<button id="watch{{$auction->productID}}" 
 							class="btn btn-warning watchProduct <?php if(!$auction->watched || $auction->watched==0){echo '';}else{echo ' hidden';};?>" 

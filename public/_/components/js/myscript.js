@@ -786,7 +786,7 @@ $(".clickableRow").click(function() {
 							<span><h2>Current Bid: &nbsp;$'+minimumPrice+'</h2></span>\
 						</div>\
 						<span>Enter Bid <font color="#992D31"><b>$'+incrementValue+'</b></font> or higher</span>\
-						<form method="POST" action="http://digisells.com/place-bid/create" accept-charset="UTF-8" enctype="multipart/form-data">\
+						<form method="POST" action="http://digisells.com/place-bid" accept-charset="UTF-8">\
 						<div class="input-group txtbox-s prop-s">\
 		                    <span class="input-group-addon">$</span>\
 		                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text" value="">\       
@@ -795,7 +795,7 @@ $(".clickableRow").click(function() {
 	                	</div>\
 	                	<div class="btn-group">\
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
-						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid</button>\
+						<button type="submit" class="btn btn-primary btnSubmit"><span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid</button>\
 						</div>\
 						</form>\
 					</div>\
@@ -812,7 +812,6 @@ $(".clickableRow").click(function() {
 	 	var val = $(this).val();
 	 	displayBidModal(val);
 	 });
-
 	//load-more event for auction list
 	$('.load-more').click(function(event) {
 			$('#loading-img').show();
@@ -825,6 +824,7 @@ $(".clickableRow").click(function() {
 				var minimumPrice = Math.round(value.minimumPrice*100)/100;
 				var buyoutPrice = Math.round(value.buyoutPrice*100)/100;
 				var currentID = $('#currentID').val();
+				var bidders = parseInt(value.bidders - 1);
 				if(currentID == value.userID){
 					var current = 'disabled';
 				}else{
@@ -846,14 +846,14 @@ $(".clickableRow").click(function() {
 				  				</div>\
 				  				<button class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>$'+buyoutPrice+'</font></b></button>\
 				  			</div>\
-				  			<div class="col-md-9">\
+				  			<div class="col-md-9 with-error-msg">\
 				  				<a href="/auction-listing/'+value.id+'"><div class="breadcrumb default-blue shadow-default"><center><h4>'+value.auctionName+'</h4></center></div></a>\
-								<h5><b>Current Bid: <font color="#992D31">$'+minimumPrice+'</font>&nbsp;&nbsp;&nbsp;Number of Bidders:&nbsp;<font color="#992D31">'+value.bidders+'</font></b></h5>\
+								<h5><b>Current Bid: <font color="#992D31">$'+minimumPrice+'</font>&nbsp;&nbsp;&nbsp;Number of Bidders:&nbsp;<font color="#992D31">'+bidders+'</font></b></h5>\
 								<p class="desc">'+value.productDescription+'</p>\
 								<center>\
 								<div class="btn-group">\
-									<button class="btn btn-primary bid" value="'+value.id+'"><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>\
-									<button class="btn btn-success"><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>\
+									<button class="btn btn-primary bid" value="'+value.id+'" '+current+'><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>\
+									<button class="btn btn-success" '+current+'><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>\
 								<button id="watch'+value.productID+'"\
 									class="btn btn-warning watchProduct '+notwatched+'"\
 									onclick="$(this).watchProduct('+value.userID+','+value.productID+', 1)" '+current+'>\
@@ -894,9 +894,13 @@ $(".clickableRow").click(function() {
 	    "moreText"  : "Read More >>",
 	    "lessText"  : "<< Less",
 	 });
-
 	//varify bid
-
+	$('.btn-close').click(function(event) {
+	 	$('.error')
+			.find('div')
+			.remove()
+			.end();
+	 });
 });//end of onload
 
 

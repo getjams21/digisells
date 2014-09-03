@@ -32,14 +32,22 @@ class BiddingController extends \BaseController {
 	public function store()
 	{
 		//verify the bid if it is higher than the minimum price
-		if(parseFloat(Input::get('bidPrice')) >= parseFloat(Input::get('minPrice'))){
+		$bidPrice = (float) Input::get('bidPrice');
+		$minPrice = (float) Input::get('minPrice');
+		if($bidPrice >= $minPrice){
 			$bidding = new Bidding;
 			$bidding->auctionID = Input::get('auctionID');
 			$bidding->userID = Auth::user()->id;
 			$bidding->amount = Input::get('bidPrice');
-			dd(Input::get('bidPrice'));
-			//bidding->save();
-
+			$bidding->save();
+			Session::put('auctionID', Input::get('auctionID'));
+			return Redirect::action('AuctionController@show',[Input::get('auctionID')])
+				->withFlashMessage('<div class="alert alert-success square error-bid" role="alert"><b>Horray! You are the current highest bidder!</b></div>');
+		}
+		else{
+			Session::put('auctionID', Input::get('auctionID'));
+			// dd(Session::get('auctionID'));
+			return Redirect::action('AuctionController@show',[Input::get('auctionID')])->withFlashMessage('<div class="alert alert-danger square error-bid" role="alert"><b>Oopps..Your bid is too low!</b></div>');
 		}
 	}
 
