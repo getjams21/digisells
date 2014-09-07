@@ -124,6 +124,12 @@ class WithdrawalController extends \BaseController {
 		$paymentDetailsResponse = $adaptivePaymentsService->PaymentDetails($paymentDetailsRequest);
 		
 		if(strtoupper($paymentDetailsResponse->status == 'COMPLETED')) {
+			// $withdrawal=new Withdrawal;
+		 //    $withdrawal->userID=Auth::user()->id;
+		 //    $withdrawal->paymentID = $payment->getId();
+		 //    $withdrawal->methodID = 2;
+		 //    $withdrawal->amount = $input['amount'];
+		 //    $withdrawal->save();
 			return Redirect::to('withdrawal/'.$paymentDetailsRequest->payKey);
     	}else{
     	return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Something has gone wrong.</div></center>');	
