@@ -1,5 +1,6 @@
 //file browser
 $(document).on('change', '.btn-file :file', function() {
+	var input = $(this),
       numFiles = input.get(0).files ? input.get(0).files.length : 1,
       label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
   input.trigger('fileselect', [numFiles, label]);
@@ -18,6 +19,7 @@ $.fn.unwatchProduct = function(userID, prodID){
  	  $.post('/unwatchProduct',{userID:userID,prodID:prodID},function(data){
 		 }); 
 }
+
 
 $(document).ready(function(){
 	// $.ajaxSetup({
@@ -38,6 +40,19 @@ $(document).ready(function(){
         }
         
     });
+$("#print").click(function(){
+	$("#Printable").printThis({
+	     debug: false,             
+	     importCSS: true,           
+	     printContainer: true,       
+	     loadCSS: "public/_/css/mystyle.css", 
+	     pageTitle: "Digisells Invoice",              
+	     removeInline: false,        
+	     printDelay: 333,           
+	     header: null,              
+	     formValues: true            
+	  });
+});
 
 	//Disable Submit Button
 	$('#SubmitButton').prop('disabled', true);

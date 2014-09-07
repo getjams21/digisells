@@ -28,5 +28,6 @@
 		{{ HTML::script('_/js/jquery.form.js') }}
 		@yield('scripts')
 		{{ HTML::script('_/js/myscript.js')}}
+		{{ HTML::script('_/js/printThis.js') }}
 	</body>
 </html>
