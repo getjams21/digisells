@@ -69,12 +69,12 @@ Route::group(["before" => "auth"], function() {
   #NOTIFICATIONS
   Route::post( '/readNotif', 'DashboardController@readNotif' );
   #Funds Controller
-  Route::resource('funds', 'FundsController');
   Route::get('/addFunds','FundsController@create');
   #PAYMENT
   Route::resource('payment', 'PaymentController');
   Route::post('paypal', 'PaymentController@paypal');
   Route::get('execute', 'PaymentController@execute');
+  Route::resource('withdrawal', 'WithdrawalController');
   Route::post('direct-selling/{step}', array('as' => 'direct-selling', 'uses' => 'DirectSellingController@listingSteps'));
   Route::resource('/product-selling', 'DirectSellingController');
   #watchlist

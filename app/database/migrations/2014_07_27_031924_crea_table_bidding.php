@@ -17,6 +17,7 @@ class CreaTableBidding extends Migration {
 			$table -> increments('id');
 			$table -> integer('auctionID')->unsigned();
 			$table -> integer('userID')->unsigned();
+			$table -> boolean('highestBid')->default(1);
 			$table -> decimal('amount', 19, 4);
 			$table -> decimal('maxBid', 19, 4);
 			$table -> timestamps();

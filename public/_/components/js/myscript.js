@@ -408,9 +408,15 @@ $(document).ready(function(){
 	$("[name='amount']").keydown(function(e){
 		numberOnlyInput(e);
 	});
-	$("[name='amount']").change(function() {
+	$("[name='amount']").change(function(){
                 var amt = parseFloat(this.value);
                 $(this).val(amt.toFixed(2));
+                if(Number.isNaN(amt)){
+                	$(this).val(1..toFixed(2));
+                }
+                if (amt == 0) {
+                	$(this).val(1..toFixed(2));
+                };
     });
 	$("#cvv2").keydown(function(e){
 		numberOnlyInput(e);
@@ -757,6 +763,30 @@ $(".clickableRow").click(function() {
       });
 
 	});
+
+ // paypal email validation
+ $('#paypalemail').on('blur', function(e){ 
+      e.preventDefault();
+      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+   	  var emailbox = document.getElementById('paypalemail');
+   	  var message = document.getElementById('paypalerror');
+      var email = $('#paypalemail').val();
+      //if email is valid or not
+       if (!filter.test(emailbox.value)) {
+		    	emailbox.style.backgroundColor = badColor;
+			    message.style.color = badText;
+			    message.innerHTML = "Invalid Email Address!"
+			    $('#paypalerror').show();
+		    email.focus;
+		    return false;
+	    }else{
+	    	emailbox.style.backgroundColor = softGood;
+			    message.style.color = softGood;
+			    $('#paypalerror').hide();
+		    email.focus;
+	    }
+	});
+
  //bid-modal ajax request
  	function displayBidModal(val){
 	 	$.get('placing-bid/'+val+'',{val:val},function(data){

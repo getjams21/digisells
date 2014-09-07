@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'kartik\\' => array($vendorDir . '/kartik-v/bootstrap-star-rating'),
+    'Paypal\\' => array($baseDir . '/paypal/adaptivepayments-sdk-php/lib'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Acme\\' => array($baseDir . '/app/Acme'),
 );

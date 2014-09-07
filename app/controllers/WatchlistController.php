@@ -24,8 +24,9 @@ class WatchlistController extends \BaseController {
 		}
 		$pagedData = array_slice($watchlist, $currentPage *10, 10);
 		$watchlist = Paginator::make($pagedData, count($watchlist), 10);
+		$route = 'watchlist';
 		$event="Watching";
-		return View::make('dashboard.watchlist',['watchlists' => $watchlist,'event'=>$event]);
+		return View::make('dashboard.watchlist',['watchlists' => $watchlist,'event'=>$event,'route'=>$route]);
 		// dd($watchlist);
 	}
 	public function watchers()
@@ -46,8 +47,9 @@ class WatchlistController extends \BaseController {
 		}
 		$pagedData = array_slice($watchers, $currentPage *10, 10);
 		$watchers = Paginator::make($pagedData, count($watchers), 10);
+		$route = 'watchers';
 		$event="Watchers";
-		return View::make('dashboard.watchlist',['watchlists' => $watchers,'event'=>$event]);
+		return View::make('dashboard.watchlist',['watchlists' => $watchers,'event'=>$event,'route'=>$route]);
 	}
 
 	public function watchUser()

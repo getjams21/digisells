@@ -14,7 +14,7 @@ class AddForeignKeyToPaypalTable extends Migration {
 	{
 		Schema::table('paypal', function(Blueprint $table)
 		{
-			$table-> foreign('fundID')->references('id')->on('funds')
+			$table-> foreign('methodID')->references('id')->on('method')
 			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
@@ -28,7 +28,7 @@ class AddForeignKeyToPaypalTable extends Migration {
 	{
 		Schema::table('paypal', function(Blueprint $table)
 		{
-			$table->dropForeign('paypal_fundID_foreign');
+			$table->dropForeign('paypal_methodID_foreign');
 		});
 	}
 

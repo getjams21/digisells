@@ -10,7 +10,8 @@
 		"intervention/image": "dev-master",
 		"nesbot/carbon": "1.10.0",
 		"kartik-v/bootstrap-star-rating": "dev-master",
-		 "paypal/adaptivepayments-sdk-php":"v3.6.106"
+		 "paypal/adaptivepayments-sdk-php":"v3.6.106",
+		 "paypal/adaptiveaccounts-sdk-php":"v3.6.106"
 	},
 	"autoload": {
 		"classmap": [
@@ -25,7 +26,8 @@
 			"app/Acme/helpers.php"
 		],
 		"psr-4": {
-			"Acme\\": "app/Acme"
+			"Acme\\": "app/Acme",
+			"Paypal\\": "paypal/adaptivepayments-sdk-php/lib"
 		}
 	},
 	"scripts": {

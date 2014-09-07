@@ -49,10 +49,10 @@
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
-                             <a href="/funds"><i>Deposits</i></a>
+                             <a href="/payment"><i>Deposits</i></a>
                         </li>
                         <li>
-                             <a href="#"><i>Withdrawals</i></a>
+                             <a href="/withdrawal"><i>Withdrawals</i></a>
                        </li>
                     </ul>
                 </li>
