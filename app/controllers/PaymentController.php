@@ -20,7 +20,12 @@ class PaymentController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$user= Auth::user()->id;
+		$fund =DB::select("select a.*,b.methodName from paypal as a inner join method as b on a.methodID=b.id where a.userID=".$user." and status=1 order by a.created_at desc");
+		$currentPage = Input::get('page') - 1;
+		$pagedData = array_slice($fund, $currentPage * 10, 10);
+		$fund = Paginator::make($pagedData, count($fund), 10);
+		return View::make('funds.index',['fund' => $fund]);
 	}
 
 	/**
@@ -80,17 +85,17 @@ class PaymentController extends \BaseController {
         // print_r($payment->toArray());
         $paymentId=$payment->getId();
     	//payment execution
-	    $fund= new Funds;
-	    $fund->userID=Auth::user()->id;
-	    $fund->amountAdded=$input['amount'];
-	    $fund->methodID=1;
-	    $fund->save();
-	    $fid = $fund->id;
 	    $card= new Paypal;
-	    $card->fundID=$fid;
+	    $card->userID=Auth::user()->id;
 	    $card->paymentID=$paymentId;
+	    $card->methodID=1;
 	    $card->amount = $input['amount'];
+	    $card->status = 1;
 	    $card->save();
+	    $user = User::find(Auth::user()->id);
+	    $pastfund = $user->fund;
+	    DB::table('user')->where('id', '=', Auth::user()->id)
+	->update(array('fund' => ($pastfund + $input['amount'])));
  return Redirect::to('/payment/'.$card->paymentID)->withFlashMessage('<center><div class="alert alert-success square">Successfully Added Funds</div></center>');
 
 	}
@@ -186,7 +191,9 @@ class PaymentController extends \BaseController {
 	        }
 	    }
 	    $paypal=new Paypal;
+	    $paypal->userID=Auth::user()->id;
 	    $paypal->paymentID = $payment->getId();
+	    $paypal->methodID = 2;
 	    $paypal->amount = $input['amount'];
 	    $paypal->save();
 	    if(isset($redirectUrl)) {
@@ -196,22 +203,22 @@ class PaymentController extends \BaseController {
 	}
 
 	public function execute() {
-	$id = DB::table('paypal')->max('id');
-	$paypal = DB::table('paypal')->where('id',$id)->first();
+	$id = DB::select('Select max(id) as id from paypal where userID ='.Auth::user()->id);
+	$paypal = DB::table('paypal')->where('id',$id[0]->id)->first();
 	$paymentId=$paypal->paymentID;
-    //payment execution
     $payment = Paypalpayment::get($paymentId, $this->_apiContext);
     $execution = Paypalpayment::PaymentExecution();
     $execution->setPayer_id($_GET['PayerID']);
     $payment->execute($execution,$this->_apiContext);
-	    $fund= new Funds;
-	    $fund->userID=Auth::user()->id;
-	    $fund->amountAdded=$paypal->amount;
-	    $fund->methodID=2;
-	    $fund->save();
-	    $fid = $fund->id;
-	    DB::table('paypal')->where('id', '=', $id)
-	->update(array('fundID' => $fid));
+	    
+	DB::table('paypal')->where('id', '=', $id[0]->id)
+	->update(array('status' => 1));
+
+	$pastfund = Auth::user()->fund;
+	$newfund = $pastfund + $paypal->amount;
+	// dd($newfund);
+	DB::table('user')->where('id', '=', Auth::user()->id)
+	->update(array('fund' => $newfund));
     
  return Redirect::to('/payment/'.$paymentId)->withFlashMessage('<center><div class="alert alert-success square">Successfully Added Funds</div></center>');
 

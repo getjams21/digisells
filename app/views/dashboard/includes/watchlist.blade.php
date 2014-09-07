@@ -2,11 +2,11 @@
                       <table class="table table-hover">
                         <thead>
                           <tr class="success">
-                            <th>{{ sortBy('username','Watcher','watchlist')}}</th>
-                            <th>{{ sortBy('auctionName','Event Name','watchlist')}}</th>
-                            <th>{{ sortBy('auctionID','Type','watchlist')}}</th>
-                            <th>{{ sortBy('updated_at','Date','watchlist')}}</th>
-                            <th>{{ sortBy('status','Status','watchlist')}}</th>
+                            <th>{{ sortBy('username','Watcher',$route)}}</th>
+                            <th>{{ sortBy('auctionName','Event Name',$route)}}</th>
+                            <th>{{ sortBy('auctionID','Type',$route)}}</th>
+                            <th>{{ sortBy('updated_at','Date',$route)}}</th>
+                            <th>{{ sortBy('status','Status',$route)}}</th>
                           </tr>
                          </thead> 
                          <tbody>

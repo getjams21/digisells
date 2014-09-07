@@ -21,11 +21,7 @@
 		@if(Auth::user())
 			@if(Auth::user()->id==$user->id)
 			<hr><h5><b>You have <a href="/funds">
-				@if(Config::get('currentfund'))
-		        ${{Config::get('currentfund')}}
-		        @else
-		        $0.00
-		        @endif </a> funds left.</b></h5>
+				$ {{Auth::user()->fund}} </a> funds left.</b></h5>
 		    @endif
 		@endif
 		<br>

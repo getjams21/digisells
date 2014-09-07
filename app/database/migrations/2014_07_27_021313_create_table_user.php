@@ -24,6 +24,7 @@ class CreateTableUser extends Migration {
 			$table -> string('paymentMethod',50)->nullable();
 			$table -> string('userImage',50)->nullable();
 			$table -> string('remember_token')->nullable();
+			$table ->decimal('fund', 19, 2)->default(0.00);
 			$table->timestamp('last_activity')->nullable();
 			$table -> timestamps();
 		});

@@ -75,13 +75,9 @@
 @else
  
   <li>
-    <a href="/funds"> <b>FUNDS: 
+    <a href="/payment"> <b>FUNDS: 
      <span class="glyphicon glyphicon-usd"></span>
-        @if(Config::get('currentfund'))
-         {{Config::get('currentfund')}}
-        @else
-        0
-        @endif
+       {{ Auth::user()->fund}}
       </b>
     </a>
   </li>
