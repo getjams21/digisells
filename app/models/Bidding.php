@@ -7,6 +7,7 @@ class Bidding extends \Eloquent {
 		'auctionID',
 		'userID',
 		'amount',
-		'maxBid'
+		'maxBid',
+		'highestBidder'
 	];
 }

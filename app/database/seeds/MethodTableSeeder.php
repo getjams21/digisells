@@ -18,7 +18,10 @@ class MethodTableSeeder extends Seeder {
 			'methodName' => 'paypal deposit',
 			'methodDesc' => 'Added Funds via Paypal'
 			]);
-	
+		Method::create([
+			'methodName' => 'bidding',
+			'methodDesc' => 'Deduct fund from bidding'
+			]);
 		// $this->call('UserTableSeeder');
 	}
 

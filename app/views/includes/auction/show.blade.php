@@ -27,7 +27,11 @@
 					</div>
 					<div class="well well-bid">
 						<center><div class="price">
-							<span><h2>Current Bid: ${{round($auction->amount, 2)}}</h2></span>
+							<span><h2><?php if($auction->highestBidder == Auth::user()->id){
+								echo "You're the current highest bidder with";
+							}else{
+								echo "Current Highest Bid:";
+							};?> ${{round($auction->amount, 2)}}</h2></span>
 						</div>
 						<div class="bidders">
 							<span>Number of Bids: &nbsp;<font color="#992D31" size="3"><b>{{($auction->bidders)-1}}</b></font></span>

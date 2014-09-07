@@ -107,10 +107,8 @@ class AuctionController extends \BaseController {
 
   					//save default bid amount
   					$bidding->auctionID = $auction->id;
-  					$bidding->userID = Auth::user()->id;
   					$bidding->amount = $auction->minimumPrice;
   					$bidding->save();
-
   					$watchers = DB::select("select watcherID,productID from watchlist where userID=".Auth::user()->id." and status=1 ");
 					foreach($watchers as $watcher)
 					{
@@ -149,6 +147,7 @@ class AuctionController extends \BaseController {
 			select a.*,
 			(SELECT COUNT(id) from bidding where auctionID = '.$id.') as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
+			(Select userID from bidding where auctionID = '.$id.' order by amount desc limit 1) as highestBidder,
 			p.imageURL,p.productDescription,p.userID,w.status as watched 
 			from auction as a inner join product as p on a.productID = p.id 
 			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
@@ -216,12 +215,13 @@ class AuctionController extends \BaseController {
 		$listings = DB::select('
 			select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
 			(SELECT COUNT(id) from bidding where auctionID = a.id) as bidders,
-			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice , w.status as watched from auction as a 
+			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
+			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder, 
+			w.status as watched from auction as a 
 			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
 			where a.sold=0 and a.endDate != NOW() 
 			order by a.created_at desc limit 4
 		');
-		// dd($listings);
 		$lastItem = end($listings);
 		$lastID = $lastItem->id;
 		Session::put('lastID', $lastID);
@@ -233,7 +233,9 @@ class AuctionController extends \BaseController {
 			$listings = DB::select('
 			select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
 			(SELECT COUNT(id) from bidding where auctionID = a.id) as bidders,
-			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice , w.status as watched from auction as a 
+			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
+			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder,
+			w.status as watched from auction as a 
 			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
 				where a.sold=0 and a.endDate != NOW() and a.id < '.$lastID.'
 				order by a.created_at desc limit 4
@@ -257,5 +259,21 @@ class AuctionController extends \BaseController {
   				');
 			return Response::json($auctionEvent);
   		}
+	}
+	public function validateReservedFunds(){
+		//select highest bids of user to a specified auction
+		//indentify if the user's bid is the highest bid on a specified auction
+		$id = Auth::user()->id;
+		$reservedFund = 0;
+		$biddings = DB::select('
+			Select auctionID, MAX(amount) as amount from bidding where userID = '.$id.' Group by auctionID
+		');
+		foreach ($biddings as $bids) {
+			$highestBidder = DB::select('Select userID from bidding where auctionID = '.$bids->auctionID.' order by amount desc limit 1');
+			if ($highestBidder->userID == $id){
+				$reservedFund = $reservedFund + $bids->amount;
+			}
+		}
+		dd($reservedFund);
 	}
 }

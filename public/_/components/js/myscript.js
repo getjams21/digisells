@@ -830,6 +830,11 @@ $(".clickableRow").click(function() {
 				}else{
 					var current = ' ';
 				}
+				if(currentID == value.highestBidder){
+					var isHighest = "You're the current highest bidder with";
+				}else{
+					var isHighest = "Current Highest Bidder";
+				}
 				if(value.watched == 1){
 					var watched = ' ';
 					var notwatched = 'hidden';
@@ -848,7 +853,7 @@ $(".clickableRow").click(function() {
 				  			</div>\
 				  			<div class="col-md-9 with-error-msg">\
 				  				<a href="/auction-listing/'+value.id+'"><div class="breadcrumb default-blue shadow-default"><center><h4>'+value.auctionName+'</h4></center></div></a>\
-								<h5><b>Current Bid: <font color="#992D31">$'+minimumPrice+'</font>&nbsp;&nbsp;&nbsp;Number of Bidders:&nbsp;<font color="#992D31">'+bidders+'</font></b></h5>\
+								<h5><b>'+isHighest+': <font color="#992D31">$'+minimumPrice+'</font>&nbsp;&nbsp;&nbsp;Number of Bidders:&nbsp;<font color="#992D31">'+bidders+'</font></b></h5>\
 								<p class="desc">'+value.productDescription+'</p>\
 								<center>\
 								<div class="btn-group">\
