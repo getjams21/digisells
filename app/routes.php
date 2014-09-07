@@ -47,7 +47,6 @@ Route::get('/selling', 'HomePageController@selling');
 Route::get('/auction-listings', 'AuctionController@showAuctionListings');
 Route::post('/load-more-auction', 'AuctionController@loadMoreAuction');
 Route::get('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionController@placingBid']);
-  #Bidding Process
 #Users dashboard routes set auth to login users
 #AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
@@ -55,6 +54,7 @@ Route::group(["before" => "auth"], function() {
   Route::resource('/auction', 'AuctionController');
   Route::resource('/auction-listing', 'AuctionController');
   Route::get('sales-page/default', 'AuctionController@showAuctionDefault');
+  #Bidding Process
   Route::resource('/place-bid', 'BiddingController');
   #Direct Selling Platform
   Route::resource('/direct-selling', 'DirectSellingController');

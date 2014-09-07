@@ -6,10 +6,10 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<br>	
-		<div class="col-md-3 refine-search">
-			<h3>Refine Search</h3>
-		</div>
+<br>
+	<div class="col-md-3 refine-search">
+		<h3>Refine Search</h3>
+	</div>
 	<div class="container">
 		<div class="col-md-3">
 		</div>
@@ -28,12 +28,20 @@
 						</div>
 						<div class="col-md-9">
 							<a href="/auction-listing/{{$list->id}}"><div class="breadcrumb default-blue shadow-default"><center><h4>{{$list->auctionName}}</h4></center></div></a>
-							<h5><b>Starting Bid: <font color="#992D31">${{round($list->minimumPrice, 2)}}</font></b></h5>
+							<h5><b>Current Bid: <font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)-1}}</font></b></h5>
 							<p class="comment">{{$list->productDescription}}</p>
 							<center>
 							<div class="btn-group">
-								<button class="btn btn-primary bid" value="{{$list->id}}"><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>
-								<button class="btn btn-success"><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>
+								<button class="btn btn-primary bid" value="{{$list->id}}"
+									<?php if($list->userID == Auth::user()->id){
+										echo "disabled";
+									};?>
+								><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>
+								<button class="btn btn-success"
+									<?php if($list->userID == Auth::user()->id){
+										echo "disabled";
+									};?>
+								><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>
 
 								<button id="watch{{$list->productID}}" 
 									class="btn btn-warning watchProduct <?php if(!$list->watched || $list->watched==0){echo '';}else{echo ' hidden';};?>" 
