@@ -16,6 +16,7 @@ class CreateTableWithdrawals extends Migration {
 		{
 			$table -> increments('id');
 			$table -> integer('userID')->unsigned();
+			$table -> string('email',50);
 			$table -> string('paykey');
 			$table -> decimal('amount', 19, 2);
 			$table -> boolean('status')->default(1);
