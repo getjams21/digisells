@@ -17,7 +17,6 @@ return array(
     'AddForeignKeyToCreditsTable' => $baseDir . '/app/database/migrations/2014_07_28_174801_add_foreign_key_to_credits_table.php',
     'AddForeignKeyToPaypalTable' => $baseDir . '/app/database/migrations/2014_07_28_175203_add_foreign_key_to_paypal_table.php',
     'AddForeignKeyToProductTable' => $baseDir . '/app/database/migrations/2014_07_28_172058_add_foreign_key_to_product_table.php',
-    'AddForeignKeyToReservedFundTable' => $baseDir . '/app/database/migrations/2014_09_04_111733_add_foreign_key_to_reserved_fund_table.php',
     'AddForeignKeyToReviewsTable' => $baseDir . '/app/database/migrations/2014_08_20_151759_add_foreign_key_to_reviews_table.php',
     'AddForeignKeyToSalesTable' => $baseDir . '/app/database/migrations/2014_07_28_171419_add_foreign_key_to_sales_table.php',
     'AddForeignKeyToSellingTable' => $baseDir . '/app/database/migrations/2014_07_28_172422_add_foreign_key_to_selling_table.php',
@@ -72,7 +71,6 @@ return array(
     'CreatTableWatchlist' => $baseDir . '/app/database/migrations/2014_08_12_112718_creat_table_watchlist.php',
     'CreateMethodTable' => $baseDir . '/app/database/migrations/2014_07_28_064319_create_method_table.php',
     'CreatePasswordRemindersTable' => $baseDir . '/app/database/migrations/2014_08_10_081407_create_password_reminders_table.php',
-    'CreateReservedFundTable' => $baseDir . '/app/database/migrations/2014_09_04_111211_create_reserved_fund_table.php',
     'CreateRoleUserTable' => $baseDir . '/app/database/migrations/2014_08_28_110625_create_role_user_table.php',
     'CreateRolesTable' => $baseDir . '/app/database/migrations/2014_08_28_105646_create_roles_table.php',
     'CreateTableComplaints' => $baseDir . '/app/database/migrations/2014_08_20_152055_create_table_complaints.php',
@@ -1865,9 +1863,6 @@ return array(
     'Whoops\\Provider\\Zend\\ExceptionStrategy' => $vendorDir . '/filp/whoops/src/Whoops/Provider/Zend/ExceptionStrategy.php',
     'Whoops\\Provider\\Zend\\RouteNotFoundStrategy' => $vendorDir . '/filp/whoops/src/Whoops/Provider/Zend/RouteNotFoundStrategy.php',
     'Whoops\\Run' => $vendorDir . '/filp/whoops/src/Whoops/Run.php',
-<<<<<<< HEAD
-=======
     'Withdrawal' => $baseDir . '/app/models/Withdrawal.php',
->>>>>>> c0e132a6f0e481e21ef6cfcb15dbeb108567d7f3
     'WithdrawalController' => $baseDir . '/app/controllers/WithdrawalController.php',
 );

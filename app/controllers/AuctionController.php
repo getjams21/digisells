@@ -93,13 +93,13 @@ class AuctionController extends \BaseController {
   					////convert date to datetime of endDate
   						$originDateTime = Input::get('endDate');
   						$copyTime = substr($originDateTime, -8);
-						$copyDate = substr($originDateTime, 0, -8);
-						  	//convert date
-						  	$copyYear = substr($copyDate, -4);
-						  	$cutYear = substr($copyDate, 0, -5);
-						  	$convertedDate = $copyYear.'-'.$cutYear;
-						  	$convertedDate = date('Y-m-d', strtotime($convertedDate));
-						  	$newDateTime = $convertedDate.$copyTime;
+						$copyDate = substr($originDateTime, 0, -9);
+					  	//convert date
+					  	$copyYear = substr($copyDate, -4);
+					  	$cutYear = substr($copyDate, 0, -5);
+					  	$convertedDate = $copyYear.'-'.$cutYear;
+					  	$convertedDate = date('Y-m-d', strtotime($convertedDate));
+					  	$newDateTime = $convertedDate.' '.$copyTime;
   					$auction->endDate = $newDateTime;
   					$auction->incrementation = Input::get('incrementation');
   					$auction->affiliatePercentage = Input::get('affiliatePercentage');
@@ -108,7 +108,11 @@ class AuctionController extends \BaseController {
   					//save default bid amount
   					$bidding->auctionID = $auction->id;
   					$bidding->amount = $auction->minimumPrice;
+  					$bidding->userID = Auth::user()->id;
+  					$bidding->highestBidder = 0;
+  					$bidding->maxBid = 0.0000;
   					$bidding->save();
+  					
   					$watchers = DB::select("select watcherID,productID from watchlist where userID=".Auth::user()->id." and status=1 ");
 					foreach($watchers as $watcher)
 					{
@@ -127,13 +131,22 @@ class AuctionController extends \BaseController {
   					//Save id's on Session for default sales page
   					Session::put('productID', $product->id);
   					Session::put('auctionID', $auction->id);
-
-
   					}
   				
   			}
 	}
-
+	public function testBidding(){
+		// $originDateTime = '09-14-2014 15:34:53';
+		// $copyTime = substr($originDateTime, -8);
+		// $copyDate = substr($originDateTime, 0, -9);
+	 //  	//convert date
+	 //  	$copyYear = substr($copyDate, -4);
+	 //  	$cutYear = substr($copyDate, 0, -5);
+	 //  	$convertedDate = $copyYear.'-'.$cutYear;
+	 //  	$convertedDate = date('Y-m-d', strtotime($convertedDate));
+	 //  	$newDateTime = $convertedDate.' '.$copyTime;
+	 //  	dd($newDateTime);
+	}
 
 	/**
 	 * Display the specified resource.
@@ -145,13 +158,13 @@ class AuctionController extends \BaseController {
 	{
 		$auctionEvent = DB::select('
 			select a.*,
-			(SELECT COUNT(id) from bidding where auctionID = '.$id.') as bidders,
+			(SELECT COUNT(id) from bidding where auctionID = '.$id.' and amount != 0) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
 			(Select userID from bidding where auctionID = '.$id.' order by amount desc limit 1) as highestBidder,
 			p.imageURL,p.productDescription,p.userID,w.status as watched 
 			from auction as a inner join product as p on a.productID = p.id 
 			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
-			on a.productID=w.productID where a.id ='.$id
+			on a.productID=w.productID where a.id ='.$id.''
 		);
 		return View::make('pages.auction.show',compact('auctionEvent','incValue'));
 	}
@@ -214,30 +227,33 @@ class AuctionController extends \BaseController {
 		//else, set minimum price to starting price
 		$listings = DB::select('
 			select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
-			(SELECT COUNT(id) from bidding where auctionID = a.id) as bidders,
+			(SELECT COUNT(id) from bidding where auctionID = a.id and amount != 0 and highestBidder = 1) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
 			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder, 
 			w.status as watched from auction as a 
 			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
-			where a.sold=0 and a.endDate != NOW() 
+			where a.sold=0 and a.endDate >= NOW() 
 			order by a.created_at desc limit 4
 		');
-		$lastItem = end($listings);
-		$lastID = $lastItem->id;
-		Session::put('lastID', $lastID);
-		return View::make('pages.auction.auction-listings',compact('listings'));
+		if($listings){
+			$lastItem = end($listings);
+			$lastID = $lastItem->id;
+			Session::put('lastID', $lastID);
+			return View::make('pages.auction.auction-listings',compact('listings'));
+		}
+		
 	}
 	public function loadMoreAuction(){
 		if(Request::ajax()){
 			$lastID = Session::get('lastID');
 			$listings = DB::select('
 			select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
-			(SELECT COUNT(id) from bidding where auctionID = a.id) as bidders,
+			(SELECT COUNT(id) from bidding where auctionID = a.id and amount != 0 and highestBidder = 1) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
 			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder,
 			w.status as watched from auction as a 
 			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
-				where a.sold=0 and a.endDate != NOW() and a.id < '.$lastID.'
+				where a.sold=0 and a.endDate >= NOW() and a.id < '.$lastID.'
 				order by a.created_at desc limit 4
 			');
 			if($listings != NULL){
