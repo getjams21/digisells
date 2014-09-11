@@ -19,13 +19,12 @@ class WithdrawalController extends \BaseController {
 	 */
 	public function index()
 	{	
-		// $user= Auth::user()->id;
-		// $fund =DB::select("Select ");
-		// $currentPage = Input::get('page') - 1;
-		// $pagedData = array_slice($fund, $currentPage * 10, 10);
-		// $fund = Paginator::make($pagedData, count($fund), 10);
-		// return View::make('funds.index',['fund' => $fund]);
-		return View::make('funds.withdrawals');
+		$withdrawals =DB::select("Select * from withdrawals where userID =".Auth::user()->id);
+		if(!Input::get('page')){$currentPage = Input::get('page');
+		}else{$currentPage = Input::get('page') - 1;}
+		$pagedData = array_slice($withdrawals, $currentPage * 10, 10);
+		$withdrawals = Paginator::make($pagedData, count($withdrawals), 10);
+		return View::make('funds.withdrawals',['withdrawals' => $withdrawals]);
 	}
 
 	/**
@@ -47,16 +46,12 @@ class WithdrawalController extends \BaseController {
 	 */
 	public function store()
 	{
-		$sdkConfig = array(
-			"mode" => "sandbox",
-			"acct1.UserName" => "admin_api1.digisells.com",
-			"acct1.Password" => "1408017508",
-			"acct1.Signature" => "AeCea6xAGs-n.GkSEXGeWXluuTzOAQSphFYGiGoMTvunIwAhl6PAZu1P",
-			"acct1.AppId" => "APP-80W284485P519543T"
-		);
+
 		$input= Input::all();
 		$user = Auth::user();
-
+		if($user->fund < $input['amount']){
+			return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Not Enough Funds for Withdrawal.</b></div></center>');
+		}
 	    $rules = array(
 		        'password' => 'required|alphaNum|between:6,16'
 		    );
@@ -70,6 +65,13 @@ class WithdrawalController extends \BaseController {
 		            return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Your password does not match</div></center>');
 		        }
 		    }
+		$sdkConfig = array(
+			"mode" => "sandbox",
+			"acct1.UserName" => "admin_api1.digisells.com",
+			"acct1.Password" => "1408017508",
+			"acct1.Signature" => "AeCea6xAGs-n.GkSEXGeWXluuTzOAQSphFYGiGoMTvunIwAhl6PAZu1P",
+			"acct1.AppId" => "APP-80W284485P519543T"
+		);
 		$getVerifiedStatus = new GetVerifiedStatusRequest();
 		$accountIdentifier=new AccountIdentifierType();
 		$accountIdentifier->emailAddress = $input['email'];
@@ -97,7 +99,6 @@ class WithdrawalController extends \BaseController {
 		} 
 
 		$payRequest = new PayRequest();
-
 		$receiver = array();
 		$receiver[0] = new Receiver();
 		$receiver[0]->amount = $input['amount'];
@@ -114,7 +115,6 @@ class WithdrawalController extends \BaseController {
 		$payRequest->currencyCode = "USD";
 		$payRequest->ipnNotificationUrl = "http://digisells.com/withdrawal";
 
-		
 		$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
 		$payResponse = $adaptivePaymentsService->Pay($payRequest); 
 
@@ -124,12 +124,15 @@ class WithdrawalController extends \BaseController {
 		$paymentDetailsResponse = $adaptivePaymentsService->PaymentDetails($paymentDetailsRequest);
 		
 		if(strtoupper($paymentDetailsResponse->status == 'COMPLETED')) {
-			// $withdrawal=new Withdrawal;
-		 //    $withdrawal->userID=Auth::user()->id;
-		 //    $withdrawal->paymentID = $payment->getId();
-		 //    $withdrawal->methodID = 2;
-		 //    $withdrawal->amount = $input['amount'];
-		 //    $withdrawal->save();
+			$withdrawal=new Withdrawal;
+		    $withdrawal->userID=Auth::user()->id;
+		    $withdrawal->email = $input['email'];
+		    $withdrawal->paykey = $paymentDetailsRequest->payKey;
+		    $withdrawal->amount = $input['amount'];
+		    $withdrawal->save();
+		    $pastfund = $user->fund;
+		    DB::table('user')->where('id', '=', Auth::user()->id)
+	->update(array('fund' => ($pastfund - $input['amount'])));
 			return Redirect::to('withdrawal/'.$paymentDetailsRequest->payKey);
     	}else{
     	return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Something has gone wrong.</div></center>');	
@@ -159,7 +162,8 @@ class WithdrawalController extends \BaseController {
 		$paymentDetailsRequest->payKey = $id;
 		$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
 		$paymentDetailsResponse = $adaptivePaymentsService->PaymentDetails($paymentDetailsRequest);
-		return View::make('funds.showWithdrawal',['withdrawal'=>$paymentDetailsResponse]);
+		$date = DB::table('withdrawals')->where('paykey', '=', $id)->get();
+		return View::make('funds.showWithdrawal',['withdrawal'=>$paymentDetailsResponse,'date'=>$date]);
 	}
 
 	/**

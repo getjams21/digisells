@@ -11,22 +11,31 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-12 shadowed">
-                    <div class="col-md-12"><br>
+                  <div class="col-md-12 shadowed" id="Printable">
+                    <div class="col-md-12"><br class="hidden-print">
                         <div class="container">
     <div class="row">
         <div class="col-xs-12">
             <div class="text-center">
-                <i class="fa fa-search-plus pull-left icon"></i>
-                <div class="alert alert-success" role="alert" align="center"><b> This transaction has been completed!</b></div>
-                <h2>@if($payment->payer->payment_method == 'paypal')
-                     Paypal 
-                @elseif($payment->payer->payment_method == 'credit_card')
-                     Credit Card 
-                @endif
-                Invoice for Purchasing Digisells Funds</h2>
+                <div class="alert alert-success hidden-print" role="alert" align="center"><b> This transaction has been completed!</b></div>
+                <div class="row">
+                <div class="invoice-header panel col-xs-12">
+                    <div class="col-md-3">
+                        <span class="navbar-brand logo"></span>
+                        <span class="navbar-brand logo-text invoice-header-left">
+                        <font size="6" color="white"><b>DigiSells</b></font></span>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 align="center">Funds Deposit Invoice</h3>
+                    </div>
+                    <div class="col-md-3">
+                        <div  class="hidden-print">
+                            <button  type="button" id="print" class="btn btn-info btn-lg" style="margin-top:10px;" ><span class="glyphicon glyphicon-print"></span> PRINT</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
-            <hr>
             <div class="row">
                 @if($payment->payer->payment_method == 'paypal')
                      @include('funds.includes.showPaypalPayment')
@@ -34,8 +43,7 @@
                      @include('funds.includes.showCreditCardPayment')
                 @endif
             
-        
-         <div class="col-xs-12 col-md-3 col-lg-3 pull-right">
+         <div class="col-xs-12 col-md-3 col-lg-3 pull-right invoice-panel">
                     <div class="panel panel-primary height">
                         <div class="panel-heading">Recipient</div>
                         <div class="panel-body">
@@ -54,7 +62,7 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="text-center"><strong>Order summary</strong></h3>
+                    <h4 class="text-center"><strong>Order summary</strong></h4>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -83,7 +91,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="alert alert-info" role="alert" align="center"><b>Well done!</b> Thank you for purchasing Digisells fund.</div>
+                        <div class="alert alert-info hidden-print" role="alert" align="center"><b>Well done!</b> Thank you for purchasing Digisells fund.</div>
                     </div>
                 </div>
             </div>

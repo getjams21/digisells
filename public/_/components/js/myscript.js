@@ -20,6 +20,7 @@ $.fn.unwatchProduct = function(userID, prodID){
 		 }); 
 }
 
+
 $(document).ready(function(){
 	//file browser display file name
 	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
@@ -34,6 +35,19 @@ $(document).ready(function(){
         }
         
     });
+$("#print").click(function(){
+	$("#Printable").printThis({
+	     debug: false,             
+	     importCSS: true,           
+	     printContainer: true,       
+	     loadCSS: "public/_/css/mystyle.css", 
+	     pageTitle: "Digisells Invoice",              
+	     removeInline: false,        
+	     printDelay: 333,           
+	     header: null,              
+	     formValues: true            
+	  });
+});
 
 	//Disable Submit Button
 	$('#SubmitButton').prop('disabled', true);
