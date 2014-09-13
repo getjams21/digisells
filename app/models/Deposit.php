@@ -1,7 +1,7 @@
 <?php
 
-class Paypal extends \Eloquent {
-	protected $table = 'paypal';
+class Deposit extends \Eloquent {
+	protected $table = 'deposit';
 	protected $guarded = ['id'];
 	protected $fillable = [
 		'paypalEmail',

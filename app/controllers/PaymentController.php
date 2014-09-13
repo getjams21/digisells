@@ -21,10 +21,7 @@ class PaymentController extends \BaseController {
 	public function index()
 	{
 		$user= Auth::user()->id;
-		$fund =DB::select("select a.*,b.methodName from paypal as a inner join method as b on a.methodID=b.id where a.userID=".$user." and status=1 order by a.created_at desc");
-		$currentPage = Input::get('page') - 1;
-		$pagedData = array_slice($fund, $currentPage * 10, 10);
-		$fund = Paginator::make($pagedData, count($fund), 10);
+		$fund =DB::select("select a.*,b.methodName from deposit as a inner join method as b on a.methodID=b.id where a.userID=".$user." and status=1 order by a.created_at desc");
 		return View::make('funds.index',['fund' => $fund]);
 	}
 
@@ -78,14 +75,14 @@ class PaymentController extends \BaseController {
         try {
             $payment->create($this->_apiContext);
         } catch (PayPal \ Exception \ PPConnectionException $ex) {
-            return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Invalid Credit Card Credentials</div></center>');
+            return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Request Timeout!</div></center>');
         }
 
         $response=$payment->toArray();
         // print_r($payment->toArray());
         $paymentId=$payment->getId();
     	//payment execution
-	    $card= new Paypal;
+	    $card= new Deposit;
 	    $card->userID=Auth::user()->id;
 	    $card->paymentID=$paymentId;
 	    $card->methodID=1;
@@ -96,7 +93,8 @@ class PaymentController extends \BaseController {
 	    $pastfund = $user->fund;
 	    DB::table('user')->where('id', '=', Auth::user()->id)
 	->update(array('fund' => ($pastfund + $input['amount'])));
- return Redirect::to('/payment/'.$card->paymentID)->withFlashMessage('<center><div class="alert alert-success square">Successfully Added Funds</div></center>');
+ return Redirect::to('/payment/'.$card->paymentID)->withFlashMessage('<center><div class="alert alert-success square"><b>Request Timeout!</b> Please provide 
+	         	Valid Credentials or check your Internet Connections.</div></center>');
 
 	}
 
@@ -109,10 +107,12 @@ class PaymentController extends \BaseController {
 	 */
 	public function show($paymentID)
 	{
-		$payment = Paypalpayment::get($paymentID,$this->_apiContext);
-
+		try {
+			$payment = Paypalpayment::get($paymentID,$this->_apiContext);
+	    } catch (PayPal\Exception\PPConnectionException $ex) {
+	         return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
+		 }
        // echo "<pre>";
-
        // dd($payment->payer->payment_method);
 		return View::make('funds.showPayment',['payment'=>$payment]);
 	}
@@ -190,7 +190,7 @@ class PaymentController extends \BaseController {
 	            break;
 	        }
 	    }
-	    $paypal=new Paypal;
+	    $paypal=new Deposit;
 	    $paypal->userID=Auth::user()->id;
 	    $paypal->paymentID = $payment->getId();
 	    $paypal->methodID = 2;
@@ -203,15 +203,15 @@ class PaymentController extends \BaseController {
 	}
 
 	public function execute() {
-	$id = DB::select('Select max(id) as id from paypal where userID ='.Auth::user()->id);
-	$paypal = DB::table('paypal')->where('id',$id[0]->id)->first();
+	$id = DB::select('Select max(id) as id from deposit where userID ='.Auth::user()->id);
+	$paypal = DB::table('deposit')->where('id',$id[0]->id)->first();
 	$paymentId=$paypal->paymentID;
     $payment = Paypalpayment::get($paymentId, $this->_apiContext);
     $execution = Paypalpayment::PaymentExecution();
     $execution->setPayer_id($_GET['PayerID']);
     $payment->execute($execution,$this->_apiContext);
 	    
-	DB::table('paypal')->where('id', '=', $id[0]->id)
+	DB::table('deposit')->where('id', '=', $id[0]->id)
 	->update(array('status' => 1));
 
 	$pastfund = Auth::user()->fund;

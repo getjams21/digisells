@@ -16,14 +16,6 @@ class WatchlistController extends \BaseController {
 		on a.productID=c.productID left join selling as d 
 		on a.productID=d.productID where a.watcherID=".Auth::user()->id." 
 		and a.status= 1 order by ".$sortBy." ".$direction);
-
-		if(!Input::get('page')){
-		$currentPage = Input::get('page');
-		}else{
-		$currentPage = Input::get('page') - 1;
-		}
-		$pagedData = array_slice($watchlist, $currentPage *10, 10);
-		$watchlist = Paginator::make($pagedData, count($watchlist), 10);
 		$route = 'watchlist';
 		$event="Watching";
 		return View::make('dashboard.watchlist',['watchlists' => $watchlist,'event'=>$event,'route'=>$route]);
@@ -39,14 +31,6 @@ class WatchlistController extends \BaseController {
 			on a.productID=c.productID left join selling as d 
 			on a.productID=d.productID where a.userID=".Auth::user()->id." 
 			and a.status= 1 order by ".$sortBy." ".$direction );
-
-		if(!Input::get('page')){
-		$currentPage = Input::get('page');
-		}else{
-		$currentPage = Input::get('page') - 1;
-		}
-		$pagedData = array_slice($watchers, $currentPage *10, 10);
-		$watchers = Paginator::make($pagedData, count($watchers), 10);
 		$route = 'watchers';
 		$event="Watchers";
 		return View::make('dashboard.watchlist',['watchlists' => $watchers,'event'=>$event,'route'=>$route]);

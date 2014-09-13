@@ -18,6 +18,7 @@ class CreateTableSubcategory extends Migration {
 			$table -> integer('categoryID')->unsigned();
 			$table -> string('name',50);
 			$table -> text('description');
+			$table -> boolean('status')->default(1);
 			$table -> timestamps();
 		});
 	}

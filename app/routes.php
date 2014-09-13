@@ -15,6 +15,7 @@
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
+
 // });
 
 Route::get('page', 'HomePageController');
@@ -92,7 +93,16 @@ Route::group(["before" => "auth"], function() {
 Route::group(["before" => "role:admin"], function() {
 
  Route::get('/admin',['as' => 'admin', 'uses' =>'AdminController@index']);
-
+ Route::get('/admin-users','AdminController@users');
+ Route::get('/admin-auctions','AdminController@auctions');
+ Route::get('/admin-categories','AdminController@categories');
+ Route::post('/getSubCategory', 'AdminController@fetchSubCategory');
+ Route::post('/getdetails', 'AdminController@getdetails');
+ Route::post('/editCategory', 'AdminController@editCategory');
+ Route::post('/addCategory', 'AdminController@addCategory');
+});
+Route::get( '/404', function(){
+  return View::make('error.404');
 });
 
 

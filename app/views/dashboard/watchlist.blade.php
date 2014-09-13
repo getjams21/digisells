@@ -12,12 +12,7 @@
           <div class="row">
             <div class="col-md-12 shadowed">
               <div class=""><br>
-                   <h4 class="capital"><b>Listings {{$event}}</h4></b><br>
                    @include('dashboard.includes.watchlist')
-                    @if(!$watchlists)
-                    <b><h4>You're not watching any Listings yet.</h4> </b> 
-                    <b><h3><small>Watching a listing is the best way to stay up to date with the progress of multiple auctions and make sure you don't miss that perfect deal!</small> </h3></b> 
-                    @endif
               </div>
             </div>
           </div>
@@ -25,4 +20,11 @@
       </div>
   </div>
 </div>  
+@stop
+@section('script')
+<script type="text/javascript">
+   $(document).ready(function() {
+        $('.watchlist').dataTable();
+    });
+</script>
 @stop
