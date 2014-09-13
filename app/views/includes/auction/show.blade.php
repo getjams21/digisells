@@ -1,3 +1,11 @@
+<div class="modal fade" id="bid-modal">
+  <div class="modal-dialog bid-modal-prop">
+    <div class="modal-content bid-body">
+     	
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @foreach($auctionEvent as $auction)
 <div class="col-md-12">
 	<div class="container">
@@ -27,7 +35,18 @@
 					</div>
 					<div class="well well-bid">
 						<center><div class="price">
-							<span><h2>Current Bid: ${{round($auction->amount, 2)}}</h2></span>
+							<span><h2>
+							<?php 
+								if($auction->userID != Auth::user()->id){
+									if($auction->highestBidder == Auth::user()->id){
+										echo "You're the current highest bidder with";
+									}else{
+										echo "Current Highest Bid:";
+									}
+								}else{
+										echo "Starting Price:";
+								}
+							;?> ${{round($auction->amount, 2)}}</h2></span>
 						</div>
 						<div class="bidders">
 							<span>Number of Bids: &nbsp;<font color="#992D31" size="3"><b>{{($auction->bidders)-1}}</b></font></span>
@@ -60,6 +79,11 @@
 							<span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid
 						</button>
 						{{ Form::close() }}
+						<button type="button" class="btn btn-success show-maxBid" value="{{$auction->id}}"
+							<?php if($auction->userID == Auth::user()->id){
+								echo "disabled";
+							};?>
+						><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>
 						<button id="watch{{$auction->productID}}" 
 							class="btn btn-warning watchProduct <?php if(!$auction->watched || $auction->watched==0){echo '';}else{echo ' hidden';};?>" 
 							onclick="$(this).watchProduct({{$auction->userID}},{{$auction->productID}}, 1)" 
@@ -75,19 +99,11 @@
 							onclick="$(this).unwatchProduct({{$auction->userID}},{{$auction->productID}})">
 							<span class="glyphicon glyphicon-ok">
 							</span>&nbsp; Watched </button>
-
-
 						</div>
 					</div>
 					<br>
 					<div class="desc-text-prop">
 						<center><p>{{$auction->productDescription}}</p></center>
-					</div>
-					<div class="call-to-action">
-						<div class="btn-group btn-group-lg btn-group-lg-prop">
-						<button class="btn btn-success btn-prop-prod"><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this</button>
-						<button class="btn btn-warning btn-prop-prod"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Watch this</button>
-						</div>
 					</div>
 				</div>
 			</div>

@@ -7,7 +7,6 @@
 		{{ HTML::style('_/css/mystyle.css') }}
 		{{ HTML::style('_/css/datepicker.css') }}
 		{{ HTML::style('_/css/simple-sidebar.css') }}
-		{{ HTML::style('_/css/plugins/metisMenu/metisMenu.min.css') }}
 		{{ HTML::style('_/css/plugins/dataTables.bootstrap.css') }}
 		{{ HTML::style('_/css/sb-admin-2.css') }}
 		{{ HTML::style('_/font-awesome-4.1.0/css/font-awesome.min.css') }}

@@ -26,9 +26,19 @@
 							</div>
 							<button class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>${{round($list->buyoutPrice, 2)}}</font></b></button>
 						</div>
-						<div class="col-md-9">
+						<div class="col-md-9 inactive">
 							<a href="/auction-listing/{{$list->id}}"><div class="breadcrumb default-blue shadow-default"><center><h4>{{$list->auctionName}}</h4></center></div></a>
-							<h5><b>Current Bid: <font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)-1}}</font></b></h5>
+							<h5><b><?php 
+								if($list->userID != Auth::user()->id){
+									if($list->highestBidder == Auth::user()->id){
+										echo "You're the current highest bidder with";
+									}else{
+										echo "Current Highest Bid:";
+									}
+								}else{
+										echo "Starting Price:";
+								} ?>
+							<font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)}}</font></b></h5>
 							<p class="comment">{{$list->productDescription}}</p>
 							<center>
 							<div class="btn-group">
@@ -37,7 +47,7 @@
 										echo "disabled";
 									};?>
 								><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>
-								<button class="btn btn-success"
+								<button class="btn btn-success maxBid" value="{{$list->id}}"
 									<?php if($list->userID == Auth::user()->id){
 										echo "disabled";
 									};?>

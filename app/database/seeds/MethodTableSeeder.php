@@ -22,8 +22,6 @@ class MethodTableSeeder extends Seeder {
 			'methodName' => 'paypal withdrawal',
 			'methodDesc' => 'withdrawal of Funds via Paypal'
 			]);
-	
-	
 		// $this->call('UserTableSeeder');
 	}
 

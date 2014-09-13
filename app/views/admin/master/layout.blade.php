@@ -45,6 +45,6 @@
 			{{ HTML::script('_/js/plugins/morris/morris.min.js') }}
 			{{ HTML::script('_/js/plugins/morris/morris-data.js') }} -->
 			@yield('script')
-			{{ HTML::script('_/js/myscript.js')}}
+		<!-- 	{{ HTML::script('_/js/myscript.js')}} -->
 	</body>
 </html>

@@ -1,6 +1,6 @@
 //file browser
 $(document).on('change', '.btn-file :file', function() {
-	var input = $(this),
+  var input = $(this),
       numFiles = input.get(0).files ? input.get(0).files.length : 1,
       label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
   input.trigger('fileselect', [numFiles, label]);
@@ -22,11 +22,6 @@ $.fn.unwatchProduct = function(userID, prodID){
 
 
 $(document).ready(function(){
-	// $.ajaxSetup({
-	//     headers: {
-	//         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-	//     }
-	// });
 	//file browser display file name
 	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         
@@ -443,17 +438,9 @@ $("#print").click(function(){
 		numberOnlyInput(event);
 	});
 
-	//Direct Selling - Product Info (step 1)
-	$('.step-1,.step-2,.step-3').animate({
-		width: '100%',
-		opacity: 1
-	}, 800);
-	$('#btn-step-1,#btn-step-2-back').click(function(event) {
-		parent.history.back();
-		return false;
-	});
-
-
+	// $('#endDate').change(function(event) {
+	// 	alert($(this).val());
+	// });
 	  //   $('#start_date').change(function(){
 	  //       $('#end_date').val(AddDays());
 	  //   });
@@ -803,18 +790,27 @@ $(".clickableRow").click(function() {
 	});
 
  //bid-modal ajax request
- 	function displayBidModal(val){
-	 	$.get('placing-bid/'+val+'',{val:val},function(data){
+ 	function displayBidModal(val, isMaxBid, url){
+	 	$.get(''+url+'/'+val+'',{val:val},function(data){
 			if(data){                 
 				$.each(data, function(key,value) {
 				var minimumPrice = Math.round(value.minimumPrice*100)/100;
 				var incrementation = value.incrementation;
 				var incrementValue;
+				var routeURL = 'http://digisells.com/place-bid';
+				var lblPlaceBid = 'Place Bid';
+				var method = 'POST';
+				if(isMaxBid == '1'){
+					routeURL = 'http://digisells.com/place-max-bid';
+					lblPlaceBid = 'Place Maximum Bid';
+					method = 'GET';
+				}
+				// alert(parseFloat(incrementation) + parseFloat(minimumPrice));
 				if(incrementation == '0'){
 					var incrementBy = parseFloat(minimumPrice * 0.05);
 					incrementValue = Math.round(parseFloat(incrementBy + minimumPrice)*100)/100;
 				}else{
-					incrementValue = Math.round(parseFloat(minimumPrice + incrementation)*100)/100;
+					incrementValue = Math.round((parseFloat(minimumPrice) + parseFloat(incrementation)) *100)/100;
 				}
 				  $('.bid-body')
 					.find('div')
@@ -831,16 +827,17 @@ $(".clickableRow").click(function() {
 							<span><h2>Current Bid: &nbsp;$'+minimumPrice+'</h2></span>\
 						</div>\
 						<span>Enter Bid <font color="#992D31"><b>$'+incrementValue+'</b></font> or higher</span>\
-						<form method="POST" action="http://digisells.com/place-bid" accept-charset="UTF-8">\
+						<form method="'+method+'" action="'+routeURL+'" accept-charset="UTF-8">\
 						<div class="input-group txtbox-s prop-s">\
 		                    <span class="input-group-addon">$</span>\
-		                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text" value="">\       
-	                		<input type="hidden" name="auctionID" value="'+value.id+'">
-	                		<input type="hidden" name="minPrice" value="'+incrementValue+'">
+		                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text">\       
+	                		<input type="hidden" name="auctionID" value="'+value.id+'">\
+	                		<input type="hidden" name="minPrice" value="'+incrementValue+'">\
+	                		<input type="hidden" name="amount" value="'+minimumPrice+'">\
 	                	</div>\
 	                	<div class="btn-group">\
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
-						<button type="submit" class="btn btn-primary btnSubmit"><span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid</button>\
+						<button type="submit" class="btn btn-primary btnSubmit"><span class="glyphicon glyphicon-bell">&nbsp;</span>'+lblPlaceBid+'</button>\
 						</div>\
 						</form>\
 					</div>\
@@ -855,7 +852,23 @@ $(".clickableRow").click(function() {
 	 $('.bid').click(function(event) {
 	 	// alert($(this).val());
 	 	var val = $(this).val();
-	 	displayBidModal(val);
+	 	var isMaxBid = 0;
+	 	var url = '/placing-bid';
+	 	displayBidModal(val, isMaxBid, url);
+	 });
+	 $('.maxBid').click(function(event) {
+	 	// alert($(this).val());
+	 	var val = $(this).val();
+	 	var isMaxBid = 1;
+	 	var url = '/placing-bid';
+	 	displayBidModal(val, isMaxBid, url);
+	 });
+	 $('.show-maxBid').click(function(event) {
+	 	// alert($(this).val());
+	 	var val = $(this).val();
+	 	var isMaxBid = 1;
+	 	var url = '../placing-bid';
+	 	displayBidModal(val, isMaxBid, url);
 	 });
 	//load-more event for auction list
 	$('.load-more').click(function(event) {
@@ -875,6 +888,11 @@ $(".clickableRow").click(function() {
 				}else{
 					var current = ' ';
 				}
+				if(currentID == value.highestBidder){
+					var isHighest = "You're the current highest bidder with";
+				}else{
+					var isHighest = "Current Highest Bidder";
+				}
 				if(value.watched == 1){
 					var watched = ' ';
 					var notwatched = 'hidden';
@@ -893,7 +911,7 @@ $(".clickableRow").click(function() {
 				  			</div>\
 				  			<div class="col-md-9 with-error-msg">\
 				  				<a href="/auction-listing/'+value.id+'"><div class="breadcrumb default-blue shadow-default"><center><h4>'+value.auctionName+'</h4></center></div></a>\
-								<h5><b>Current Bid: <font color="#992D31">$'+minimumPrice+'</font>&nbsp;&nbsp;&nbsp;Number of Bidders:&nbsp;<font color="#992D31">'+bidders+'</font></b></h5>\
+								<h5><b>'+isHighest+': <font color="#992D31">$'+minimumPrice+'</font>&nbsp;&nbsp;&nbsp;Number of Bidders:&nbsp;<font color="#992D31">'+bidders+'</font></b></h5>\
 								<p class="desc">'+value.productDescription+'</p>\
 								<center>\
 								<div class="btn-group">\
