@@ -438,6 +438,16 @@ $("#print").click(function(){
 		numberOnlyInput(event);
 	});
 
+	//Direct Selling - Product Info (step 1)
+	$('.step-1,.step-2,.step-3').animate({
+		width: '100%',
+		opacity: 1
+	}, 800);
+	$('#btn-step-1,#btn-step-2-back').click(function(event) {
+		parent.history.back();
+		return false;
+	});
+	
 	// $('#endDate').change(function(event) {
 	// 	alert($(this).val());
 	// });
@@ -951,18 +961,21 @@ $(".clickableRow").click(function() {
 	    });
 		},1500);
 	});
-	//description shortening
-	 $(".comment").shorten({
-	    "showChars" : 150,
-	    "moreText"  : "Read More >>",
-	    "lessText"  : "<< Less",
-	 });
 	//varify bid
 	$('.btn-close').click(function(event) {
 	 	$('.error')
 			.find('div')
 			.remove()
 			.end();
+	 });
+	$('#btn-buy').click(function(event) {
+		$('.buy-modal').modal('show');
+	});
+	//description shortening
+	 $(".comment").shorten({
+	    "showChars" : 150,
+	    "moreText"  : "Read More >>",
+	    "lessText"  : "<< Less",
 	 });
 });//end of onload
 
