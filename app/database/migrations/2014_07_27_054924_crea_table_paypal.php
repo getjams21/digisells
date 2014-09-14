@@ -12,7 +12,7 @@ class CreaTablePaypal extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('paypal', function(Blueprint $table)
+		Schema::create('deposit', function(Blueprint $table)
 		{
 			$table -> increments('id');
 			$table -> integer('userID')->unsigned();
@@ -33,7 +33,7 @@ class CreaTablePaypal extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('paypal');
+		Schema::drop('deposit');
 	}
 
 }

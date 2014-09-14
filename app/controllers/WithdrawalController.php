@@ -82,12 +82,9 @@ class WithdrawalController extends \BaseController {
 
 		$service  = new AdaptiveAccountsService($sdkConfig);
 			try {
-				// ## Making API call
-				// invoke the appropriate method corresponding to API in service
-				// wrapper object
 				$response = $service->GetVerifiedStatus($getVerifiedStatus);
 			} catch(Exception $ex) {
-				require_once 'Common/Error.php';
+				return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
 				exit;
 			} 
 
@@ -161,7 +158,11 @@ class WithdrawalController extends \BaseController {
 		$paymentDetailsRequest = new PaymentDetailsRequest($requestEnvelope);
 		$paymentDetailsRequest->payKey = $id;
 		$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
+		try {
 		$paymentDetailsResponse = $adaptivePaymentsService->PaymentDetails($paymentDetailsRequest);
+		} catch (PayPal\Exception\PPConnectionException $ex) {
+	         return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
+		}		
 		$date = DB::table('withdrawals')->where('paykey', '=', $id)->get();
 		return View::make('funds.showWithdrawal',['withdrawal'=>$paymentDetailsResponse,'date'=>$date]);
 	}

@@ -31,7 +31,7 @@ class SessionsController extends \BaseController {
 		if(Auth::attempt($input))
 		{
 			if(Auth::user()->hasRole('admin')){
-				return Redirect::to('admin');
+				return Redirect::to('/admin');
 			}
 			return Redirect::intended('/');
 		}

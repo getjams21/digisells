@@ -208,7 +208,7 @@ class AuctionController extends \BaseController {
 		if(Request::ajax()){
   			$input = Input::all();
   			$val = $input['val'];
-  			$subCategories = DB::table('Subcategory')->where('categoryID', $val)->lists('name','id');
+  			$subCategories = DB::table('Subcategory')->where('categoryID', $val)->lists('name','id','status');
 			return Response::json($subCategories);
   		}
 	}

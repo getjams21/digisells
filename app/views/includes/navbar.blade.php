@@ -93,7 +93,13 @@
       <span class="caret" ></span></a>
       
       <ul class="dropdown-menu logout-link" role="menu" >
-
+        @if(Auth::user()->hasRole('admin'))
+       <li>
+        <a href="/admin">
+         <i class="fa fa-cog"></i> Administrator
+        </a>
+      </li>
+      @endif
       <li>
         <a href="/selling">
          <span class="glyphicon glyphicon-pencil"></span> Create Listing

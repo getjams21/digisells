@@ -1,5 +1,5 @@
     <!-- Sidebar -->
-        <div id="sidebar-wrapper" class="col-md-1" style="padding-left:0;">
+        <div id="sidebar-wrapper" class="col-md-1 hidden-print" style="padding-left:0;">
             <div id="showSidebar sidebar">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
@@ -17,9 +17,9 @@
                 <li>
                     <a href="/notifications">Notifications</a>
                 </li>
-                 <li class="sidehead">
+                 <li class="sidehead" >
                      <a href="#">
-                        <b>Bids &nbsp;&nbsp;<span class="caret"></span></b>
+                        <b>Bids</b>
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
@@ -32,7 +32,7 @@
                 </li>
                 <li class="sidehead">
                     <a href="#">
-                        <b>Listings &nbsp;&nbsp;<span class="caret"></span></b>
+                        <b>Listings </b>
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
@@ -45,7 +45,7 @@
                 </li>
                 <li class="sidehead">
                     <a href="#">
-                        <b>Funds &nbsp;&nbsp;<span class="caret"></span></b>
+                        <b>Funds</b>
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
@@ -58,7 +58,7 @@
                 </li>
                 <li class="sidehead">
                     <a href="#">
-                        <b>Watchlist &nbsp;&nbsp;<span class="caret"></span></b>
+                        <b>Watchlist </b>
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
