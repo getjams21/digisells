@@ -28,7 +28,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="admin-categories" id="Manage_Categories"><i class="fa fa-sitemap fa-fw" >&nbsp;</i> Manage Categories</a>
+                    <a href="/admin-categories" id="Manage_Categories"><i class="fa fa-sitemap fa-fw" >&nbsp;</i> Manage Categories</a>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>

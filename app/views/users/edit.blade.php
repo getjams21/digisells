@@ -15,7 +15,6 @@
                   	<!-- Nav tabs -->
 						<ul class="nav nav-tabs" role="tablist">
 						  <li class="active"><a href="#editProfileInfo" role="tab" data-toggle="tab"><h5><b><i>Personal</i></b></h5></a></li>
-						  <!-- <li><a href="#editContactInfo" role="tab" data-toggle="tab"><h5><b><i>Contact</i></b></h5></a></li> -->
 						  <li><a href="#editAccountInfo" role="tab" data-toggle="tab"><h5><b><i>Account</i></b></h5></a></li>
 						</ul>
 						<!-- Tab panes -->

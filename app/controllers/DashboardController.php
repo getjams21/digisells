@@ -12,29 +12,19 @@ class DashboardController extends \BaseController {
 	 */
 	public function index()
 	{
-		$id= Auth::user()->id;
-		$user = User::find($id);
-		$notifications = $user->notifications()->orderBy('created_at','desc')->get()->toArray();
-		if(!Input::get('page')){
-		$currentPage = Input::get('page');
-		}else{
-		$currentPage = Input::get('page') - 1;
-		}
-		$pagedData = array_slice($notifications, $currentPage *10, 10);
-		$notifications = Paginator::make($pagedData, count($notifications), 10);
+		$user = User::find(Auth::user()->id);
+		$notifications = $user->notifications()->orderBy('created_at','desc')->take(200)->get()->toArray();
 		return View::make('dashboard.index',['notifications' => $notifications]);
 	}
-	public function auctionList(){
-		$user= Auth::user()->id;
-		$auction=DB::select('select a.*,b.userID,b.quantity from auction as a inner join product as b on a.productID=b.id where b.userID='.$user." order by created_at desc");
+	public function auctionList()
+	{
+		$auction=DB::select('select a.*,b.userID,b.quantity from auction as a inner join product as b on a.productID=b.id where b.userID='.Auth::user()->id." order by created_at desc");
 		return View::make('dashboard.auctionList',['auction' => $auction]);
 	}
 	public function directSellingList()
 	{
-		$user= Auth::user()->id;
-		$selling=DB::select('select a.*,b.userID,b.quantity from selling as a inner join product as b on a.productID=b.id where b.userID='.$user." order by created_at desc");
+		$selling=DB::select('select a.*,b.userID,b.quantity from selling as a inner join product as b on a.productID=b.id where b.userID='.Auth::user()->id." order by created_at desc");
 		return View::make('dashboard.directSellingList',['selling' => $selling]);
-		// dd($selling);
 	}
 	public function invoices()
 	{

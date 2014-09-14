@@ -15,7 +15,11 @@
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
-
+//   $user = User::whereId(1)->first();
+//   if($user->hasRole('admin')){
+//     return 'admin';
+//   }
+//   return $user;
 // });
 
 Route::get('page', 'HomePageController');
@@ -94,14 +98,25 @@ Route::group(["before" => "auth"], function() {
 
 Route::group(["before" => "role:admin"], function() {
 
- Route::get('/admin',['as' => 'admin', 'uses' =>'AdminController@index']);
- Route::get('/admin-users','AdminController@users');
- Route::get('/admin-auctions','AdminController@auctions');
- Route::get('/admin-categories','AdminController@categories');
- Route::post('/getSubCategory', 'AdminController@fetchSubCategory');
- Route::post('/getdetails', 'AdminController@getdetails');
- Route::post('/editCategory', 'AdminController@editCategory');
- Route::post('/addCategory', 'AdminController@addCategory');
+   Route::get('/admin',['as' => 'admin', 'uses' =>'AdminController@index']);
+   Route::get('/admin-auctions','AdminController@auctions');
+   #Admin Users routes
+   Route::get('/admin-users','AdminUserController@users');
+   Route::get('/admin-users/{user}/edit','AdminUserController@edit');
+   Route::post('/deactivateUser', 'AdminUserController@deactivateUser');
+   Route::post('/activateUser', 'AdminUserController@activateUser');
+   
+   #Admin roles ajax routes
+   Route::post('/getroles', 'AdminUserController@getroles');
+   Route::post('/editroles', 'AdminUserController@editroles');
+
+
+   #Admin Categories Routes
+   Route::get('/admin-categories','AdminController@categories');
+   Route::post('/getSubCategory', 'AdminController@fetchSubCategory');
+   Route::post('/getdetails', 'AdminController@getdetails');
+   Route::post('/editCategory', 'AdminController@editCategory');
+   Route::post('/addCategory', 'AdminController@addCategory');
 });
 Route::get( '/404', function(){
   return View::make('error.404');

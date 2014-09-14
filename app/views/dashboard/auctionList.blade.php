@@ -11,12 +11,12 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-12 shadowed">
-                    <h4 class="capital"><b><a href="/users/{{Auth::user()->username}}">{{ Auth::user()->username }}'s</a> Auction List</h4></b><br>
-                  <div class="col-md-12">
-                  <br><hr class="style-fade">
-                <div class="table-responsive" style="border-top: 1px solid #C0C0C0;">
-                  <table class="table table-hover">
+                 <div class="col-md-12 shadowed"><br>
+                <div class="panel panel-primary">
+                <div class="panel-heading"><h4 class="capital"><b>Your Auction List</h4></b></div>
+                <div class="panel-body">
+                <div class="table-responsive"> 
+                  <table class="table table-striped table-bordered table-hover auctions">
                     <thead>
                       <tr>
                         <th>Auction Name</th>
@@ -31,7 +31,6 @@
                       </tr>
                      </thead> 
                      <tbody>
-                      <tr>
                         @foreach($auction as $auction)
                           <tr>
                             <td>{{$auction->auctionName}}</td>
@@ -51,19 +50,24 @@
                             </td>
                          </tr> 
                         @endforeach
-                      </tr>
-                      <tr>
-                        <td colspan="10"></td>
-                      </tr>
                     </tbody>
                   </table>
-               </div> 
-                </div>
-                  </div>
-                </div>
-            </div>
-        </div>
-        <!-- /#page-content-wrapper -->
-    </div>
-  </div>  
+               </div> <!-- table-responsive -->
+               </div><!--panel-body-->
+               </div><!--panel-primary-->
+               </div><!-- shadowed -->
+              </div><!-- row -->
+            </div><!-- container-fluid -->
+        </div><!-- /#page-content-wrapper -->
+    </div><!-- wrapper -->
+  </div>  <!-- row -->
+@stop
+@section('script')
+<script type="text/javascript">
+   $(document).ready(function() {
+        $('.auctions').dataTable( {
+        "order": [[ 6, "desc" ]]
+    });
+    });
+</script>
 @stop

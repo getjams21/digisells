@@ -24,7 +24,9 @@
 @section('script')
 <script type="text/javascript">
    $(document).ready(function() {
-        $('.watchlist').dataTable();
+        $('.watchlist').dataTable( {
+        "order": [[ 3, "desc" ]]
+    });
     });
 </script>
 @stop

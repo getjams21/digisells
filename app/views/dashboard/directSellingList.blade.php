@@ -10,12 +10,12 @@
       <div id="page-content-wrapper">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-12 shadowed">
-              <h4 class="capital"><b><a href="/users/{{Auth::user()->username}}">{{ Auth::user()->username }}'s</a> Direct Selling List</h4></b><br>
-               <div class="col-md-12">
-                <br><hr class="style-fade">
-              <div class="table-responsive" style="border-top: 1px solid #C0C0C0;">
-                <table class="table table-hover">
+            <div class="col-md-12 shadowed"><br>
+              <div class="panel panel-primary">
+              <div class="panel-heading"><h4 class="capital"><b>Your Direct Selling List</h4></b></div>
+              <div class="panel-body">
+              <div class="table-responsive" >
+                <table class="table table-striped table-bordered table-hover selling">
                   <thead>
                     <tr>
                       <th>Sale Name</th>
@@ -45,17 +45,24 @@
                           </td>
                        </tr> 
                       @endforeach
-                    <tr>
-                      <td colspan="8"></td>
-                    </tr>
                   </tbody>
                 </table>
-             </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-</div>  
+              </div><!--table-responsive-->
+             </div> <!--panel-body-->
+            </div><!--panel-primary-->
+            </div><!--shadowed-->
+          </div><!--row-->
+        </div><!--container-fluid-->
+      </div><!--table-responsive-->
+  </div><!--wrapper-->
+</div>  <!--row-->
+@stop
+@section('script')
+<script type="text/javascript">
+   $(document).ready(function() {
+        $('.selling').dataTable( {
+        "order": [[ 3, "desc" ]]
+    });
+    });
+</script>
 @stop

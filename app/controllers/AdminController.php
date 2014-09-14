@@ -12,24 +12,10 @@ class AdminController extends \BaseController {
 	{
 		return View::make('admin.index');
 	}
-	public function users()
-	{
-		$status= Request::get('status') ?: '1' ;
-		if(Request::get('status') !=1){$status=0;}
-		$users =DB::select("select a.*,b.role from user as a inner join 
-			(select a.user_id, GROUP_CONCAT(b.name SEPARATOR ', ') 
-				as role FROM role_user as a inner join roles as b 
-				on a.role_id=b.id group by a.user_id) as b on a.id=b.user_id 
-				where status=".$status." order by created_at desc");
-		if($status==1){$body='Active_Accounts';}else{$body='Inactive_Accounts';}
-		return View::make('admin.users',['users'=>$users,'status'=>$status,'body'=>$body]);
-	}
 	public function auctions()
 	{
-		$status= Request::get('status') ?: '1' ;
-		$expire= Request::get('expired') ?: '>' ;
-		if(Request::get('status') !=1){$status=0;}
-		if(Request::get('expired') ==1){$expire='<=';}
+		if(Request::get('status') !=1){$status=0;}else{$status=1;}
+		if(Request::get('expired') ==1){$expire='<=';}else{$expire='>';}
 		$auctions =DB::select("select a.*,b.productName from auction as a inner join product
 				as b on a.productID=b.id
 				where sold=".$status." and endDate ".$expire." NOW() order by created_at desc");
@@ -74,8 +60,7 @@ class AdminController extends \BaseController {
   			if($type=='category'){$name='categoryName';}else{$name='name';}
 		  	DB::table($type)->where('id', '=', $id)
 			->update(array($name => $Catname,'description' =>$desc ,'status'=>$status ));
-		
-  		}
+		}
 	}
 	public function addCategory(){
 		if(Request::ajax()){

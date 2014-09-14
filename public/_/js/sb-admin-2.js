@@ -40,12 +40,12 @@ $(document).ready(function(){
     }
 // category activation
 $('#deactivate').click(function(){
-    deactivate();
+    deactivate('#activeStatus','#inactiveStatus');
     $('.activeCat').removeAttr('id');
     $('.inactiveCat').attr('id','status');
 });
 $('#activate').click(function(){
-    activate();
+    activate('#inactiveStatus','#activeStatus');
     $('.inactiveCat').removeAttr('id');
     $('.activeCat').attr('id','status');
 });
@@ -70,6 +70,51 @@ $('#categoryBtn').click(function(){
         table.cell( idx, 1 ).data( status2 ).draw();
     });
     }
+});
+//set active user on click
+$('#userlist tr').click(function(){
+    $("#userlist").each(function(){
+        $("tr").removeClass("active");
+        });
+    $(this).addClass('active');
+});
+//roles activation buttons
+$('#activateAdmin').click(function(){
+    activateAdmin();
+});
+$('#deactivateAdmin').click(function(){
+    deactivateAdmin();
+});
+$('#activateOwner').click(function(){
+    activateOwner();
+});
+$('#deactivateOwner').click(function(){
+    deactivateOwner();
+});
+// save edited role
+$('#roleBtn').click(function(){
+    var admin=$('#AdminStatus').val();
+    var owner=$('#OwnerStatus').val();
+    var id=$('#userID').val();
+    var table = $('#userlist').DataTable();
+    var idx =table.row('#user'+id).index();
+    if(admin==1&&owner==1){var roles='admin, member, owner';}
+    else if(admin==1&&owner==0){var roles='admin, member';}
+    else if(admin==0&&owner==0){var roles='member';}
+     $.post('/editroles',{id:id,admin:admin,owner:owner},function(data){
+        $('#roleModal').modal('hide');
+        table.cell(idx,5).data(roles+' <button class="btn btn-info btn-xs"onclick="editRole('+id+');">Edit</button>').draw();
+     });
+});
+//user deactivation button
+$('#deactivateUserBtn').click(function(){
+    var id=$('#user_id').val();
+    var table = $('#userlist').DataTable();
+    $.post('/deactivateUser',{id:id},function(data){
+         $('#userActivationModal').modal('hide');
+         table.row('#user'+id).remove()
+        .draw();
+    });
 });
 });//end of ready function
 //add category
@@ -127,10 +172,10 @@ function category(id,type){
         $('#name').val(data[0][name]);
         $('#description').val(data[0]['description']);
         if(data[0]['status']==1){
-            activate();
+            activate('#inactiveStatus','#activeStatus');
             $('.activeCat').attr('id','status');
         }else{
-            deactivate();
+            deactivate('#activeStatus','#inactiveStatus');
             $('.inactiveCat').attr('id','status');
         }
         $('.cat-btn').attr('id','categoryBtn');
@@ -139,13 +184,13 @@ function category(id,type){
     });
 }
 //category activation functions
-function activate(){
-    $('#inactiveStatus').addClass('hidden');
-    $('#activeStatus').removeClass('hidden');
+function activate(add,remove){
+    $(add).addClass('hidden');
+    $(remove).removeClass('hidden');
 }
-function deactivate(){
-    $('#activeStatus').addClass('hidden');
-    $('#inactiveStatus').removeClass('hidden');
+function deactivate(add,remove){
+    $(add).addClass('hidden');
+    $(remove).removeClass('hidden');
 }
 function addcategory(type){
     $('#statusGroup').addClass('hidden');
@@ -156,80 +201,53 @@ function addcategory(type){
     $('#catID').val('Add');
     $('#categoryBtn').val(type);
 }
+//role Admin Activation
+function deactivateAdmin(){
+    deactivate('#activeAdmin','#inactiveAdmin');
+    $('.activeAdmin').removeAttr('id');
+    $('.inactiveAdmin').attr('id','AdminStatus');
+}
+function activateAdmin(){
+    activate('#inactiveAdmin','#activeAdmin');
+    $('.inactiveAdmin').removeAttr('id');
+    $('.activeAdmin').attr('id','AdminStatus');
+}
+//role Owner Activation
+function deactivateOwner(){
+    deactivate('#activeOwner','#inactiveOwner');
+    $('.activeOwner').removeAttr('id');
+    $('.inactiveOwner').attr('id','OwnerStatus');
+}
+function activateOwner(){
+    activate('#inactiveOwner','#activeOwner');
+    $('.inactiveOwner').removeAttr('id');
+    $('.activeOwner').attr('id','OwnerStatus');
+}
+function editRole(id){
+  deactivateAdmin();
+  deactivateOwner();
+  $('#userID').val(id);
+    $.post('/getroles',{id:id},function(data){
+        $.each(data, function(key, value) 
+            { 
+            if(value['role_id']==2){
+              activateAdmin();
+            }else if(value['role_id']==3)
+            { activateOwner();}
+      });
+    });
+    $('#roleModal').modal('show');
+}
+//user deactivation function
+function deactivateUser(id){
+    $('#userActivationModal').modal('show');
+    $('#user_id').val(id);
+}
+//activate a user function
+function activateUser(id){
+    $.post('/activateUser',{id:id},function(data){
+        $('#userlist').DataTable().row('#user'+id).remove()
+        .draw();
+    });
+}
 
-
-
-// $(function () {
-
-//     function revert() {
-//         $(".userlist .editfield").each(function () {
-//             var $td = $(this).closest('td');
-//             $td.empty();
-//             $td.text($td.data('oldText'));
-//             $td.data('editing', false);
-
-//             // canceled            
-//             console.log('Edit canceled.');
-//         });
-//     }
-
-//     function save($input) {
-//         var val = $input.val();
-//         var $td = $input.closest('td');
-//         $td.empty();
-//         $td.text(val);
-//         $td.data('editing', false);
-
-//         // send json or whatever
-//         console.log('Value changed');
-//     }
-
-
-//     $('.userlist td').on('keyup', 'input.editfield', function (e) {
-//         if (e.which == 13) {
-//             // save
-//             $input = $(e.target);
-//             save($input);
-//         } else if (e.which == 27) {
-//             // revert
-//             revert();
-//         }
-//     });
-
-//     $(".userlist td").dblclick(function (e) {
-
-//         // consuem event
-//         e.preventDefault();
-//         e.stopImmediatePropagation();
-
-//         $td = $(this);
-
-//         // if already editing, do nothing.
-//         if ($td.data('editing')) return;
-//         // mark as editing
-//         $td.data('editing', true);
-
-//         // get old text
-//         var txt = $td.text();
-
-//         // store old text
-//         $td.data('oldText', txt);
-
-//         // make input
-//         var $input = $('<input type="text" class="editfield">');
-//         $input.val(txt);
-
-//         // clean td and add the input
-//         $td.empty();
-//         $td.append($input);
-//     });
-
-
-//     $(document).click(function (e) {
-//         revert();
-//     });
-// });
-
-// $(".userlist td").click(function (e){
-//     $(this).parent().addClass('active';)
-// });

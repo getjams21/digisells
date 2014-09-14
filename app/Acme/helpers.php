@@ -9,9 +9,9 @@ function link_to_profile()
 {
 	return link_to('/dashboard', 'Dashboard');
 }
-function user_photos_path()
+function user_photos_path($user)
 {
-	return public_path() .'/images/users/'.Auth::user()->username.'/';
+	return public_path() .'/images/users/'.$user->username.'/';
 }
 function user_photos_display($user)
 {
