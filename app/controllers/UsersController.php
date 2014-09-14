@@ -50,6 +50,9 @@ class UsersController extends \BaseController {
 		}
 		$user->roles()->attach(1);
 		Auth::login($user);
+		if($user->id == 1){
+			return Redirect::to('/admin');
+		}
 		return Redirect::home();
 	}
 

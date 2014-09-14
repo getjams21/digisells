@@ -1,7 +1,19 @@
 <?php
 
 class AdminController extends \BaseController {
-
+	private $_apiContext;
+	private $paypal;
+    private $_ClientId='ATp6uBApduUYkCLe5iOKhD7lQhfc8kdmKc2dvtlLaCfiYDmmolDMoAu2vwAJ';
+    private $_ClientSecret='ENvUWRCSJf06XpAdKaiNtVLAMpB4uvupciqloNExUyQYK13ZRbQ78BcupVst';
+    public function __construct()
+	    {
+    		$this->_apiContext = Paypalpayment::ApiContext(
+            Paypalpayment::OAuthTokenCredential(
+                $this->_ClientId,
+                $this->_ClientSecret
+            )
+        );
+    	}
 	/**
 	 * Display a listing of the resource.
 	 * GET /admin
@@ -84,6 +96,26 @@ class AdminController extends \BaseController {
   			return Response::json($category);
   		}
 	}
+	public function deposits(){
+		$deposits=DB::select('Select a.*,b.methodName,c.username from deposit as a inner join method as b
+							on b.id=a.methodID inner join user as c on a.userID=c.id');
+		return View::make('admin.fundDeposits',['deposits'=>$deposits]);
+	}
+	public function withdrawals(){
+		$withdrawals=DB::select('Select a.*,b.username from withdrawals as a inner join user as b
+							on a.userID=b.id');
+		return View::make('admin.fundWithdrawals',['withdrawals'=>$withdrawals]);
+	}
+	public function showDeposit($paymentID)
+	{
+		try {
+			$payment = Paypalpayment::get($paymentID,$this->_apiContext);
+	    } catch (PayPal\Exception\PPConnectionException $ex) {
+	         return Redirect::back()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
+		 }
+		return View::make('admin.fundDepositInvoice',['payment'=>$payment]);
+	}
+	
 
 	/**
 	 * Show the form for creating a new resource.

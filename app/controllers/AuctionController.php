@@ -92,8 +92,8 @@ class AuctionController extends \BaseController {
   					$auction->startDate = date('Y-m-d', strtotime($convertedDate));
   					////convert date to datetime of endDate
   						$originDateTime = Input::get('endDate');
-  						$copyTime = substr($originDateTime, -8);
-						$copyDate = substr($originDateTime, 0, -9);
+  						$copyTime = substr($originDateTime, 10);
+						$copyDate = substr($originDateTime, 0, 10);
 					  	//convert date
 					  	$copyYear = substr($copyDate, -4);
 					  	$cutYear = substr($copyDate, 0, -5);

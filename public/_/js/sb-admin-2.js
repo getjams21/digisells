@@ -127,7 +127,7 @@ function addCategory(){
     $.post('/addCategory',{type:type,name:name,desc:desc,catNO:catNO},function(data){
         $('#myModal').modal('hide');
         var rowIndex= table.fnAddData([
-                name,'Active','<button class="btn btn-primary btn-xs" onclick="category('+data['id']+', '+"'category'"+');">Edit</button>'
+                name,'Active','<button class="btn btn-primary btn-xs" onclick="category('+data['id']+', '+"'"+type+"'"+');">Edit</button>'
             ]);
            var row = table.fnGetNodes(rowIndex);
             $(row).attr( 'id', type+data['id'] );
