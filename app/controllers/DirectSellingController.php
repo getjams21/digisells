@@ -109,6 +109,14 @@ class DirectSellingController extends \BaseController {
 	 */
 	public function show($id)
 	{
+		$sellingEvent = DB::select('
+			select s.*,
+			p.imageURL,p.productDescription,p.userID,w.status as watched 
+			from selling as s inner join product as p on s.productID = p.id 
+			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
+			on s.productID=w.productID where s.id ='.$id.''
+		);
+		return View::make('pages.direct-selling.show',compact('sellingEvent'));
 	}
 	/**
 	 * Show the form for editing the specified resource.
@@ -165,6 +173,24 @@ class DirectSellingController extends \BaseController {
 			return View::make('pages.direct-selling-step-3');
 		}else {
 			return Redirect::to('direct-selling');
+		}
+	}
+	public function showDirectSellingListings(){
+		//check if there are bidders
+		//If bidded, set minimum price to highest bidder
+		//else, set minimum price to starting price
+		$listings = DB::select('
+			select s.*,p.userID, p.imageURL,p.productDescription, 
+			w.status as watched from selling as s 
+			inner join product as p on s.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on s.productID=w.productID 
+			where s.sold=0
+			order by s.created_at desc limit 4
+		');
+		if($listings){
+			$lastItem = end($listings);
+			$lastID = $lastItem->id;
+			Session::put('lastID', $lastID);
+			return View::make('pages.direct-selling.direct-selling-listings',compact('listings'));
 		}
 	}
 }

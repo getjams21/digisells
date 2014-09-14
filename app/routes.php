@@ -50,6 +50,7 @@ Route::patch( '/updateAccount', 'UsersController@updateAccount' );
 Route::get('/selling', 'HomePageController@selling');
 
 Route::get('/auction-listings', 'AuctionController@showAuctionListings');
+Route::get('/direct-selling-listings', 'DirectSellingController@showDirectSellingListings');
 Route::post('/load-more-auction', 'AuctionController@loadMoreAuction');
 Route::get('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionController@placingBid']);
 #Users dashboard routes set auth to login users
@@ -66,6 +67,8 @@ Route::group(["before" => "auth"], function() {
   #Direct Selling Platform
   Route::resource('/direct-selling', 'DirectSellingController');
   Route::resource('/sales-page-default', 'SalesPageController');
+  #Sales Processes
+  Route::resource('/sales', 'SalesController');
   #Dashboard pages
   Route::get('/notifications','DashboardController@index');
   Route::get('/invoices','DashboardController@invoices');
