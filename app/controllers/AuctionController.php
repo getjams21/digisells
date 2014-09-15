@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 class AuctionController extends \BaseController {
 
 	/**
@@ -92,8 +93,8 @@ class AuctionController extends \BaseController {
   					$auction->startDate = date('Y-m-d', strtotime($convertedDate));
   					////convert date to datetime of endDate
   						$originDateTime = Input::get('endDate');
-  						$copyTime = substr($originDateTime, -8);
-						$copyDate = substr($originDateTime, 0, -9);
+  						$copyTime = substr($originDateTime, 10);
+						$copyDate = substr($originDateTime, 0, 10);
 					  	//convert date
 					  	$copyYear = substr($copyDate, -4);
 					  	$cutYear = substr($copyDate, 0, -5);
@@ -136,10 +137,11 @@ class AuctionController extends \BaseController {
   			}
 	}
 	public function testBidding(){
-		// $originDateTime = '09-14-2014 15:34:53';
-		// $copyTime = substr($originDateTime, -8);
-		// $copyDate = substr($originDateTime, 0, -9);
-	 //  	//convert date
+		// $originDateTime = '09-16-2014 12:1:1';
+		// $length = strlen($originDateTime);	
+		// $copyTime = substr($originDateTime, 10);
+		// $copyDate = substr($originDateTime, 0, 10);
+	 // //  	//convert date
 	 //  	$copyYear = substr($copyDate, -4);
 	 //  	$cutYear = substr($copyDate, 0, -5);
 	 //  	$convertedDate = $copyYear.'-'.$cutYear;
@@ -178,7 +180,14 @@ class AuctionController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		if(Request::ajax()){
+			$auction = Auction::find($id);
+			// $auction->sold = 1;
+			// $auction->save();
+
+			$endDate = $auction->endDate;
+			dd($endDate->diffForHumans());
+		}
 	}
 
 
@@ -226,7 +235,7 @@ class AuctionController extends \BaseController {
 		//If bidded, set minimum price to highest bidder
 		//else, set minimum price to starting price
 		$listings = DB::select('
-			select a.id,a.buyoutPrice, a.auctionName,a.productID,p.userID, p.imageURL,p.productDescription,
+			select a.id,a.buyoutPrice, a.auctionName,a.productID,a.endDate,p.userID, p.imageURL,p.productDescription,
 			(SELECT COUNT(id) from bidding where auctionID = a.id and amount != 0 and highestBidder = 1) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
 			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder, 

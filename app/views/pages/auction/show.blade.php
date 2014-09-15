@@ -12,4 +12,5 @@
 @stop
 @section('scripts')
 	{{ HTML::script('packages/bootstrap-star-rating/js/star-rating.min.js')}}
+	{{ HTML::script('_/js/plugins/countdown-timer/jquery.countdown.js')}}
 @stop

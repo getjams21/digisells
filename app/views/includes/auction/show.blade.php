@@ -27,12 +27,18 @@
 						<center><p><input id="input-5a" class="rating" data-readonly="true" data-size="xs" data-show-clear="false" data-show-caption="true" value="0">&nbsp;No Customer Reviews</p> </center>
 					</div>
 					<div class="panel expiration-date square">
-						<center><span>This auction will end on
-							{{
-								date("d F Y",strtotime($auction->endDate)) }} at {{ date("g:ha",strtotime($auction->endDate));
-							}}
-						</span></center>
+						<center>
+							<span>This auction will end on
+								{{
+									date("d F Y",strtotime($auction->endDate)) }} at {{ date("g:ha",strtotime($auction->endDate));
+								}}
+							</span>
+							<br>
+						</center>
 					</div>
+					<input type="hidden" id="endingDate" value="{{$auction->endDate}}">
+					<center><b><div class="countdown default"></div></b></center>
+					<br>
 					<div class="well well-bid">
 						<center><div class="price">
 							<span><h2>

@@ -28,7 +28,8 @@
 						</div>
 						<div class="col-md-9 inactive">
 							<a href="/auction-listing/{{$list->id}}"><div class="breadcrumb default-blue shadow-default"><center><h4>{{$list->auctionName}}</h4></center></div></a>
-							<h5><b><?php 
+							<h5><b>
+								<?php 
 								if($list->userID != Auth::user()->id){
 									if($list->highestBidder == Auth::user()->id){
 										echo "You're the current highest bidder with";
@@ -39,6 +40,10 @@
 										echo "Starting Price:";
 								} ?>
 							<font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)}}</font></b></h5>
+							<input type="hidden" id="endingDate" value="{{$list->endDate}}">
+							<input type="hidden" id="auction-id" value="{{$list->id}}">
+							<div class="countdown default"></div>
+							<br>
 							<p class="comment">{{$list->productDescription}}</p>
 							<center>
 							<div class="btn-group">

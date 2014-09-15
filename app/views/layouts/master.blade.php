@@ -34,7 +34,7 @@
 		{{ HTML::script('_/js/plugins/dataTables/jquery.dataTables.js') }}
 		{{ HTML::script('_/js/plugins/dataTables/dataTables.bootstrap.js') }}
 		{{ HTML::script('_/js/sb-admin-2.js') }}
-		@yield('script')
+		@yield('scripts')
 		{{ HTML::script('_/js/myscript.js')}}
 	</body>
 </html>
