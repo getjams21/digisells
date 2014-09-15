@@ -96,7 +96,7 @@ Route::filter('currentUser', function($route)
 {
 	if (Auth::guest()) return Redirect::home();
 
-	if (Auth::user()->username !== $route->parameter('users'))
+	if (Auth::user()->username !== $route->parameter('users') && ! Auth::user()->hasRole('admin'))
 	{
 		return Redirect::home();
 	}

@@ -17,19 +17,6 @@
                 <li>
                     <a href="/notifications">Notifications</a>
                 </li>
-                 <li class="sidehead" >
-                     <a href="#">
-                        <b>Bids</b>
-                    </a>
-                    <ul class="sidecontent collapse">
-                        <li>
-                             <a href="/wonbids"><i>Won Bids</i></a>
-                        </li>
-                        <li>
-                             <a href="/inactivebids"><i>Inactive Bids</i></a>
-                        </li>
-                    </ul>
-                </li>
                 <li class="sidehead">
                     <a href="#">
                         <b>Listings </b>
@@ -40,6 +27,19 @@
                         </li>
                         <li>
                              <a href="/directSellingList"><i>Direct Selling</i></a>
+                        </li>
+                    </ul>
+                </li>
+                 <li class="sidehead" >
+                     <a href="#">
+                        <b>Bids</b>
+                    </a>
+                    <ul class="sidecontent collapse">
+                        <li>
+                             <a href="/wonbids"><i>Won Bids</i></a>
+                        </li>
+                        <li>
+                             <a href="/inactivebids"><i>Inactive Bids</i></a>
                         </li>
                     </ul>
                 </li>

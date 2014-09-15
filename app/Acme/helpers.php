@@ -4,14 +4,13 @@ function errors_for($attribute, $errors)
 {
 	return $errors ->first($attribute,'<div class="alert alert-danger square">:message</div>');
 }
-
 function link_to_profile()
 {
 	return link_to('/dashboard', 'Dashboard');
 }
-function user_photos_path()
+function user_photos_path($user)
 {
-	return public_path() .'/images/users/'.Auth::user()->username.'/';
+	return public_path() .'/images/users/'.$user->username.'/';
 }
 function user_photos_display($user)
 {
@@ -36,8 +35,8 @@ function dateformat($date){
 function timeformat($date){
 	return date("g:i a",strtotime($date));
 }
-function sortBy($column,$body,$route)
-{
-	$direction = (Request::get('direction')=='asc') ? 'desc' : 'asc';
-	return link_to_route($route, $body, ['sortBy'=>$column,'direction'=>$direction]);
-}
+// function sortBy($column,$body,$route)
+// {
+// 	$direction = (Request::get('direction')=='asc') ? 'desc' : 'asc';
+// 	return link_to_route($route, $body, ['sortBy'=>$column,'direction'=>$direction]);
+// }

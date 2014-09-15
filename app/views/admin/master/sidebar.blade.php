@@ -28,7 +28,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="admin-categories" id="Manage_Categories"><i class="fa fa-sitemap fa-fw" >&nbsp;</i> Manage Categories</a>
+                    <a href="/admin-categories" id="Manage_Categories"><i class="fa fa-sitemap fa-fw" >&nbsp;</i> Manage Categories</a>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
@@ -92,10 +92,10 @@
                     <a href="#"><i class="fa fa-money">&nbsp;</i> Funding Activities<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#"> Fund Deposits<span ></span></a>
+                            <a href="/admin-deposits" id="Fund_Deposits"> Fund Deposits<span ></span></a>
                         </li>
                         <li>
-                            <a href="#"> Fund Withdrawals</a>
+                            <a href="/admin-withdrawals" id="Fund_Withdrawals"> Fund Withdrawals</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
@@ -104,21 +104,9 @@
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Settings<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">Panels and Wells</a>
+                            <a href="#">Settings Churva</a>
                         </li>
-                        <li>
-                            <a href="#">Buttons</a>
-                        </li>
-                        <li>
-                            <a href="#">Notifications</a>
-                        </li>
-                        <li>
-                            <a href="#">Typography</a>
-                        </li>
-                        <li>
-                            <a href="#">Grid</a>
-                        </li>
-                    </ul>
+                        </ul>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>

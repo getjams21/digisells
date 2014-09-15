@@ -24,7 +24,7 @@
 							<div class="thumbnail shadow-default">
 								<a href="/auction-listing/{{$list->id}}"><img src="../product/images/{{$list->imageURL}}" class="listing-img-prop"></a>
 							</div>
-							<button class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>${{round($list->buyoutPrice, 2)}}</font></b></button>
+							<button class="btn btn-success buyout"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>${{round($list->buyoutPrice, 2)}}</font></b></button>
 						</div>
 						<div class="col-md-9 inactive">
 							<a href="/auction-listing/{{$list->id}}"><div class="breadcrumb default-blue shadow-default"><center><h4>{{$list->auctionName}}</h4></center></div></a>
@@ -42,6 +42,7 @@
 							<font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)}}</font></b></h5>
 							<input type="hidden" id="endingDate" value="{{$list->endDate}}">
 							<input type="hidden" id="auction-id" value="{{$list->id}}">
+							<input type="hidden" id="isShow" value="1">
 							<div class="countdown default"></div>
 							<br>
 							<p class="comment">{{$list->productDescription}}</p>

@@ -30,10 +30,13 @@ class SessionsController extends \BaseController {
 		$input = Input::only('username','password');
 		if(Auth::attempt($input))
 		{
-			if(Auth::user()->hasRole('admin')){
-				return Redirect::to('/admin');
+			if(Auth::user()->status == 1){
+				if(Auth::user()->hasRole('admin')){
+					return Redirect::to('/admin');
+				}
+				return Redirect::intended('/');
 			}
-			return Redirect::intended('/');
+			return Redirect::to('login')->withInput()->withFlashMessage('<div class="alert alert-danger square" role="alert"><b>Your account has been disabled!</b><br> Please contact Digisells for more information.</div>');
 		}
 		return Redirect::to('login')->withInput()->withFlashMessage('<div class="alert alert-danger square" role="alert"><b>Invalid credentials provided!</b></div>');
 	}

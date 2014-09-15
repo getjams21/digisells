@@ -72,7 +72,9 @@
 @section('script')
 <script type="text/javascript">
    $(document).ready(function() {
-        $('.funds').dataTable();
+        $('.funds').dataTable( {
+        "order": [[ 2, "desc" ]]
+    });
     });
 </script>
 @stop

@@ -971,52 +971,6 @@ $(".clickableRow").click(function() {
 	$('#btn-buy').click(function(event) {
 		$('.buy-modal').modal('show');
 	});
-	//auction countdown
-	var endDate = $('#endingDate').val();
-	var auction_ID = $('#auction-id').val();
-	 $.get('auction-listing/'+auction_ID+'/edit',{},function(data){
-			if(data)
-	            {
-					// $('.countdown.default')
-					// .find('div')
-					// .remove()
-					// .end();
-					
-				}
-			});
-	$('.countdown.default').countdown({
-          date: endDate,
-          render: function(data) {
-            $(this.el).html("<div>"+this.leadingZeros(data.days, 2)+" days and \
-            	"+this.leadingZeros(data.hours, 2)+":\
-            	"+this.leadingZeros(data.min, 2)+":\
-            	"+this.leadingZeros(data.sec, 2)+" left </div>");
-          },
-          onEnd: function() {
-           $.get('auction-ended/'+auction_ID+'/edit',{},function(data){
-			if(data)
-	            {
-					$('.countdown.default')
-					.find('div')
-					.remove()
-					.end();
-
-				}
-			});
-          }
-    });
-    $('.countdown.styled').countdown({
-          date: endDate,
-          render: function(data) {
-            $(this.el).html(+this.leadingZeros(data.days, 2)+" days and \
-            	"+this.leadingZeros(data.hours, 2)+":\
-            	"+this.leadingZeros(data.min, 2)+":\
-            	"+this.leadingZeros(data.sec, 2)+" left");
-          },
-          onEnd: function() {
-            $(this.el).addClass('ended');
-          }
-    });
 	//description shortening
 	 $(".comment").shorten({
 	    "showChars" : 150,

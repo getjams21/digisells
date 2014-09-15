@@ -35,7 +35,11 @@
 			<!--PERSONAL INFORMATION  -->
 		<div class="col-md-7 showContent" id="showContent" >
 		<br><center>
-			<h4><b><i>Personal Information</i></b></h4>
+			<h4><b><i>Personal Information 
+				@if(Auth::user()->hasRole('admin'))
+					for  <a href="/users/{{$user->username}}" ><b>{{$user->username}}</a></b>
+				@endif
+			</i></b></h4>
 			</center><hr class="style-fade"><br>
 		<div class="form-group">
 			{{Form::label('firstName', 'First Name')}}

@@ -1,7 +1,19 @@
 <?php
 
 class AdminController extends \BaseController {
-
+	private $_apiContext;
+	private $paypal;
+    private $_ClientId='ATp6uBApduUYkCLe5iOKhD7lQhfc8kdmKc2dvtlLaCfiYDmmolDMoAu2vwAJ';
+    private $_ClientSecret='ENvUWRCSJf06XpAdKaiNtVLAMpB4uvupciqloNExUyQYK13ZRbQ78BcupVst';
+    public function __construct()
+	    {
+    		$this->_apiContext = Paypalpayment::ApiContext(
+            Paypalpayment::OAuthTokenCredential(
+                $this->_ClientId,
+                $this->_ClientSecret
+            )
+        );
+    	}
 	/**
 	 * Display a listing of the resource.
 	 * GET /admin
@@ -12,24 +24,10 @@ class AdminController extends \BaseController {
 	{
 		return View::make('admin.index');
 	}
-	public function users()
-	{
-		$status= Request::get('status') ?: '1' ;
-		if(Request::get('status') !=1){$status=0;}
-		$users =DB::select("select a.*,b.role from user as a inner join 
-			(select a.user_id, GROUP_CONCAT(b.name SEPARATOR ', ') 
-				as role FROM role_user as a inner join roles as b 
-				on a.role_id=b.id group by a.user_id) as b on a.id=b.user_id 
-				where status=".$status." order by created_at desc");
-		if($status==1){$body='Active_Accounts';}else{$body='Inactive_Accounts';}
-		return View::make('admin.users',['users'=>$users,'status'=>$status,'body'=>$body]);
-	}
 	public function auctions()
 	{
-		$status= Request::get('status') ?: '1' ;
-		$expire= Request::get('expired') ?: '>' ;
-		if(Request::get('status') !=1){$status=0;}
-		if(Request::get('expired') ==1){$expire='<=';}
+		if(Request::get('status') !=1){$status=0;}else{$status=1;}
+		if(Request::get('expired') ==1){$expire='<=';}else{$expire='>';}
 		$auctions =DB::select("select a.*,b.productName from auction as a inner join product
 				as b on a.productID=b.id
 				where sold=".$status." and endDate ".$expire." NOW() order by created_at desc");
@@ -74,8 +72,7 @@ class AdminController extends \BaseController {
   			if($type=='category'){$name='categoryName';}else{$name='name';}
 		  	DB::table($type)->where('id', '=', $id)
 			->update(array($name => $Catname,'description' =>$desc ,'status'=>$status ));
-		
-  		}
+		}
 	}
 	public function addCategory(){
 		if(Request::ajax()){
@@ -99,6 +96,26 @@ class AdminController extends \BaseController {
   			return Response::json($category);
   		}
 	}
+	public function deposits(){
+		$deposits=DB::select('Select a.*,b.methodName,c.username from deposit as a inner join method as b
+							on b.id=a.methodID inner join user as c on a.userID=c.id');
+		return View::make('admin.fundDeposits',['deposits'=>$deposits]);
+	}
+	public function withdrawals(){
+		$withdrawals=DB::select('Select a.*,b.username from withdrawals as a inner join user as b
+							on a.userID=b.id');
+		return View::make('admin.fundWithdrawals',['withdrawals'=>$withdrawals]);
+	}
+	public function showDeposit($paymentID)
+	{
+		try {
+			$payment = Paypalpayment::get($paymentID,$this->_apiContext);
+	    } catch (PayPal\Exception\PPConnectionException $ex) {
+	         return Redirect::back()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
+		 }
+		return View::make('admin.fundDepositInvoice',['payment'=>$payment]);
+	}
+	
 
 	/**
 	 * Show the form for creating a new resource.

@@ -1,14 +1,13 @@
 <!doctype html>
 <html>
-	<head> 
+	<head>  
 		 <link rel="shortcut icon" type="image/x-icon" href="_/fonts/favicon.ico" />
 		<meta charset="utf-8">
 		{{ HTML::style('_/css/bootstrap.css') }}
+		{{ HTML::style('_/css/plugins/dataTables.bootstrap.css') }}
 		{{ HTML::style('_/css/mystyle.css') }}
 		{{ HTML::style('_/css/datepicker.css') }}
 		{{ HTML::style('_/css/simple-sidebar.css') }}
-		{{ HTML::style('_/css/plugins/dataTables.bootstrap.css') }}
-		{{ HTML::style('_/css/sb-admin-2.css') }}
 		{{ HTML::style('_/font-awesome-4.1.0/css/font-awesome.min.css') }}
 		@yield('styles')
 		<title>@yield('meta-title', 'Digisells')</title>
@@ -18,7 +17,7 @@
 		 instructions how to enable JavaScript in your web browser</a>.
 		</noscript>
 	</head>
-	<body >
+	<body>
 		<font face="Segoe UI">
 		@yield('header')
 		@yield('carousel')

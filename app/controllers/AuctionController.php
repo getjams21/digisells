@@ -93,8 +93,7 @@ class AuctionController extends \BaseController {
   					$auction->startDate = date('Y-m-d', strtotime($convertedDate));
   					////convert date to datetime of endDate
   						$originDateTime = Input::get('endDate');
-  						$copyTime = substr($originDateTime, 10);
-						$copyDate = substr($originDateTime, 0, 10);
+  						$copyTime = date('H:i:s'); $copyDate = substr($originDateTime, 0, 10);
 					  	//convert date
 					  	$copyYear = substr($copyDate, -4);
 					  	$cutYear = substr($copyDate, 0, -5);
@@ -137,17 +136,19 @@ class AuctionController extends \BaseController {
   			}
 	}
 	public function testBidding(){
-		// $originDateTime = '09-16-2014 12:1:1';
-		// $length = strlen($originDateTime);	
-		// $copyTime = substr($originDateTime, 10);
-		// $copyDate = substr($originDateTime, 0, 10);
+		$originDateTime = '09-16-2014 12:1:1';
+		$length = strlen($originDateTime);
+		// $carbonDate = Carbon::now()->timestamp;
+		// $copyTime = substr($originDateTime, 11);	
+		$copyTime = date('H:i:s');
+		$copyDate = substr($originDateTime, 0, 10);
 	 // //  	//convert date
-	 //  	$copyYear = substr($copyDate, -4);
-	 //  	$cutYear = substr($copyDate, 0, -5);
-	 //  	$convertedDate = $copyYear.'-'.$cutYear;
-	 //  	$convertedDate = date('Y-m-d', strtotime($convertedDate));
-	 //  	$newDateTime = $convertedDate.' '.$copyTime;
-	 //  	dd($newDateTime);
+	  	$copyYear = substr($copyDate, -4);
+	  	$cutYear = substr($copyDate, 0, -5);
+	  	$convertedDate = $copyYear.'-'.$cutYear;
+	  	$convertedDate = date('Y-m-d', strtotime($convertedDate));
+	  	$newDateTime = $convertedDate.' '.$copyTime;
+	  	dd($newDateTime);
 	}
 
 	/**
@@ -182,11 +183,10 @@ class AuctionController extends \BaseController {
 	{
 		if(Request::ajax()){
 			$auction = Auction::find($id);
-			// $auction->sold = 1;
-			// $auction->save();
+			$auction->sold = 1;
+			$auction->save();
 
-			$endDate = $auction->endDate;
-			dd($endDate->diffForHumans());
+			return Response::json($auction->endDate);
 		}
 	}
 
@@ -248,8 +248,8 @@ class AuctionController extends \BaseController {
 			$lastItem = end($listings);
 			$lastID = $lastItem->id;
 			Session::put('lastID', $lastID);
-			return View::make('pages.auction.auction-listings',compact('listings'));
 		}
+		return View::make('pages.auction.auction-listings',compact('listings'));
 		
 	}
 	public function loadMoreAuction(){

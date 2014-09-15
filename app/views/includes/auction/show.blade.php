@@ -15,7 +15,7 @@
 					<div class="thumbnail thumbnail-size shadow-default">
 						<img src="../product/images/{{$auction->imageURL}}" class="product-img-prop">
 					</div>
-					<center><button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this for ${{round($auction->buyoutPrice, 2)}}</button></center>
+					<center><button class="btn btn-success btn-lg buyout"><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this for ${{round($auction->buyoutPrice, 2)}}</button></center>
 				</div>
 				<div class="col-md-7">
 					<div class="breadcrumb brd-prod-name shadow-default">
@@ -37,6 +37,8 @@
 						</center>
 					</div>
 					<input type="hidden" id="endingDate" value="{{$auction->endDate}}">
+					<input type="hidden" id="auction-id" value="{{$auction->id}}">
+					<input type="hidden" id="isShow" value="1">
 					<center><b><div class="countdown default"></div></b></center>
 					<br>
 					<div class="well well-bid">
@@ -78,14 +80,14 @@
 							</div>
 						@endif
 	                	<div class="btn-group">
-						<button type="submit" class="btn btn-primary"
+						<button type="submit" class="btn btn-primary bid"
 							<?php if($auction->userID == Auth::user()->id){
 									echo "disabled";
 								};?>>
 							<span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid
 						</button>
 						{{ Form::close() }}
-						<button type="button" class="btn btn-success show-maxBid" value="{{$auction->id}}"
+						<button type="button" class="btn btn-success show-maxBid maxBid" value="{{$auction->id}}"
 							<?php if($auction->userID == Auth::user()->id){
 								echo "disabled";
 							};?>

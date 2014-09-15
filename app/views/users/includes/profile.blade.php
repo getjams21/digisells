@@ -5,7 +5,7 @@
 		{{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'thumb shadowed')) }}
 		@endif
 		<br><br>
-		@if($user->isCurrent())
+		@if($user->isCurrent() || Auth::user()->hasRole('admin'))
 		<b style="margin-left:15px;">{{ link_to_route('users.edit','Update your Profile', $user->username) }}</b>
 		@endif
 	</div>
@@ -20,7 +20,7 @@
 		<h4><small><b>No transactions successfully completed</b></small></h4>
 		@if(Auth::user())
 			@if(Auth::user()->id==$user->id)
-			<hr><h5><b>You have <a href="/funds">
+			<hr><h5><b>You have <a href="/payment">
 				$ {{Auth::user()->fund}} </a> funds left.</b></h5>
 		    @endif
 		@endif

@@ -46,9 +46,13 @@ class UsersController extends \BaseController {
 		$user = User::create($input);
 		if($user->id == 1){
 			$user->roles()->attach(2);	
+			$user->roles()->attach(3);	
 		}
 		$user->roles()->attach(1);
 		Auth::login($user);
+		if($user->id == 1){
+			return Redirect::to('/admin');
+		}
 		return Redirect::home();
 	}
 
@@ -116,16 +120,16 @@ class UsersController extends \BaseController {
 					if($fileSize>2000000){
 				return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Image must be less than 2mb</div></center>');
 					}	
-					if (File::exists(user_photos_path())) {
-						File::deleteDirectory(user_photos_path());
+					if (File::exists(user_photos_path($user))) {
+						File::deleteDirectory(user_photos_path($user));
 					}
-					$file->move(user_photos_path() ,$fileName);
+					$file->move(user_photos_path($user) ,$fileName);
 					$user->userImage = $fileName;
 				}
 			}
 		$user->fill($input)->save();
 		$user->save();
-		return Redirect::route('users.edit',$user->username)
+		return Redirect::back()
 		->withFlashMessage('<div class="alert alert-success square" ><center><b>Successfully Updated Profile</b></center></div>');
 	}
 
