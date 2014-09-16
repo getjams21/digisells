@@ -10,6 +10,7 @@ class Auction extends \Eloquent {
 		'startDate',
 		'endDate',
 		'incrementation',
-		'affiliatePercentage'
+		'affiliatePercentage',
+		'sold'
 	];
 }
