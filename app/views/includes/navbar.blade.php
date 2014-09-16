@@ -73,11 +73,16 @@
           </ul>
         </li>
 @else
- 
   <li>
-    <a href="/payment"> <b>FUNDS: 
-     <span class="glyphicon glyphicon-usd"></span>
+    <a href="/payment"> <b><i class="fa fa-money"></i>  
+     <i class="fa fa-usd"></i>
        {{ Auth::user()->fund}}
+      </b>
+    </a>
+  </li>
+  <li>
+    <a href="#"> <b><span class="glyphicon glyphicon-certificate"></span>
+       0
       </b>
     </a>
   </li>
@@ -93,21 +98,9 @@
       <span class="caret" ></span></a>
       
       <ul class="dropdown-menu logout-link" role="menu" >
-        @if(Auth::user()->hasRole('admin'))
-       <li>
-        <a href="/admin">
-         <i class="fa fa-cog"></i> Administrator
-        </a>
-      </li>
-      @endif
-      <li>
-        <a href="/selling">
-         <span class="glyphicon glyphicon-pencil"></span> Create Listing
-        </a>
-      </li>
       <li>
         <a href="/notifications" >
-          <span class="glyphicon glyphicon-bell"></span> Notifications
+          <i class="fa fa-tachometer"></i> Dashboard
         </a>
       </li>
       <li>
@@ -115,7 +108,19 @@
           <span class="glyphicon glyphicon-user"></span> Profile
         </a>
       </li>
+      <li>
+        <a href="/selling">
+         <span class="glyphicon glyphicon-pencil"></span> Create Listing
+        </a>
+      </li>
       <li  class="divider"></li>
+      @if(Auth::user()->hasRole('admin'))
+       <li>
+          <a href="/admin">
+           <i class="fa fa-cog"></i> Administrator
+          </a>
+      </li>
+      @endif
       <li>
         <a href="/logout" ><span class="glyphicon glyphicon-log-out"></span> Logout</a>
       </li>

@@ -23,7 +23,7 @@
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
-                             <a href="/auctionList"><i>Auction</i></a>
+                             <a href="/auctionList"><i>Auctions</i></a>
                         </li>
                         <li>
                              <a href="/directSellingList"><i>Direct Selling</i></a>
@@ -41,6 +41,19 @@
                         <li>
                              <a href="/inactivebids"><i>Inactive Bids</i></a>
                         </li>
+                    </ul>
+                </li>
+                <li class="sidehead">
+                    <a href="#">
+                        <b>Sales</b>
+                    </a>
+                    <ul class="sidecontent collapse">
+                        <li>
+                             <a href="/soldAuctions"><i>Sold Auction Events</i></a>
+                        </li>
+                        <li>
+                             <a href="#"><i>Sold Direct Selling </i></a>
+                       </li>
                     </ul>
                 </li>
                 <li class="sidehead">

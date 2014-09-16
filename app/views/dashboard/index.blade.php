@@ -13,7 +13,7 @@
             <div class="col-md-12 shadowed">
               <br>
                 <div class="panel panel-primary">
-                      <div class="panel-heading"><h4 class="capital"><b>Your Latest Notifications</h4></b></div>
+                    <div class="panel-heading"><h4 class="capital"><b>Your Latest Notifications</h4></b></div>
                     <div class="panel-body">
                     <div class="table-responsive" >
                       <table class="table table-bordered table-hover" id="notifications">
@@ -28,7 +28,12 @@
                           @foreach($notifications as $notification)
                               <tr class="<?php if($notification['is_read'] == 0){echo "unread";};?>">
                                 <td class="notifID hidden">{{$notification['id']}}</td>
-                                <td><a href="/users/{{$notification['subject']}}"><b>{{$notification['subject']}}</b></a> {{$notification['body']}} 
+                                <td>@if($notification['subject']=='Someone')
+                                    {{$notification['subject']}}
+                                    @else
+                                    <a href="/users/{{$notification['subject']}}"><b>{{$notification['subject']}}</b></a>
+                                    @endif
+                                   {{$notification['body']}} 
                                 </td>
                                 <td>{{carbonize($notification['sent_at'])->diffForHumans();}}</td>
                                 <td class="readStatus"><i>

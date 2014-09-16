@@ -13,7 +13,7 @@ class DashboardController extends \BaseController {
 	public function index()
 	{
 		$user = User::find(Auth::user()->id);
-		$notifications = $user->notifications()->orderBy('created_at','desc')->take(200)->get()->toArray();
+		$notifications = $user->notifications()->orderBy('created_at','desc')->take(20)->get()->toArray();
 		return View::make('dashboard.index',['notifications' => $notifications]);
 	}
 	public function auctionList()
@@ -49,7 +49,7 @@ class DashboardController extends \BaseController {
 				c.created_at as date from auction as a inner join product as b on a.productID=b.id inner 
 				join bidding as c on c.auctionID=a.id inner join (select max(amount) 
 				as max, auctionID from bidding group by auctionID) as temp on 
-				temp.max=c.amount where c.userID='.Auth::user()->id);
+				temp.max=c.amount where a.sold=0 and c.userID='.Auth::user()->id);
 		return View::make('dashboard.activebids',['activebids'=>$activebids]);
 	}
 	public function inactivebids()
@@ -68,6 +68,15 @@ class DashboardController extends \BaseController {
   			
   		}
 	
+	}
+	public function soldAuctions()
+	{
+		$soldAuctions= DB::select('select a.*,b.productName,temp.max,d.username,c.created_at as sold from auction as a 
+			inner join product as b on a.productID=b.id inner join bidding as c 
+			on a.id=c.auctionID inner join (select max(amount) as max, auctionID,userID 
+			from bidding group by auctionID) as temp on a.id=temp.auctionID and temp.max=c.amount 
+			inner join user as d on d.id=c.userID where a.sold=1 and b.userID='.Auth::user()->id);
+		return View::make('dashboard.soldAuctions',['soldAuctions'=>$soldAuctions]);
 	}
 	
 	/**
