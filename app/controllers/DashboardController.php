@@ -49,7 +49,7 @@ class DashboardController extends \BaseController {
 				c.created_at as date from auction as a inner join product as b on a.productID=b.id inner 
 				join bidding as c on c.auctionID=a.id inner join (select max(amount) 
 				as max, auctionID from bidding group by auctionID) as temp on 
-				temp.max=c.amount where c.userID='.Auth::user()->id);
+				temp.max=c.amount where a.sold=0 and c.userID='.Auth::user()->id);
 		return View::make('dashboard.activebids',['activebids'=>$activebids]);
 	}
 	public function inactivebids()
