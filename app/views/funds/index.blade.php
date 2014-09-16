@@ -41,15 +41,21 @@
                             <th>Amount</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th>Invoice</th>
                           </tr>
                           </thead>
                           <tbody>
                           @foreach($fund as $funds)
-                            <tr class="clickableRow" href="payment/{{$funds->paymentID}}">
+                            <tr>
                                 <td>{{$funds->methodName}}</td>
                                 <td><i> {{$funds->amount." USD"}}</i></td>
                                 <td>{{dateformat($funds->created_at)}} at {{timeformat($funds->created_at)}}</td>
-                                <td><b style="color:green;"><i>COMPLETED</i></b></td>
+                                <td>
+                                  <b><i style="color:green;" class="fa fa-check-circle"></i><i> Completed</i></b>
+                                </td>
+                                <td>
+                                  <a href="payment/{{$funds->paymentID}}"><button class="btn btn-info btn-xs">Invoice</button></a>
+                                </td>
                             </tr> 
                           @endforeach
                         </tbody>
@@ -58,8 +64,7 @@
                       </div>
                       </div>
                       <!-- <h3><small>No FUND Activities yet...</small></h3> -->
-
-                      <br>
+                       <br>
                     </div>
                   </div>
                 </div>

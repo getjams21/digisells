@@ -16,7 +16,7 @@
                       <div class="panel-heading"><h4 class="capital"><b>Your Latest Notifications</h4></b></div>
                     <div class="panel-body">
                     <div class="table-responsive" >
-                      <table class="table table-striped table-bordered table-hover notifications">
+                      <table class="table table-bordered table-hover" id="notifications">
                         <thead>
                           <tr>
                             <th>Activity</th>
@@ -54,10 +54,10 @@
 @stop
 @section('script')
 <script type="text/javascript">
-   $(document).ready(function() {
-        $('.notifications').dataTable( {
-        "order": [[ 1, "desc" ]]
-    });
-    });
+   // $(document).ready(function() {
+   //      $('#notifications').dataTable({
+   //      "order": [[ 1, "desc" ]]
+   //    });
+   //  });
 </script>
 @stop

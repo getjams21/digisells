@@ -10,6 +10,6 @@
 @section('content')
 	@include('includes.auction.show')
 @stop
-@section('scripts')
+@section('script')
 	{{ HTML::script('packages/bootstrap-star-rating/js/star-rating.min.js')}}
 @stop

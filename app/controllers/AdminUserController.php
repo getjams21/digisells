@@ -38,14 +38,48 @@ class AdminUserController extends \BaseController {
   			$owner = $input['owner'];
   			$user = User::whereId($id)->first();
   			if($admin==1){
-			  if(!$user->hasRole('admin')){$user->assignRole(2);}
+			  if(!$user->hasRole('admin')){
+			  		$user->assignRole(2);
+					$thisuser = User::find($id);
+					$thisuser->newNotification()
+					    ->withType('AddAdmin')
+					    ->withSubject(Auth::user()->username)
+					    ->withBody('has Added you as an Admin')
+					    ->regarding($user)
+					    ->deliver();
+			  }
 			}else if($admin==0){
-			  if($user->hasRole('admin')){$user->removeRole(2);}
+			  if($user->hasRole('admin')){$user->removeRole(2);
+			  		$thisuser = User::find($id);
+					$thisuser->newNotification()
+					    ->withType('RemoveAdmin')
+					    ->withSubject(Auth::user()->username)
+					    ->withBody('has Removed your Admin Previleges')
+					    ->regarding($user)
+					    ->deliver();
+			  }
 			}
 			if($owner==1){
-			  if(!$user->hasRole('owner')){$user->assignRole(3);}
+			  if(!$user->hasRole('owner')){$user->assignRole(3);
+			  		$thisuser = User::find($id);
+					$thisuser->newNotification()
+					    ->withType('AddOwner')
+					    ->withSubject(Auth::user()->username)
+					    ->withBody('has Added you as an Owner')
+					    ->regarding($user)
+					    ->deliver();
+			  }
 			}else if($owner==0){
-			  if($user->hasRole('owner')){$user->removeRole(3);}
+			  if($user->hasRole('owner')){$user->removeRole(3);
+			  		$thisuser = User::find($id);
+					$thisuser->newNotification()
+					    ->withType('AddRole')
+					    ->withSubject(Auth::user()->username)
+					    ->withBody('has Removed your Owner Previleges')
+					    ->regarding($user)
+					    ->deliver();
+					    return Response::json($thisuser);
+			  }
 			}
 			return Response::json($id);
   		}

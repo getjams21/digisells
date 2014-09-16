@@ -101,6 +101,7 @@ $('#roleBtn').click(function(){
     if(admin==1&&owner==1){var roles='admin, member, owner';}
     else if(admin==1&&owner==0){var roles='admin, member';}
     else if(admin==0&&owner==0){var roles='member';}
+    else if(admin==0&&owner==1){var roles='member, owner';}
      $.post('/editroles',{id:id,admin:admin,owner:owner},function(data){
         $('#roleModal').modal('hide');
         table.cell(idx,5).data(roles+' <button class="btn btn-info btn-xs"onclick="editRole('+id+');">Edit</button>').draw();

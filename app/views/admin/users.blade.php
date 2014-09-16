@@ -76,6 +76,7 @@
     </div>
     <!-- /.col-lg-12 -->
 </div>
+@stop
 @section('script')
 <script type="text/javascript">
     $(document).ready(function() {
@@ -84,5 +85,4 @@
     });
     });
 </script>
-@stop
 @stop

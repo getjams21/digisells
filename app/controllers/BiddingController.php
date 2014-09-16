@@ -74,6 +74,8 @@ class BiddingController extends \BaseController {
 					$bidding->amount = Input::get('bidPrice');
 					$bidding->highestBidder = 1;
 					$bidding->save();
+					// bidding notification for watchers
+					
 					//check for outbidders for this auction
 					$outbidders = DB::select('
 						select maxBid, userID from bidding where auctionID = '.$bidding->auctionID.' 
@@ -138,8 +140,53 @@ class BiddingController extends \BaseController {
 							}else{
 								$hasOutBid = 1;
 							}
-						}
+						}	
 					}
+					// bidding notifications
+					$id=Input::get('auctionID');
+					$watchers=DB::select("select a.watcherID,b.id from watchlist as a 
+										inner join auction as b on a.productID=b.productID where 
+										b.id=".$id." and status=1");
+					$auction=Auction::find($id);
+					// notifications for all watchers
+					foreach($watchers as $watcher){
+						$thisuser = User::find($watcher->watcherID);
+							if($watcher->watcherID!=$highestBidder->userID && $watcher->watcherID!=Auth::user()->id){
+								$thisuser->newNotification()
+							    ->withType('NewBidding')
+							    ->withSubject('Someone')
+							    ->withBody("Placed a new bid for <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a>")
+							    ->regarding($auction)
+							    ->deliver();
+						    }
+					}
+					//notification for the outbidded user
+						$outbidded = User::find($highestBidder->userID);
+						$outbidded->newNotification()
+						    ->withType('Outbidded')
+						    ->withSubject('Someone')
+						    ->withBody("has outbidded you for <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a>")
+						    ->regarding($auction)
+						    ->deliver();
+						if(Auth::user()->id==$highestBidder->userID){
+							$winner=User::find($autobid->userID);
+							$winner->newNotification()
+							    ->withType('NewBidding')
+							    ->withSubject('Someone')
+							    ->withBody("Placed a new bid for <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a> (outbidded)")
+							    ->regarding($auction)
+							    ->deliver();
+						}
+						$ownerdb = DB::select('select a.userID from product as a inner join auction as b 
+							on a.id=b.productID where b.id='.$id);
+						$owner=User::find($ownerdb[0]->userID);
+							$owner->newNotification()
+						    ->withType('Outbidded')
+						    ->withSubject(Auth::user()->username)
+						    ->withBody("has bidded on your <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a>")
+						    ->regarding($auction)
+						    ->deliver();
+
 					Session::put('auctionID', Input::get('auctionID'));
 					return Redirect::action('AuctionController@show',[Input::get('auctionID')]);
 				}
@@ -256,6 +303,7 @@ class BiddingController extends \BaseController {
 					select maxBid, userID from bidding where auctionID = '.Input::get("auctionID").' 
 					and maxBid > '.Input::get("minPrice").'
 					');
+				
 				if($outbidders){
 					$hasOutBid = 1;
 					$autobid = new Bidding;
@@ -328,6 +376,55 @@ class BiddingController extends \BaseController {
 						}
 					}
 				}
+				$id=Input::get('auctionID');
+				$maxbidded=DB::select('select userID from bidding where
+					auctionID='.$id.' order by amount desc limit 1');
+				$outbidded=DB::select('select userID from bidding where
+					auctionID='.$id.' and highestBidder=0 and userID !='.$maxbidded[0]->userID.' order by amount desc limit 1');
+				$watchers=DB::select("select a.watcherID,b.id from watchlist as a 
+										inner join auction as b on a.productID=b.productID where 
+										b.id=".$id." and status=1");
+				$auction=Auction::find($id);
+					// notifications for all watchers
+				if($watchers){
+					foreach($watchers as $watcher){
+							$thisuser = User::find($watcher->watcherID);
+							if($watcher->watcherID!=$outbidded[0]->userID && $watcher->watcherID!=$maxbidded[0]->userID){
+								$thisuser->newNotification()
+							    ->withType('NewBidding')
+							    ->withSubject('Someone')
+							    ->withBody("Placed a new bid for <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a>")
+							    ->regarding($auction)
+							    ->deliver();
+						    }
+					}}
+						if($maxbidded && $maxbidded[0]->userID!=Auth::user()->id){
+							$winner=User::find($maxbidded[0]->userID);
+							$winner->newNotification()
+							    ->withType('NewBidding')
+							    ->withSubject('Someone')
+							    ->withBody("Placed a new bid for <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a> (outbidded)")
+							    ->regarding($auction)
+							    ->deliver();
+							  }  
+						if($outbidded){
+							$loser = User::find($outbidded[0]->userID);
+							$loser->newNotification()
+						    ->withType('Outbidded')
+						    ->withSubject('Someone')
+						    ->withBody("has outbidded you for <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a>")
+						    ->regarding($auction)
+						    ->deliver();
+							}
+						$ownerdb = DB::select('select a.userID from product as a inner join auction as b 
+							on a.id=b.productID where b.id='.$id);
+						$owner=User::find($ownerdb[0]->userID);
+							$owner->newNotification()
+						    ->withType('Outbidded')
+						    ->withSubject(Auth::user()->username)
+						    ->withBody("has bidded on your <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a>")
+						    ->regarding($auction)
+						    ->deliver();
 				Session::put('auctionID', Input::get('auctionID'));
 				return Redirect::action('AuctionController@show',[Input::get('auctionID')]);
 			}

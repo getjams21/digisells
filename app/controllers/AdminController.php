@@ -1,4 +1,7 @@
 <?php
+use PayPal\Types\Common\RequestEnvelope;
+use PayPal\Service\AdaptivePaymentsService;
+use PayPal\Types\AP\PaymentDetailsRequest;
 
 class AdminController extends \BaseController {
 	private $_apiContext;
@@ -114,6 +117,28 @@ class AdminController extends \BaseController {
 	         return Redirect::back()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
 		 }
 		return View::make('admin.fundDepositInvoice',['payment'=>$payment]);
+	}
+	public function showWithdrawal($payKey)
+	{
+		// return 'hello';
+		$sdkConfig = array(
+			"mode" => "sandbox",
+			"acct1.UserName" => "admin_api1.digisells.com",
+			"acct1.Password" => "1408017508",
+			"acct1.Signature" => "AeCea6xAGs-n.GkSEXGeWXluuTzOAQSphFYGiGoMTvunIwAhl6PAZu1P",
+			"acct1.AppId" => "APP-80W284485P519543T"
+		);
+		$requestEnvelope = new RequestEnvelope("en_US");
+		$paymentDetailsRequest = new PaymentDetailsRequest($requestEnvelope);
+		$paymentDetailsRequest->payKey = $payKey;
+		$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
+		try {
+		$paymentDetailsResponse = $adaptivePaymentsService->PaymentDetails($paymentDetailsRequest);
+		} catch (PayPal\Exception\PPConnectionException $ex) {
+	         return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
+		}		
+		$date = DB::table('withdrawals')->where('paykey', '=', $payKey)->get();
+		return View::make('admin.fundWithdrawalInvoice',['withdrawal'=>$paymentDetailsResponse,'date'=>$date]);
 	}
 	
 

@@ -36,7 +36,7 @@
                     </a>
                     <ul class="sidecontent collapse">
                         <li>
-                             <a href="/wonbids"><i>Won Bids</i></a>
+                             <a href="/activebids"><i>Active Bids</i></a>
                         </li>
                         <li>
                              <a href="/inactivebids"><i>Inactive Bids</i></a>

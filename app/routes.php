@@ -67,7 +67,7 @@ Route::group(["before" => "auth"], function() {
   #Dashboard pages
   Route::get('/notifications','DashboardController@index');
   Route::get('/invoices','DashboardController@invoices');
-  Route::get('/wonbids','DashboardController@wonbids');
+  Route::get('/activebids','DashboardController@activebids');
   Route::get('/inactivebids','DashboardController@inactivebids');
   Route::get('/auctionList','DashboardController@auctionList'); 
   Route::get('/directSellingList','DashboardController@directSellingList'); 
@@ -115,6 +115,7 @@ Route::group(["before" => "role:admin"], function() {
    Route::get('/admin-deposits','AdminController@deposits');
    Route::get('/admin-withdrawals','AdminController@withdrawals');
    Route::get('/admin-deposits/{paymentID}','AdminController@showDeposit');
+   Route::get('/admin-withdrawals/{payKey}','AdminController@showWithdrawal');
 });
 Route::get( '/404', function(){
   return View::make('error.404');
