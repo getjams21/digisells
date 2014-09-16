@@ -34,7 +34,7 @@
                                 <td>{{$withdrawal->amount}}</td>
                                 <td>{{$withdrawal->paykey}}</td>
                                 <td>{{dateformat($withdrawal->created_at)}} {{timeformat($withdrawal->created_at)}}</td> 
-                                <td><button class="btn btn-info btn-xs">View</button></td>
+                                <td><a href="/admin-withdrawals/{{$withdrawal->paykey}}"><button class="btn btn-info btn-xs">View</button></a></td>
                              </tr> 
                             @endforeach
                         </tbody>

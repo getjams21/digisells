@@ -63,7 +63,6 @@ class WatchlistController extends \BaseController {
 			    ->withBody('has started watching you!')
 			    ->regarding($thisuser)
 			    ->deliver();
-			    dd($watchuser);
   			
   		}
 	

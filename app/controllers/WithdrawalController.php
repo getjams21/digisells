@@ -114,23 +114,17 @@ class WithdrawalController extends \BaseController {
 
 		$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
 		$payResponse = $adaptivePaymentsService->Pay($payRequest); 
-
-		$paymentDetailsRequest = new PaymentDetailsRequest($requestEnvelope);
-		$paymentDetailsRequest->payKey = $payResponse->payKey;
-
-		$paymentDetailsResponse = $adaptivePaymentsService->PaymentDetails($paymentDetailsRequest);
-		
-		if(strtoupper($paymentDetailsResponse->status == 'COMPLETED')) {
+		if(strtoupper($payResponse->paymentInfoList->paymentInfo[0]->transactionStatus == 'COMPLETED')) {
 			$withdrawal=new Withdrawal;
 		    $withdrawal->userID=Auth::user()->id;
 		    $withdrawal->email = $input['email'];
-		    $withdrawal->paykey = $paymentDetailsRequest->payKey;
+		    $withdrawal->paykey = $payResponse->payKey;
 		    $withdrawal->amount = $input['amount'];
 		    $withdrawal->save();
 		    $pastfund = $user->fund;
 		    DB::table('user')->where('id', '=', Auth::user()->id)
 	->update(array('fund' => ($pastfund - $input['amount'])));
-			return Redirect::to('withdrawal/'.$paymentDetailsRequest->payKey);
+			return Redirect::to('withdrawal/'.$payResponse->payKey);
     	}else{
     	return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Something has gone wrong.</div></center>');	
 

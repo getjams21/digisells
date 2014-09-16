@@ -11,8 +11,7 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-12 shadowed">
-                    <div class="col-md-12"><br>
+                  <div class="col-md-12 shadowed"><br>
                       @if (Session::has('flash_message'))
                         <div class="form-group ">
                           <p>{{Session::get('flash_message') }}</p>
@@ -34,46 +33,48 @@
                       </div>  
                       <div class="panel-body">
                       <div class="table-responsive" >
-                      <table class="table table-striped table-bordered table-hover funds">
+                      <table class="table table-striped table-bordered table-hover" id="withdrawals">
                         <thead>
                           <tr>
                             <th>Email</th>
                             <th>Amount</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th>Invoice</th>
                           </tr>
                           </thead>
                         <tbody>
                             @foreach($withdrawals as $withdrawal)
-                            <tr class="clickableRow" href="withdrawal/{{$withdrawal->paykey}}">
+                            <tr >
                                 <td>{{$withdrawal->email}}</td>
                                 <td><i>{{$withdrawal->amount." USD"}}</i></td>
                                 <td>{{dateformat($withdrawal->created_at)}} at {{timeformat($withdrawal->created_at)}}</td>
-                                <td><b style="color:green;"><i>COMPLETED</i></b></td>
+                                <td>
+                                  <b><i style="color:green;" class="fa fa-check-circle"></i><i> Completed</i></b>
+                                </td>
+                                <td>
+                                  <a href="withdrawal/{{$withdrawal->paykey}}"><button class="btn btn-info btn-xs">Invoice</button></a>
+                                </td>
                             </tr> 
                           @endforeach
-                          {{$withdrawals->links()}}
                         </tbody>
                       </table>
-                      </div>
-                     </div>
-                    </div>
+                      </div> <!-- table responsive -->
+                     </div> <!-- panel body -->
+                    </div> <!-- panel primary -->
                       <!-- <h3><small>No FUND Activities yet...</small></h3> -->
-
-                      <br>
-                    </div>
-                  </div>
-                </div>
-            </div>
-        </div>
-        <!-- /#page-content-wrapper -->
-    </div>
-  </div>  
+                    <br>
+                  </div> <!-- shadowed -->
+                </div> <!-- row -->
+            </div> <!-- fluid -->
+        </div> <!-- /#page-content-wrapper -->
+    </div> <!-- wrapper -->
+  </div>  <!-- row -->
 @stop
 @section('script')
 <script type="text/javascript">
-   $(document).ready(function() {
-        $('.funds').dataTable( {
+   $(document).ready(function(){
+        $('#withdrawals').dataTable({
         "order": [[ 2, "desc" ]]
     });
     });
