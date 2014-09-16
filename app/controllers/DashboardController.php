@@ -28,7 +28,29 @@ class DashboardController extends \BaseController {
 	}
 	public function invoices()
 	{
-		return View::make('dashboard.invoices');
+		$auctionInvoice = DB::select('
+			select s.*,p.productName from sales as s
+			inner join auction as a on s.auctionID = a.id
+			inner join product as p on a.productID = p.id
+			where buyerID = '.Auth::user()->id.'
+			');
+		$sellingInvoice = DB::select('
+			select s.*,p.productName from sales as s
+			inner join selling as se on s.sellingID = se.id
+			inner join product as p on se.productID = p.id
+			where buyerID = '.Auth::user()->id.'
+			');
+		if($auctionInvoice || $sellingInvoice){
+			// dd($auctionInvoice);
+			return View::make('dashboard.invoices', compact('auctionInvoice','sellingInvoice'));
+		}else{
+			return View::make('dashboard.invoices')
+								->withFlashMessage('
+									<div class="alert alert-danger square error-bid" role="alert">
+										Ohh Snap!..You do not have Invoices yet!
+									</div>
+								');
+		}
 	}
 	public function wonbids()
 	{

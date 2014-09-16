@@ -183,9 +183,6 @@ class AuctionController extends \BaseController {
 	{
 		if(Request::ajax()){
 			$auction = Auction::find($id);
-			$auction->sold = 1;
-			$auction->save();
-
 			return Response::json($auction->endDate);
 		}
 	}

@@ -47,7 +47,7 @@ class SalesController extends \BaseController {
 			}
 			$sales->sellingID = $selling->id;
 			$sales->buyerID = Auth::user()->id;
-			$sales->transactionNO = 'DS-'.time();
+			$sales->transactionNO = time();
 			$sales->save();
 
 			//deduct amount to current fund of buyer

@@ -7,6 +7,29 @@
 	<div class="col-md-9" style="background-color:white;">
 		<input id="currentID" type="text" value="{{Auth::user()->id}}" hidden>
 		@foreach($listings as $list)
+		<?php 
+			$originalPrice = $list->price;
+			$isDiscounted = false;
+			if((float)$list->discount > 0.00){
+			$list->price = (float) $list->price - ((float) $list->price * ((float) $list->discount)/100);
+			$isDiscounted = true;
+			}
+		?>
+		<div class="modal fade buy-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+		  <div class="modal-dialog modal-sm">
+		    <div class="modal-content modal-prop">
+			    <center>
+					{{ Form::open(['route'=>'sales.store']) }}
+						<input type="hidden" name="sellingID" value="{{$list->id}}">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Confirm Purchase of <font color="#992D31" size="4"><b>${{round($list->price, 2)}}</b></font></button>
+					{{ Form::close() }}
+				</center>
+		      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+		    </div>
+		  </div>
+		</div>
+		<!-- End Modal -->
 		<br>
 		<div class="container-fluid">
 			<div class="well listing-prop">
@@ -20,8 +43,13 @@
 						<a href="/direct-selling/{{$list->id}}"><div class="breadcrumb default-blue shadow-default"><center><h4>{{$list->sellingName}}</h4></center></div></a>
 						<p class="comment">{{$list->productDescription}}</p>
 						<center>
+							<?php 
+							if($isDiscounted){
+								echo '<p>Original Price: <span class="originalPrice"> <b>$'.round($originalPrice, 2).'</b></span></p>';
+							}
+						 ?>
 						<div class="btn-group">
-							<button class="btn btn-success buy" value="{{$list->id}}"
+							<button id="btn-buy" class="btn btn-success buy" value="{{$list->id}}"
 								<?php if($list->userID == Auth::user()->id){
 									echo "disabled";
 								};?>

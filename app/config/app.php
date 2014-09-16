@@ -122,6 +122,7 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Laracasts\Validation\ValidationServiceProvider',
 		'Anouar\Paypalpayment\PaypalpaymentServiceProvider',
+		'Indatus\Dispatcher\ServiceProvider'
 		// 'Intervention\Image\ImageServiceProvider'
 	),
 

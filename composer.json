@@ -12,7 +12,8 @@
 		"kartik-v/bootstrap-star-rating": "dev-master",
 		 "paypal/adaptivepayments-sdk-php":"v3.6.106",
 		 "paypal/adaptiveaccounts-sdk-php":"v3.6.106",
-		"webpatser/laravel-uuid": "dev-master"
+		"webpatser/laravel-uuid": "dev-master",
+		"indatus/dispatcher": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
