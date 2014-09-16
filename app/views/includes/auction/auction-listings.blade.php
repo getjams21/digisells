@@ -16,6 +16,21 @@
 		<div class="col-md-9" style="background-color:white;">
 			<input id="currentID" type="text" value="{{Auth::user()->id}}" hidden>
 			@foreach($listings as $list)
+			<div class="modal fade buy-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog modal-sm">
+			    <div class="modal-content modal-prop">
+				    <center>
+						{{ Form::open(['route'=>'sales.store']) }}
+							<input type="hidden" name="auctionID" value="{{$list->id}}">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Confirm Purchase of <font color="#992D31" size="4"><b>${{round($list->buyoutPrice, 2)}}</b></font></button>
+						{{ Form::close() }}
+					</center>
+			      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+			    </div>
+			  </div>
+			</div>
+			<!-- End Modal -->
 			<br>
 			<div class="container-fluid">
 				<div class="well listing-prop">
@@ -24,7 +39,13 @@
 							<div class="thumbnail shadow-default">
 								<a href="/auction-listing/{{$list->id}}"><img src="../product/images/{{$list->imageURL}}" class="listing-img-prop"></a>
 							</div>
-							<button class="btn btn-success buyout"><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for <font color="#992D31"><b>${{round($list->buyoutPrice, 2)}}</font></b></button>
+							<button id="btn-buy" class="btn btn-success buy" value="{{$list->id}}"
+								<?php if($list->userID == Auth::user()->id){
+									echo "disabled";
+								};?>
+							><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for
+								<font color="#992D31"><b>${{round($list->buyoutPrice, 2)}}</b></font>
+							</button>
 						</div>
 						<div class="col-md-9 inactive">
 							<a href="/auction-listing/{{$list->id}}"><div class="breadcrumb default-blue shadow-default"><center><h4>{{$list->auctionName}}</h4></center></div></a>
@@ -40,6 +61,11 @@
 										echo "Starting Price:";
 								} ?>
 							<font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)}}</font></b></h5>
+							@if (Session::has('flash_message'))
+								<div class="form-group ">
+									<p>{{Session::get('flash_message') }}</p>
+								</div>
+							@endif
 							<!-- <input type="hidden" id="endingDate" value="{{$list->endDate}}">
 							<input type="hidden" id="auction-id" value="{{$list->id}}">
 							<input type="hidden" id="isShow" value="0">

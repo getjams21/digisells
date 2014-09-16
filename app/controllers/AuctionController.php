@@ -183,6 +183,58 @@ class AuctionController extends \BaseController {
 	{
 		if(Request::ajax()){
 			$auction = Auction::find($id);
+			// $auction->sold = 1;
+			// $auction->save();
+
+			$sales = new Sales;
+			$sales->amount = $auction->buyoutPrice;
+			if(Auth::user()->fund < $sales->amount){
+				return Redirect::back()->withFlashMessage('
+					<center><div class="alert alert-danger square error-bid" role="alert">
+						<b>Ohh Snap!..Insufficient Fund!</b><br>
+						<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
+					</div></center>
+					');
+			}
+			$sales->auctionID = $auction->id;
+			$sales->buyerID = Auth::user()->id;
+			$sales->transactionNO = time();
+			$sales->save();
+
+			//deduct amount to current fund of buyer
+			$buyer = User::find(Auth::user()->id);
+			$buyer->fund -= (float) $sales->amount;
+			$buyer->save();
+
+			//add credits to buyer
+			$credits = new Credits;
+			$credits->userID = Auth::user()->id;
+			$credits->salesID = $sales->id;
+			$credits->creditAdded = ((float) $sales->amount * 0.01);
+			$credits->save();
+
+			//total credits
+			$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
+			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
+			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
+
+			//add commission to company
+			$company = User::find(1);
+			$company->fund += ((float) $sales->amount * 0.09);
+			$company->save();
+
+			//add commission to affiliate if affiliated
+
+			//add funds to the seller
+			$totalAmount = ((float) $sales->amount - (float) $company->fund) - (float) $credits->creditAdded;
+			$product = Product::find($auction->productID);
+			$seller = User::find($product->userID);
+			$seller->fund += $totalAmount;
+			$seller->save();
+
+			//set auction event as sold
+			$auction->sold = 1;
+			$auction->save();
 			return Response::json($auction->endDate);
 		}
 	}
@@ -238,8 +290,8 @@ class AuctionController extends \BaseController {
 			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder, 
 			w.status as watched from auction as a 
 			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
-			where a.sold=0 and a.endDate >= NOW() 
-			order by a.created_at desc limit 4
+			where a.sold=0 and a.endDate >= NOW()
+			order by a.created_at desc limit 10
 		');
 		if($listings){
 			$lastItem = end($listings);

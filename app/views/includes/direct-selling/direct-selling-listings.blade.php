@@ -48,6 +48,11 @@
 								echo '<p>Original Price: <span class="originalPrice"> <b>$'.round($originalPrice, 2).'</b></span></p>';
 							}
 						 ?>
+						 @if (Session::has('flash_message'))
+							<div class="form-group ">
+								<p>{{Session::get('flash_message') }}</p>
+							</div>
+						@endif
 						<div class="btn-group">
 							<button id="btn-buy" class="btn btn-success buy" value="{{$list->id}}"
 								<?php if($list->userID == Auth::user()->id){
