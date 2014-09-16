@@ -40,10 +40,10 @@
 										echo "Starting Price:";
 								} ?>
 							<font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)}}</font></b></h5>
-							<input type="hidden" id="endingDate" value="{{$list->endDate}}">
+							<!-- <input type="hidden" id="endingDate" value="{{$list->endDate}}">
 							<input type="hidden" id="auction-id" value="{{$list->id}}">
-							<input type="hidden" id="isShow" value="1">
-							<div class="countdown default"></div>
+							<input type="hidden" id="isShow" value="0">
+							<div class="countdown default"></div> -->
 							<br>
 							<p class="comment">{{$list->productDescription}}</p>
 							<center>

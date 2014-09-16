@@ -25,14 +25,16 @@
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach ($auctionInvoice as $invoice)
+                            @if ($auctionInvoice)
+                              @foreach ($auctionInvoice as $invoice)
                                 <tr>
                                   <td>{{$invoice->transactionNO}}</td>
                                   <td>{{$invoice->productName}}</td>
                                   <td>{{round($invoice->amount,2)}}</td>
                                   <td>{{date('m-d-Y', strtotime($invoice->created_at))}}</td>
                                 </tr>
-                            @endforeach
+                              @endforeach
+                            @endif
                           </tbody>
                       </table>
                   </div>
@@ -48,14 +50,17 @@
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach ($sellingInvoice as $invoice)
+                            @if($sellingInvoice)
+                              @foreach ($sellingInvoice as $invoice)
                                 <tr>
                                   <td>{{$invoice->transactionNO}}</td>
                                   <td>{{$invoice->productName}}</td>
                                   <td>{{round($invoice->amount,2)}}</td>
                                   <td>{{date('m-d-Y', strtotime($invoice->created_at))}}</td>
                                 </tr>
-                            @endforeach
+                              @endforeach
+                            @endif
+                            
                           </tbody>
                       </table>
                   </div>   
