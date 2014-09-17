@@ -1,4 +1,3 @@
-
 <div class="container">
 	<div class="col-md-12">
 		<div class="col-md-8 col-md-offset-2">
@@ -34,7 +33,6 @@
 						  				<th>Name</th>
 						  				<th>Seller</th>
 						  				<th>Price</th>
-						  				<th>Discount</th>
 						  				<th>Quantity</th>
 						  				<th>Total Price</th>
 						  			</tr>
@@ -43,8 +41,7 @@
 						  				<tr>
 						  					<td>{{$product->productName}}</td>
 						  					<td>{{$seller->firstName}} {{$seller->lastName}}</td>
-						  					<td>${{round($selling->price,2)}}</td>
-						  					<td>{{$selling->discount}}%</td>
+						  					<td>${{round($auction->buyoutPrice,2)}}</td>
 						  					<td>{{$product->quantity}}</td>
 						  					<td>${{round($sales->amount,2)}}</td>
 						  				</tr>
@@ -63,7 +60,7 @@
 						    <br>
 						    Total Credits: <b>{{round($totalCredits, 2)}}</b>
 						    <br>
-						    Total Purchase: <b>${{$sales->amount}}</b>
+						    Total Purchase: <b>${{round($sales->amount,2)}}</b>
 						  </div>
 						</div>
 						</div>
