@@ -122,7 +122,8 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Laracasts\Validation\ValidationServiceProvider',
 		'Anouar\Paypalpayment\PaypalpaymentServiceProvider',
-		'Indatus\Dispatcher\ServiceProvider'
+		'Indatus\Dispatcher\ServiceProvider',
+		'Artdarek\OAuth\OAuthServiceProvider',
 		// 'Intervention\Image\ImageServiceProvider'
 	),
 
@@ -192,6 +193,7 @@ return array(
 		'Paypalpayment'   => 'Anouar\Paypalpayment\Facades\PaypalPayment',
 		'Carbon'		  => 'Carbon\Carbon',
 		'Uuid'			  => 'Webpatser\Uuid\Uuid',
+		'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
 		// 'Image'			  =>  'Intervention\Image\Facades\Image'
 
 	),

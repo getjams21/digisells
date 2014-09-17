@@ -57,7 +57,15 @@
 	  				<h4><li>Bid or make offers on digital goods.</li></h4>
 	  				<h4><li>Promote products and earn cash.</li></h4>
 	  				<h4><li>Add items to your watchlist.</li></h4>
-	  			</ul>
+	  			</ul><br>
+	  			<div class="col-md-7">
+	  			<a href="/facebookLogin" class="btn btn-block btn-social btn-facebook">
+                         <i class="fa fa-facebook"></i> Sign in with Facebook
+                     </a>
+                     <a class="btn btn-block btn-social btn-google-plus">
+                          <i class="fa fa-google-plus"></i> Sign in with Google
+                     </a>
+                </div>
 	  		</div>
 				</div>
 		</div>

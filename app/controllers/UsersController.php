@@ -176,7 +176,7 @@ class UsersController extends \BaseController {
 	{
   		$user = Auth::user();
 	    $rules = array(
-	        'old_password' => 'required|alphaNum|between:6,16',
+	        'old_password' => 'required|alphaNum|between:6,30',
 	        'password' => 'required|alphaNum|between:6,16|confirmed'
 	    );
 	    $validator = Validator::make(Input::only('old_password','password','password_confirmation'), $rules);

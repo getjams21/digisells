@@ -15,8 +15,9 @@
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
 
-// });
 
+// });
+Route::get('/facebookLogin', 'SessionsController@loginWithFacebook');
 Route::get('page', 'HomePageController');
 Route::get('/register','UsersController@create');
 Route::resource('users', 'UsersController');
