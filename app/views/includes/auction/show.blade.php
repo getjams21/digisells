@@ -45,15 +45,16 @@
 						<center><div class="price">
 							<span><h2>
 							<?php 
+							if(Auth::user()){
 								if($auction->userID != Auth::user()->id){
 									if($auction->highestBidder == Auth::user()->id){
 										echo "You're the current highest bidder with";
 									}else{
 										echo "Current Highest Bid:";
 									}
-								}else{
-										echo "Starting Price:";
+								}else{echo "Starting Price:";
 								}
+							}else{echo "Starting Price:";}
 							;?> ${{round($auction->amount, 2)}}</h2></span>
 						</div>
 						<div class="bidders">
@@ -79,25 +80,41 @@
 								<p>{{Session::get('flash_message') }}</p>
 							</div>
 						@endif
+					@if(Auth::guest())
+					<a href="/login">
+					@endif
 	                	<div class="btn-group">
 						<button type="submit" class="btn btn-primary bid"
-							<?php if($auction->userID == Auth::user()->id){
+							<?php 
+							if(Auth::user()){
+								if($auction->userID == Auth::user()->id){
 									echo "disabled";
-								};?>>
+								}	
+							}else{echo 'disabled';}
+							?>>
 							<span class="glyphicon glyphicon-bell">&nbsp;</span>Place Bid
 						</button>
 						{{ Form::close() }}
 						<button type="button" class="btn btn-success show-maxBid maxBid" value="{{$auction->id}}"
-							<?php if($auction->userID == Auth::user()->id){
+							<?php 
+							if(Auth::user()){
+								if($auction->userID == Auth::user()->id){
 								echo "disabled";
-							};?>
+								}
+							}else{echo 'disabled';}
+							?>
 						><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>
 						<button id="watch{{$auction->productID}}" 
 							class="btn btn-warning watchProduct <?php if(!$auction->watched || $auction->watched==0){echo '';}else{echo ' hidden';};?>" 
-							onclick="$(this).watchProduct({{$auction->userID}},{{$auction->productID}}, 1)" 
-							<?php if($auction->userID == Auth::user()->id){
+							
+							<?php 
+							if(Auth::user()){
+								if($auction->userID == Auth::user()->id){
 								echo "disabled";
-							};?>>
+								}else{
+									echo "onclick='$(this).watchProduct(".$auction->userID.",".$auction->productID.", 1)' ";
+								}
+							}else{echo 'disabled';}?>>
 							<span class="glyphicon glyphicon-eye-open">
 							</span>&nbsp;Watch this</button>
 
@@ -108,6 +125,9 @@
 							<span class="glyphicon glyphicon-ok">
 							</span>&nbsp; Watched </button>
 						</div>
+					@if(Auth::guest())
+					<a>
+					@endif
 					</div>
 					<br>
 					<div class="desc-text-prop">

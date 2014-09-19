@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 	<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# digisells: http://ogp.me/ns/fb/digisells#">  
+		<meta name="_token" content="{{ csrf_token() }}" />
 		 <link rel="shortcut icon" type="image/x-icon" href="_/fonts/favicon.ico" />
 		<meta charset="utf-8">
 		<meta property="fb:app_id" content="1497689920490189">
@@ -30,6 +31,7 @@
 		</noscript>
 	</head>
 	<body>
+	<div id="fb-root"></div>
 	  <script>
       window.fbAsyncInit = function() {
         FB.init({
@@ -47,7 +49,8 @@
        }(document, 'script', 'facebook-jssdk'));
     </script>
 		@yield('inbodyscripts')
-		<div id="fblike">
+		<font face="Segoe UI">
+		<div id="fblike" >
 			<div
 			  class="fb-like"
 			  data-share="true"
@@ -55,7 +58,6 @@
 			  data-show-faces="true">
 			</div>
 		</div>
-		<font face="Segoe UI">
 		@yield('header')
 		@yield('carousel')
 		@yield('featured') 

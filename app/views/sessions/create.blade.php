@@ -15,7 +15,7 @@
 						
 					<br><hr class="style-fade" >	<br>
 				<div class="row">
-				<div class="col-md-5 col-md-offset-2 " id="siginForm" >
+				<div class="col-md-6 col-md-offset-2 " id="siginForm" >
 						@if (Session::has('flash_message'))
 							<div class="form-group ">
 								<p>{{Session::get('flash_message') }}</p>
@@ -43,11 +43,11 @@
 						</div>
 			{{ Form::close()}}	
 				</div>		
-				<div class="col-md-3 col-md-offset-1 ">
+				<div class="col-md-3  ">
 					<a href="/facebookLogin" class="btn btn-block btn-social btn-facebook">
                          <i class="fa fa-facebook"></i> Sign in with Facebook
                      </a>
-                     <a class="btn btn-block btn-social btn-google-plus">
+                     <a href="/googleLogin" class="btn btn-block btn-social btn-google-plus">
                           <i class="fa fa-google-plus"></i> Sign in with Google
                      </a>
                  </div>

@@ -109,12 +109,18 @@ class DirectSellingController extends \BaseController {
 	 */
 	public function show($id)
 	{
+		if(Auth::user()){
+			$w = ',w.status as watched';
+			$query='left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on s.productID=w.productID ';
+		}else{
+			$w=',0 as watched ';
+			$query = ' ';
+		}
 		$sellingEvent = DB::select('
 			select s.*,
-			p.imageURL,p.productDescription,p.userID,w.status as watched 
+			p.imageURL,p.productDescription,p.userID '.$w.' 
 			from selling as s inner join product as p on s.productID = p.id 
-			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
-			on s.productID=w.productID where s.id ='.$id.''
+			'.$query.' where s.id ='.$id.''
 		);
 		return View::make('pages.direct-selling.show',compact('sellingEvent'));
 	}
@@ -179,10 +185,16 @@ class DirectSellingController extends \BaseController {
 		//check if there are bidders
 		//If bidded, set minimum price to highest bidder
 		//else, set minimum price to starting price
+		if(Auth::user()){
+			$w = ',w.status as watched';
+			$query='left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on s.productID=w.productID ';
+		}else{
+			$w=',0 as watched ';
+			$query = ' ';
+		}
 		$listings = DB::select('
-			select s.*,p.userID, p.imageURL,p.productDescription, 
-			w.status as watched from selling as s 
-			inner join product as p on s.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on s.productID=w.productID 
+			select s.*,p.userID, p.imageURL,p.productDescription '.$w.' from selling as s 
+			inner join product as p on s.productID=p.id '.$query.' 
 			where s.sold=0
 			order by s.created_at desc limit 4
 		');

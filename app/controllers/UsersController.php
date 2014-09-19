@@ -10,6 +10,7 @@ class UsersController extends \BaseController {
 		$this->registrationForm = $registrationForm;
 		$this->beforeFilter('currentUser',['only' => ['edit','update']]);
 		$this->beforeFilter('guest',['only' => ['create']]);
+		// $this->beforeFilter('auth',['only' => ['show']]);
 	}
 	
 	/**
@@ -70,7 +71,10 @@ class UsersController extends \BaseController {
 			$user = User::whereUsername($username)->firstOrFail();
 			$activity=$user->last_activity->diffForHumans();
 			$member=$user->created_at->diffForHumans();
+			$watched=null;
+			if(Auth::user()){
 			$watched =DB::select("select status from watchlist where watcherID=".Auth::user()->id." and userID=".$user->id. " and productID is null");
+			}
 			return View::make('users.show',['user' => $user,'activity' => $activity,'member' => $member,'watched'=>$watched]);	
 		}
 		catch(ModelNotFoundException $e)

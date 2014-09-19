@@ -19,10 +19,23 @@
 			{{Form::email('email',null,['class'=>'form-control square','disabled'=>true])}}
 			{{ errors_for('email', $errors)}}
 		</div>
+		@if(Auth::user()->type)
+		<div class="alert alert-warning">
+			Protect your funds by setting up your <br>
+			Digisells password.
+		</div>
+		@endif
 	</div><div class="col-md-7 ">
 		<br>
-		<h4 align="center" ><b><i>Change your Password</i></b></h4>
+		<h4 align="center" ><b><i>Digisells Account Password</i></b></h4>
 		<hr class="style-fade"><br>
+
+		@if(Auth::user()->type)
+		<div class="alert alert-info">
+			If you haven't changed your password<br>
+			Your old password is your current Username
+		</div>
+		@endif
 		<div class="form-group">
 			{{Form::label('old_password', 'Old Password')}}
 			{{Form::password('old_password',['class'=>'form-control square'])}}
