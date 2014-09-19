@@ -9,8 +9,8 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-// Route::when('*', 'csrf', array('post'));
-
+#CSRF protection for all post request
+Route::when('*', 'csrf', array('post'));
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
@@ -49,6 +49,8 @@ Route::get('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionControll
 #Auction Selling Platform
 Route::resource('/auction', 'AuctionController');
 Route::resource('/auction-listing', 'AuctionController');
+#Direct Selling Platform
+Route::resource('/direct-selling', 'DirectSellingController');
 #AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
 
@@ -62,8 +64,6 @@ Route::group(["before" => "auth"], function() {
   #Bidding Process
   Route::resource('/place-bid', 'BiddingController');
   Route::get('/place-max-bid', 'BiddingController@placeMaxBid');
-  #Direct Selling Platform
-  Route::resource('/direct-selling', 'DirectSellingController');
   Route::resource('/sales-page-default', 'SalesPageController');
   #Sales Processes
   Route::resource('/sales', 'SalesController');

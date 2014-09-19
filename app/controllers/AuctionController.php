@@ -2,7 +2,11 @@
 
 use Carbon\Carbon;
 class AuctionController extends \BaseController {
-
+	function __construct()
+	{
+		$this->beforeFilter('auth',['only' => ['index','store','testBidding','showDirectSellingListings',
+			'placingBid','validateReservedFunds']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *

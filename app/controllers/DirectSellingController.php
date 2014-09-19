@@ -1,7 +1,10 @@
 <?php
 
 class DirectSellingController extends \BaseController {
-
+	function __construct()
+	{
+		$this->beforeFilter('auth',['only' => ['index','store','listingSteps','showDirectSellingListings']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
