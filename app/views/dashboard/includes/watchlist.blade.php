@@ -19,12 +19,18 @@
          @foreach($watchlists as $watchlist)
           <tr> 
             <td>
-              <a href="/users/{{$watchlist->username}}"><b>{{$watchlist->username}}</b></a>
+              <a href="/users/{{$watchlist->username}}"><b>
+                @if(!$watchlist->type)
+                {{$watchlist->username}}
+                @else
+                {{$watchlist->firstName}}
+                @endif
+              </b></a>
             </td><td> 
                 @if($watchlist->auctionID)
                   <a href="/auction-listing/{{$watchlist->auctionID}}"><b>{{$watchlist->auctionName}}</b> </a>
                 @elseif($watchlist->sellingID)
-                 <a href="#"><b>{{$watchlist->sellingName}}</b> </a>
+                 <a href="/auction-listing/{{$watchlist->sellingID}}"><b>{{$watchlist->sellingName}}</b> </a>
                 @else
                   Listing Activities
                 @endif

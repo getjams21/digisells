@@ -43,11 +43,18 @@
                           {{Form::text('lastName',null,['class'=>'form-control square','required'=>'required'])}}
                         </div>
                         </div>
-                        <hr>
+                        @if(Auth::user()->type)
+                          <div class="alert alert-warning">
+                            If your Digisell password is not set.<br>
+                            Set your password on account section <a href="/users/{{Auth::user()->username}}/edit#editAccountInfo"><b>here.</b></a>
+                          </div>
+                        @else <hr>
+                        @endif
                         <div class="form-group">
                         {{Form::label('password', 'Digisells Account Password')}}
                         {{Form::password('password',['class'=>'form-control square','required'=>'required','id'=> 'password'])}}
                         <p>{{ errors_for('password', $errors)}}</p> 
+                        
                         </div>
                         <div class="form-group" style="margin-left:50%;" >
                           {{ Form::Submit('Withdraw',['class'=>'btn btn-primary square']) }}

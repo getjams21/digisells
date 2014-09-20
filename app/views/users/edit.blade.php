@@ -23,7 +23,7 @@
 								 @include('users.includes.editProfile')	
 						  </div>
 						  <!-- <div class="tab-pane" id="editContactInfo">Contacts</div> -->
-						  <div class="tab-pane" id="editAccountInfo">
+						 <div class="tab-pane" id="editAccountInfo">
 						  		@include('users.includes.editAccountInfo')	
 						  </div>
 						</div>

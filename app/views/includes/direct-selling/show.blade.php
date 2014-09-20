@@ -38,9 +38,13 @@
 							}
 						 ?>
 						<button id="btn-buy" class="btn btn-success btn-lg"
-							<?php if($selling->userID == Auth::user()->id){
+							<?php 
+							if(Auth::user()){
+								if($selling->userID == Auth::user()->id){
 								echo "disabled";
-								};?>
+								}
+							}else{echo "disabled";}
+							;?>
 						><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this for <font color="#992D31" size="4"><b>${{round($selling->price, 2)}}</b></font></button>
 					</center>
 				</div>
@@ -70,9 +74,15 @@
 						<button type="button" id="watch{{$selling->productID}}" 
 						class="btn btn-warning watchProduct <?php if(!$selling->watched || $selling->watched==0){echo '';}else{echo ' hidden';};?>" 
 						onclick="$(this).watchProduct({{$selling->userID}},{{$selling->productID}}, 1)" 
-						<?php if($selling->userID == Auth::user()->id){
+						<?php 
+						if(Auth::user()){
+							if($selling->userID == Auth::user()->id){
 							echo "disabled";
-						};?>>
+							}else{
+								echo "onclick='$(this).watchProduct(".$selling->userID.",".$selling->productID.", 1)'' ";
+							}
+						}else{echo "disabled";}
+						;?>>
 						<span class="glyphicon glyphicon-eye-open">
 						</span>&nbsp;Watch this</button>
 						<button type="button" id="unWatch{{$selling->productID}}" 

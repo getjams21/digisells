@@ -1,3 +1,10 @@
+$(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+        }
+    });
+});
 //file browser
 $(document).on('change', '.btn-file :file', function() {
   var input = $(this),
@@ -753,7 +760,7 @@ $(".clickableRow").click(function() {
  	  $.post('/watchUser',{id:userid},function(data){
       });
     });
- //unwatchUser ajax
+ //unwatchUser ajax 
  $('.unwatchUser').on('click', function(e){ 
       e.preventDefault(); 
       var userid=$(this).val();

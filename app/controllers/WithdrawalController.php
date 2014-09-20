@@ -67,9 +67,9 @@ class WithdrawalController extends \BaseController {
 		    }
 		$sdkConfig = array(
 			"mode" => "sandbox",
-			"acct1.UserName" => "admin_api1.digisells.com",
-			"acct1.Password" => "1408017508",
-			"acct1.Signature" => "AeCea6xAGs-n.GkSEXGeWXluuTzOAQSphFYGiGoMTvunIwAhl6PAZu1P",
+			"acct1.UserName" => "digisells_api1.admin.com",
+			"acct1.Password" => "PFT5XFQ42YDDEJYM",
+			"acct1.Signature" => "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AfQR4MeCy8ViZ7PE4umi3Me1o3PU",
 			"acct1.AppId" => "APP-80W284485P519543T"
 		);
 		$getVerifiedStatus = new GetVerifiedStatusRequest();
@@ -102,7 +102,7 @@ class WithdrawalController extends \BaseController {
 		$receiver[0]->email = $input['email'];
 		$receiverList = new ReceiverList($receiver);
 		$payRequest->receiverList = $receiverList; 			
-		$payRequest->senderEmail = "admin@digisells.com";
+		$payRequest->senderEmail = "digisells@admin.com";
 
 		$requestEnvelope = new RequestEnvelope("en_US");
 		$payRequest->requestEnvelope = $requestEnvelope; 
@@ -143,9 +143,9 @@ class WithdrawalController extends \BaseController {
 	{
 		$sdkConfig = array(
 			"mode" => "sandbox",
-			"acct1.UserName" => "admin_api1.digisells.com",
-			"acct1.Password" => "1408017508",
-			"acct1.Signature" => "AeCea6xAGs-n.GkSEXGeWXluuTzOAQSphFYGiGoMTvunIwAhl6PAZu1P",
+			"acct1.UserName" => "digisells_api1.admin.com",
+			"acct1.Password" => "PFT5XFQ42YDDEJYM",
+			"acct1.Signature" => "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AfQR4MeCy8ViZ7PE4umi3Me1o3PU",
 			"acct1.AppId" => "APP-80W284485P519543T"
 		);
 		$requestEnvelope = new RequestEnvelope("en_US");

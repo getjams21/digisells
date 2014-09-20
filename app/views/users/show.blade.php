@@ -4,15 +4,15 @@
 	@include('includes.navbar')
 @stop
 @section('content')
-	<div clas="row" style="padding-top:44px;">
+	<div clas="row" >
   <div id="wrapper">
-    @if(Auth::user())
-     @include('dashboard.includes.dashboardNavbar')
-    @endif
-      <div id="page-content-wrapper">
+      @if(Auth::user())
+       @include('dashboard.includes.dashboardNavbar')
+      @endif
+      <div id="page-content-wrapper"> 
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-12 shadowed">
+            <div class="col-md-12 shadowed"><br>
               <div class="col-md-12">
                <div class="row shadowed" id="Profile" >
                   @include('users.includes.profile')
@@ -44,12 +44,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            </div>
-          </div>
-        </div>
+            </div><!--12-->
+          </div><!--shadowed-->
+        </div><!--row-->
       </div>
-  </div>
-</div>  
+    </div><!--page-content-->
+  </div><!--wrapper-->
+</div>  <!--row-->
 @stop
 

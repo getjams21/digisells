@@ -1,8 +1,16 @@
 <!doctype html>
 <html>
-	<head>  
+	<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# digisells: http://ogp.me/ns/fb/digisells#">  
+		<meta name="_token" content="{{ csrf_token() }}" />
 		 <link rel="shortcut icon" type="image/x-icon" href="_/fonts/favicon.ico" />
 		<meta charset="utf-8">
+		<meta property="fb:app_id" content="1497689920490189">
+		<meta property="fb:admins" content="10202842632170362"/>
+	  	<!-- <meta property="og:type"   content="digisells:home" /> 
+	 	<meta property="og:url"    content="http://digisells.com/" /> 
+	 	<meta property="og:title"  content="Sample Home" /> 
+	 	<meta property="og:image"  content="https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png" />  -->
+		@yield('metatags')
 		{{ HTML::style('_/css/bootstrap.css') }}
 		{{ HTML::style('_/css/plugins/dataTables.bootstrap.css') }}
 		{{ HTML::style('_/css/mystyle.css') }}
@@ -13,6 +21,7 @@
 		{{ HTML::style('_/css/simple-sidebar.css') }}
 		{{ HTML::style('_/css/mystyle.css') }}
 		{{ HTML::style('_/css/sb-admin-2.css') }}
+		{{ HTML::style('_/css/plugins/social-buttons.css') }}
 		@yield('styles') 
 		<title>@yield('meta-title', 'Digisells')</title>
 		<noscript>
@@ -22,7 +31,33 @@
 		</noscript>
 	</head>
 	<body>
+	<div id="fb-root"></div>
+	  <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1497689920490189',
+          xfbml      : true,
+          version    : 'v2.0'
+        });
+      };
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+		@yield('inbodyscripts')
 		<font face="Segoe UI">
+		<div id="fblike" >
+			<div
+			  class="fb-like"
+			  data-share="true"
+			  data-width="450"
+			  data-show-faces="true">
+			</div>
+		</div>
 		@yield('header')
 		@yield('carousel')
 		@yield('featured') 

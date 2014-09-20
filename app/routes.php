@@ -9,58 +9,61 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-// Route::when('*', 'csrf', array('post'));
-
+#CSRF protection for all post request
+Route::when('*', 'csrf', array('post'));
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
 
 // });
-
-Route::get('page', 'HomePageController');
-Route::get('/register','UsersController@create');
-Route::resource('users', 'UsersController');
-
-#Subcategory select option ajax post
-Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
-#Registration
-Route::get('/register','UsersController@create')->before('guest');
+Route::get('/facebookLogin', 'SessionsController@loginWithFacebook');
+Route::get('/googleLogin', 'SessionsController@loginWithGoogle');
 #Authentication
 Route::get('login',['as' => 'login', 'uses' =>'SessionsController@create']);
 Route::get('logout',['as'=>'logout', 'uses' =>'SessionsController@destroy']);
 Route::resource('sessions', 'SessionsController',['only' => ['create','store','destroy']]);
-#Image Upload
-Route::resource('uploadImage', 'ImageUploadController');
-#profiles
-Route::get('/users/{username}', ['as' => 'profile', 'uses' => 'UsersController@show']);
-// Route::get('/profile','UsersController@show');
-#password reminders
-Route::controller('password','RemindersController');
+#Registration
+Route::get('/register','UsersController@create');
 #registration validation posts
 Route::post( '/searchUser', 'UsersController@searchPostUser' );
 Route::post( '/searchEmail', 'UsersController@searchPostEmail' );
-#direct change password patch
-Route::patch( '/updateAccount', 'UsersController@updateAccount' );
+#Registration
+Route::get('/register','UsersController@create')->before('guest');
+#Home Page
+Route::get('page', 'HomePageController');
+#User resource (update,edit Secured)
+Route::resource('users', 'UsersController');
+#User profiles
+Route::get('/users/{username}', ['as' => 'profile', 'uses' => 'UsersController@show']);
+#Image Upload
+Route::resource('uploadImage', 'ImageUploadController');
+#password reminders
+Route::controller('password','RemindersController');
 #Selling Platform Option
 Route::get('/selling', 'HomePageController@selling');
-
+#Marketplace Routes
 Route::get('/auction-listings', 'AuctionController@showAuctionListings');
 Route::get('/direct-selling-listings', 'DirectSellingController@showDirectSellingListings');
 Route::post('/load-more-auction', 'AuctionController@loadMoreAuction');
 Route::get('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionController@placingBid']);
-#Users dashboard routes set auth to login users
+#Auction Selling Platform
+Route::resource('/auction', 'AuctionController');
+Route::resource('/auction-listing', 'AuctionController');
+#Direct Selling Platform
+Route::resource('/direct-selling', 'DirectSellingController');
 #AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
-  #Auction Selling Platform
-  Route::resource('/auction', 'AuctionController');
-  Route::resource('/auction-listing', 'AuctionController');
+
+  #User direct change password patch
+  Route::patch( '/updateAccount', 'UsersController@updateAccount' );
+  #Subcategory select option ajax post
+  Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
+  
   Route::get('sales-page/default', 'AuctionController@showAuctionDefault');
   Route::get('test-bidding', 'AuctionController@testBidding');
   #Bidding Process
   Route::resource('/place-bid', 'BiddingController');
   Route::get('/place-max-bid', 'BiddingController@placeMaxBid');
-  #Direct Selling Platform
-  Route::resource('/direct-selling', 'DirectSellingController');
   Route::resource('/sales-page-default', 'SalesPageController');
   #Sales Processes
   Route::resource('/sales', 'SalesController');

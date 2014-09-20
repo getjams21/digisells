@@ -5,7 +5,9 @@
 	<div class="col-md-3">
 	</div>
 	<div class="col-md-9" style="background-color:white;">
+	@if(Auth::user())
 		<input id="currentID" type="text" value="{{Auth::user()->id}}" hidden>
+	@endif
 		@foreach($listings as $list)
 		<?php 
 			$originalPrice = $list->price;
@@ -53,20 +55,31 @@
 								<p>{{Session::get('flash_message') }}</p>
 							</div>
 						@endif
+					@if(Auth::guest())
+					<a href="/login">
+					@endif
 						<div class="btn-group">
 							<button id="btn-buy" class="btn btn-success buy" value="{{$list->id}}"
-								<?php if($list->userID == Auth::user()->id){
-									echo "disabled";
-								};?>
+								<?php 
+								if(Auth::user()){
+									if($list->userID == Auth::user()->id){
+									echo "disabled";}
+								}else{echo "disabled";}
+								?>
 							><span class="glyphicon glyphicon-check"></span>&nbsp;Buy this for
 								<font color="#992D31"><b>${{round($list->price, 2)}}</b></font>
 							</button>
 							<button id="watch{{$list->productID}}" 
 								class="btn btn-warning watchProduct <?php if(!$list->watched || $list->watched==0){echo '';}else{echo ' hidden';};?>" 
-								onclick="$(this).watchProduct({{$list->userID}},{{$list->productID}}, 1)" 
-								<?php if($list->userID == Auth::user()->id){
+								<?php 
+								if(Auth::user()){
+									if($list->userID == Auth::user()->id){
 									echo "disabled";
-								};?>>
+									}else{
+										echo "onclick='$(this).watchProduct(".$list->userID.",".$list->productID.", 2)'" ;
+									}
+								}else{echo "disabled";}
+								?>>
 								<span class="glyphicon glyphicon-eye-open">
 								</span>&nbsp;Watch this</button>
 
@@ -77,6 +90,9 @@
 								<span class="glyphicon glyphicon-ok">
 								</span>&nbsp;Watched </button>
 						</div>
+					@if(Auth::guest())
+					<a>
+					@endif
 						</center>
 					</div>
 				</div>

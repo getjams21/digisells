@@ -64,7 +64,7 @@
           			</li>
           			<li class="form-inline">
           				<center>
-							<button type="submit" class="btn btn-primary btn-prop" style="margin-left:50%;">Sign in</button>
+							<button type="submit" class="btn btn-primary btn-prop" style="margin-left:40%;width:40%;">Sign in</button>
           				</center>
           				
           			</li>
@@ -93,7 +93,11 @@
     @else
     {{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'nav-img')) }}
     @endif
-      {{Auth::user()->username}}
+      @if(Auth::user()->type)
+        {{Auth::user()->firstName}}
+      @else
+        {{Auth::user()->username}}
+      @endif
       <span class="badge alert-danger" id="unreadNotif">{{Config::get('currentNotifications')}}</span>
       <span class="caret" ></span></a>
       

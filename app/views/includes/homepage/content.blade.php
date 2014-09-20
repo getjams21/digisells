@@ -44,4 +44,16 @@
             	</center>
             </div>
         </div>
+        <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <center>
+            <div class="panel panel-primary">
+                <div class="panel-heading"><fb:comments-count href="http://digisells.com/"></fb:comments-count> Digisells Facebook Comments</div>
+            <div class="panel-body">
+                <div class="fb-comments" data-href="http://digisells.com/" data-numposts="3" data-colorscheme="light"></div>
+            </div>
+            </div>
+            </center>
+        </div>
+        </div>
 </div>

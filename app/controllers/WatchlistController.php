@@ -8,29 +8,26 @@ class WatchlistController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{	$sortBy= Request::get('sortBy') ?: 'created_at' ;
-		$direction = Request::get('direction') ?: 'desc' ;
-		$watchlist = DB::select("select a.*,b.username,c.id as auctionID,c.auctionName,
+	{	
+		$watchlist = DB::select("select a.*,b.username,b.firstName,b.type,c.id as auctionID,c.auctionName,
 			d.id as sellingID,d.sellingName from watchlist as a inner join
 		user as b on a.userID=b.id left join auction as c 
 		on a.productID=c.productID left join selling as d 
 		on a.productID=d.productID where a.watcherID=".Auth::user()->id." 
-		and a.status= 1 order by ".$sortBy." ".$direction);
+		and a.status= 1");
 		$route = 'watchlist';
 		$event="Watching";
 		return View::make('dashboard.watchlist',['watchlists' => $watchlist,'event'=>$event,'route'=>$route]);
-		// dd($watchlist);
+	
 	}
 	public function watchers()
 	{	
-		$sortBy= Request::get('sortBy') ?: 'created_at' ;
-		$direction = Request::get('direction') ?: 'desc' ;
-		$watchers = DB::select("select a.*,b.username,c.id as auctionID,c.auctionName,
+		$watchers = DB::select("select a.*,b.username,b.firstName,b.type,c.id as auctionID,c.auctionName,
 			d.id as sellingID,d.sellingName from watchlist as a inner join
 			user as b on a.watcherID=b.id left join auction as c 
 			on a.productID=c.productID left join selling as d 
 			on a.productID=d.productID where a.userID=".Auth::user()->id." 
-			and a.status= 1 order by ".$sortBy." ".$direction );
+			and a.status= 1 ");
 		$route = 'watchers';
 		$event="Watchers";
 		return View::make('dashboard.watchlist',['watchlists' => $watchers,'event'=>$event,'route'=>$route]);
@@ -59,7 +56,7 @@ class WatchlistController extends \BaseController {
   			$watchuser = $thisuser;
 			$watchuser->newNotification()
 			    ->withType('UserWatched')
-			    ->withSubject(Auth::user()->username)
+			    ->withSubject("<a href='/users/".Auth::user()->username." ' >".Auth::user()->firstName."<a>")
 			    ->withBody('has started watching you!')
 			    ->regarding($thisuser)
 			    ->deliver();
@@ -104,18 +101,29 @@ class WatchlistController extends \BaseController {
   			$watchlist->save();
   			}
 			$thisuser = User::find($userID);
+			if(Auth::user()->type){
+				$subject=Auth::user()->firstName;
+			}else{
+				$subject=Auth::user()->username;
+			}
   			$watchProduct = $thisuser;
   			if($type == 1){
   				$product= Auction::where('productID', '=', $prodID)->first();
   				$watchProduct->newNotification()
 			    ->withType('ProductWatched')
-			    ->withSubject(Auth::user()->username)
+			    ->withSubject($subject)
 			    ->withBody("has started watching your <a href='/auction-listing/".$product->id."'> <b>".$product->auctionName." </b></a> ")
 				->regarding($product)
 			    ->deliver();
-	  		}else{
+	  		}else if($type == 2){
 	  			// Direct selling watchlist here
   				$product= Selling::where('productID', '=', $prodID)->first();
+  				$watchProduct->newNotification()
+			    ->withType('ProductWatched')
+			    ->withSubject($subject)
+			    ->withBody("has started watching your <a href='/direct-selling/".$product->id."'> <b>".$product->sellingName." </b></a> ")
+				->regarding($product)
+			    ->deliver();
   			}
   			
 			  // return Response::json($product);

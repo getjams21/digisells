@@ -2,7 +2,11 @@
 
 use Carbon\Carbon;
 class AuctionController extends \BaseController {
-
+	function __construct()
+	{
+		$this->beforeFilter('auth',['only' => ['index','store','testBidding','showDirectSellingListings',
+			'placingBid','validateReservedFunds']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -158,16 +162,22 @@ class AuctionController extends \BaseController {
 	 * @return Response
 	 */
 	public function show($id)
-	{
+	{	
+		if(Auth::user()){
+			$w = ',w.status as watched';
+			$query='left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID ';
+		}else{
+			$w=',0 as watched ';
+			$query = ' ';
+		}
 		$auctionEvent = DB::select('
 			select a.*,
 			(SELECT COUNT(id) from bidding where auctionID = '.$id.' and amount != 0) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
 			(Select userID from bidding where auctionID = '.$id.' order by amount desc limit 1) as highestBidder,
-			p.imageURL,p.productDescription,p.userID,w.status as watched 
+			p.imageURL,p.productDescription,p.userID '.$w.'
 			from auction as a inner join product as p on a.productID = p.id 
-			left join (select * from watchlist where watcherID='.Auth::user()->id.') as w 
-			on a.productID=w.productID where a.id ='.$id.''
+			'.$query.' where a.id ='.$id.''
 		);
 		return View::make('pages.auction.show',compact('auctionEvent','incValue'));
 	}
@@ -283,13 +293,19 @@ class AuctionController extends \BaseController {
 		//check if there are bidders
 		//If bidded, set minimum price to highest bidder
 		//else, set minimum price to starting price
+		if(Auth::user()){
+			$w = ',w.status as watched';
+			$query='left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID ';
+		}else{
+			$w=',0 as watched ';
+			$query = ' ';
+		}
 		$listings = DB::select('
 			select a.id,a.buyoutPrice, a.auctionName,a.productID,a.endDate,p.userID, p.imageURL,p.productDescription,
 			(SELECT COUNT(id) from bidding where auctionID = a.id and amount != 0 and highestBidder = 1) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
-			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder, 
-			w.status as watched from auction as a 
-			inner join product as p on a.productID=p.id left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID 
+			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder '.$w.' from auction as a 
+			inner join product as p on a.productID=p.id '.$query.'
 			where a.sold=0 and a.endDate >= NOW()
 			order by a.created_at desc limit 10
 		');

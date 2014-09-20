@@ -60,5 +60,5 @@
 		<div class="form-group" style=":34%;margin-left:60%;" >
 			{{ Form::Submit('Update Profile',['class'=>'btn btn-primary square']) }}
 		</div>
-	</div>
+		</div>
 	{{ Form::close()}}
