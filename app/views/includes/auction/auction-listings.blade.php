@@ -66,7 +66,7 @@
 										}else{
 											echo "Current Highest Bid:";
 										}
-									}
+									}else{echo "Starting Price:";}
 								}else{
 										echo "Starting Price:";
 									}

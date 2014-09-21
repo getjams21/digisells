@@ -816,7 +816,7 @@ $(".clickableRow").click(function() {
 				var incrementValue;
 				var routeURL = 'http://digisells.com/place-bid';
 				var lblPlaceBid = 'Place Bid';
-				var method = 'POST';
+				var method = 'GET';
 				if(isMaxBid == '1'){
 					routeURL = 'http://digisells.com/place-max-bid';
 					lblPlaceBid = 'Place Maximum Bid';

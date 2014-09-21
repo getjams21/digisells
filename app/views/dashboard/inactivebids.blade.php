@@ -22,19 +22,32 @@
                           <table class="table table-striped table-bordered table-hover" id="inactivebids">
                             <thead>
                               <tr>
-                                <th>Bid ID</th>
-                                <th>Amount</th>
-                                <th>Time</th>
-                                <th>Ending</th>
+                                <th>Auction Name</th>
+                                <th>Buyout Price</th>
+                                <th>Current Max Bid</th>
+                                <th>Your Bid</th>
+                                <th>Event End Date</th>
+                                <th>Event Status</th>
                               </tr>
                             </thead>
                             <tbody>
+                               @foreach($inactivebids as $inactivebid)
                               <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><a href="auction-listing/{{$inactivebid->id}}">{{$inactivebid->auctionName}}</a></td>
+                                <td>{{round($inactivebid->buyoutPrice,2)}}</td>
+                                <td>{{round($inactivebid->maxBid,2)}}</td>
+                                <td><i class="error"> {{round($inactivebid->amount,2)}}</i></td>
+                                <td>{{human($inactivebid->endDate)}}</td>
+                                <td>
+                                   @if(carbonize($inactivebid->endDate) > Carbon::now() && $inactivebid->sold==0)
+                                   <span class="success"> <i class="fa fa-play-circle"></i> Ongoing</span>
+                                  @else
+                                       <span class="error"> <i class="fa fa-stop"></i> Ended</span>
+
+                                  @endif
+                                 </td>
                               </tr>
+                              @endforeach
                             </tbody>
                           </table>
                         </div>

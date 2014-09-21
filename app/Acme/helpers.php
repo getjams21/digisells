@@ -35,6 +35,11 @@ function dateformat($date){
 function timeformat($date){
 	return date("g:i a",strtotime($date));
 }
+function Human($date){
+	$date = new Carbon($date);
+	$newdate= $date->diffForHumans();
+	return $newdate;
+}
 // function sortBy($column,$body,$route)
 // {
 // 	$direction = (Request::get('direction')=='asc') ? 'desc' : 'asc';

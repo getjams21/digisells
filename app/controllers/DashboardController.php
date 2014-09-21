@@ -18,13 +18,30 @@ class DashboardController extends \BaseController {
 	}
 	public function auctionList()
 	{
-		$auction=DB::select('select a.*,b.userID,b.quantity from auction as a inner join product as b on a.productID=b.id where b.userID='.Auth::user()->id." order by created_at desc");
-		return View::make('dashboard.auctionList',['auction' => $auction]);
+		if(Request::get('status')){
+			if(Request::get('status') =='expired'){$expired='<=';}else{$expired='>';}
+		}else{$expired='>';}
+		$auction=DB::select("select a.*,(select count(id) from bidding where auctionID=a.id and amount>0 and userID!=".Auth::user()->id.") 
+				as bidders,e.username,e.firstName as maxBidder,d.created_at as datebid,d.amount as maxBid 
+				from auction as a inner join product as b on a.productID=b.id left join (select max(amount) 
+				as amount,auctionID from bidding where userID!=".Auth::user()->id." group by auctionID) as c on a.id=c.auctionID 
+				left join bidding as d on d.amount=c.amount left join user as e on d.userID=e.id where b.userID=".Auth::user()->id." 
+				and a.sold=0 and a.endDate ".$expired." NOW() order by created_at desc");
+		// echo '<pre>';
+		// return dd($auction);
+		return View::make('dashboard.auctionList',['auction' => $auction,'status'=>Request::get('status')]);
 	}
 	public function directSellingList()
 	{
-		$selling=DB::select('select a.*,b.userID,b.quantity from selling as a inner join product as b on a.productID=b.id where b.userID='.Auth::user()->id." order by created_at desc");
-		return View::make('dashboard.directSellingList',['selling' => $selling]);
+		if(Request::get('status')){
+			if(Request::get('status') =='expired'){$expired='<=';}else{$expired='>';}
+		}else{$expired='>';}
+		$selling=DB::select('select a.*,c.count from selling as a inner join product as b on a.productID=b.id 
+				left join (select count(sellingID) as count,sellingID from sales group by sellingID) as c on a.id=c.sellingID 
+				where b.userID='.Auth::user()->id." and a.expirationDate ".$expired." NOW() order by created_at desc");
+		// echo '<pre>';
+		// return dd($selling);
+		return View::make('dashboard.directSellingList',['selling' => $selling,'status'=>Request::get('status')]);
 	}
 	public function invoices()
 	{
@@ -54,7 +71,16 @@ class DashboardController extends \BaseController {
 	}
 	public function inactivebids()
 	{
-		return View::make('dashboard.inactivebids');
+		$inactivebids = DB::select('select a.*,b.userID as seller,c.amount,c.userID,(select max(amount) from bidding where auctionID=a.id)
+			as maxBid from auction as a inner join product as b on a.productID=b.id inner join (select a.id,(select userID from bidding 
+			where amount=(select max(amount) from bidding where auctionID=a.id) and auctionID=a.id)
+			as maxuser,(select max(amount) from bidding where auctionID=a.id and userID!=maxuser
+			and userID='.Auth::user()->id.') as second from auction as a) as d on a.id=d.id inner 
+			join bidding as c on c.auctionID=a.id and c.amount=d.second where c.userID='.Auth::user()->id.'
+			 and amount!=0 and b.userID!='.Auth::user()->id);
+		// echo '<pre>';
+		// return dd($inactivebids);
+		return View::make('dashboard.inactivebids',['inactivebids'=>$inactivebids]);
 	}
 	public function readNotif(){
 		if(Request::ajax()){
@@ -71,12 +97,21 @@ class DashboardController extends \BaseController {
 	}
 	public function soldAuctions()
 	{
-		$soldAuctions= DB::select('select a.*,b.productName,temp.max,d.username,c.created_at as sold from auction as a 
-			inner join product as b on a.productID=b.id inner join bidding as c 
-			on a.id=c.auctionID inner join (select max(amount) as max, auctionID,userID 
-			from bidding group by auctionID) as temp on a.id=temp.auctionID and temp.max=c.amount 
-			inner join user as d on d.id=c.userID where a.sold=1 and b.userID='.Auth::user()->id);
+		$soldAuctions= DB::select("select a.*,b.auctionName,b.minimumPrice,b.buyoutPrice,d.username,d.firstName,
+		 (select count(id) from bidding where auctionID=a.auctionID and amount>0 and userID!=".Auth::user()->id.") as bidders
+		  from sales as a inner join auction as b on a.auctionID=b.id inner join product as c on b.productID=c.id 
+		  inner join user as d on a.buyerID=d.id where a.auctionID IS NOT NULL and c.userID =".Auth::user()->id);
+		// echo '<pre>';
+		// return dd($soldAuctions);
 		return View::make('dashboard.soldAuctions',['soldAuctions'=>$soldAuctions]);
+	}
+	public function soldDirectSelling()
+	{
+		$soldSelling= DB::select('select a.sellingID,b.sellingName,b.price,b.discount,count(a.sellingID) as buyers,b.expirationDate as endDate
+			,a.amount ,d.firstName as seller from sales as a inner join selling as b on a.sellingID=b.id inner join
+			 product as c on b.productID=c.id inner join user as d on c.userID=d.id where a.sellingID 
+			 IS NOT NULL and d.id='.Auth::user()->id.' group by a.sellingID');
+		return View::make('dashboard.soldSelling',['soldSelling'=>$soldSelling]);
 	}
 	
 	/**
