@@ -816,7 +816,8 @@ $(".clickableRow").click(function() {
 				var incrementValue;
 				var routeURL = 'http://digisells.com/place-bid';
 				var lblPlaceBid = 'Place Bid';
-				var method = 'GET';
+				var method = 'POST';
+				var token = $('meta[name="_token"]').attr('content');
 				if(isMaxBid == '1'){
 					routeURL = 'http://digisells.com/place-max-bid';
 					lblPlaceBid = 'Place Maximum Bid';
@@ -845,6 +846,7 @@ $(".clickableRow").click(function() {
 						</div>\
 						<span>Enter Bid <font color="#992D31"><b>$'+incrementValue+'</b></font> or higher</span>\
 						<form method="'+method+'" action="'+routeURL+'" accept-charset="UTF-8">\
+						<input name="_token" type="hidden" value="'+token+'">\
 						<div class="input-group txtbox-s prop-s">\
 		                    <span class="input-group-addon">$</span>\
 		                    <input class="form-control span3" placeholder="Bid Price" id="bidPrice" required="required" name="bidPrice" type="text">\       

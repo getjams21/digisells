@@ -42,21 +42,29 @@
                                 <td>{{$user->fund}}</td>
                                 <td>{{carbonize($user->last_activity)->diffForHumans()}}</td>
                                 <td>{{$user->role}} 
-                                    @if($user->status == 1 && $user->id != Auth::user()->id && $user->id !=1)
+                                    @if(Auth::user()->hasRole('owner') && Auth::user()->id!=$user->id && $user->id!=1)
                                         <button class="btn btn-info btn-xs"onclick="editRole({{$user->id}});">Edit</button>
                                     @endif
                                 </td>
                                 <td>@if($user->status == 1)
                                 	Active 
-                                        @if($user->id != Auth::user()->id && $user->id !=1)
-                                        <button class="btn btn-danger btn-xs" onclick="deactivateUser({{$user->id}});"><i class="fa fa-times"></i></button>
-                                        @endif
+                                        @if(Auth::user()->hasRole('owner') && Auth::user()->id!=$user->id && $user->id!=1 || (Auth::user()->hasRole('admin') && !thisRole($user->id,'owner') && !thisRole($user->id,'admin')))
+                                         <button class="btn btn-danger btn-xs" onclick="deactivateUser({{$user->id}});"><i class="fa fa-times"></i></button>
+                                       @endif
                                 	@else
-                                	Inactive <button class="btn btn-success btn-xs" onclick="activateUser({{$user->id}});"><i class="fa fa-check"></i></button>
+                                	Inactive 
+                                        @if(Auth::user()->hasRole('owner') || (Auth::user()->hasRole('admin') && !thisRole($user->id,'owner') && !thisRole($user->id,'admin')))
+                                         <button class="btn btn-success btn-xs" onclick="activateUser({{$user->id}});"><i class="fa fa-check"></i></button>
+                                       @endif
+                                        
                                 	@endif
                                 </td>
                                 <td>
-                                   <a href="admin-users/{{$user->username}}/edit"> <button class="btn btn-warning btn-xs">Update</button></a>
+                                    @if(Auth::user()->hasRole('owner') || (Auth::user()->hasRole('admin') && !thisRole($user->id,'owner') && !thisRole($user->id,'admin')))
+                                         <a href="admin-users/{{$user->username}}/edit"> <button class="btn btn-warning btn-xs">Update</button></a>
+                                    @else
+                                     <a href="#"> <button disabled class="btn btn-warning btn-xs">Update</button></a>
+                                   @endif
                                 </td>
                              </tr> 
                             @endforeach

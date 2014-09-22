@@ -16,7 +16,7 @@
                     <div class="panel-heading"><h4 class="capital"><b>Your Latest Notifications</h4></b></div>
                     <div class="panel-body">
                     <div class="table-responsive" >
-                      <table class="table table-bordered table-hover" id="notifications">
+                      <table class="table table-bordered table-hover" id="notification">
                         <thead>
                           <tr>
                             <th>Activity</th>
@@ -36,7 +36,7 @@
                                    {{$notification['body']}} 
                                 </td>
                                 <td>{{carbonize($notification['sent_at'])->diffForHumans();}}</td>
-                                <td class="readStatus"><i>
+                                <td ><i>
                                   @if($notification['is_read'] == 1)
                                   Read
                                   @else
@@ -60,9 +60,9 @@
 @section('script')
 <script type="text/javascript">
    // $(document).ready(function() {
-   //      $('#notifications').dataTable({
-   //      "order": [[ 1, "desc" ]]
-   //    });
+   //      $('#notification').dataTable({
+   //        "order": [[ 1, "desc" ]]
+   //      });
    //  });
 </script>
 @stop

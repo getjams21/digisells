@@ -109,7 +109,7 @@ Route::filter('currentUser', function($route)
 });
 
 Route::filter('role', function($route, $request, $role){
-	if (Auth::guest() or ! Auth::user()->hasRole($role))
+	if (Auth::guest() or ! Auth::user()->hasRole('owner') && ! Auth::user()->hasRole('admin'))
 	{
 		App::abort(403);
 	}

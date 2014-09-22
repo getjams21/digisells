@@ -15,7 +15,7 @@
 						
 					<br><hr class="style-fade" >	<br>
 				<div class="row">
-				<div class="col-md-6 col-md-offset-2 " id="siginForm" >
+				<div class="col-md-5 col-md-offset-3 " id="siginForm" >
 						@if (Session::has('flash_message'))
 							<div class="form-group ">
 								<p>{{Session::get('flash_message') }}</p>
