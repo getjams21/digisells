@@ -35,6 +35,19 @@ function dateformat($date){
 function timeformat($date){
 	return date("g:i a",strtotime($date));
 }
+function Human($date){
+	$date = new Carbon($date);
+	$newdate= $date->diffForHumans();
+	return $newdate;
+}
+function thisRole($id,$role){
+	$user = User::find($id);
+	if($user->hasRole($role)){
+		return true;
+	}else{
+		return false;
+	}
+}
 // function sortBy($column,$body,$route)
 // {
 // 	$direction = (Request::get('direction')=='asc') ? 'desc' : 'asc';

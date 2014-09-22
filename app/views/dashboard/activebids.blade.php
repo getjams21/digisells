@@ -25,14 +25,14 @@
                                 <th>Amount Bid</th>
                                 <th>Max Bid</th>
                                 <th>Buyout Price</th>
-                                <th>Date</th>
-                                <th>Auction End</th>
+                                <th>Bid Date</th>
+                                <th>Auction End Date</th>
                               </tr>
                              </thead> 
                              <tbody>
                               @foreach($activebids as $activebid)
                               <tr>
-                                <td>{{$activebid->auctionName}}</td>
+                                <td><a href="auction-listing/{{$activebid->id}}"> {{$activebid->auctionName}}</a></td>
                                 <td>{{$activebid->amount}}</td>
                                 <td>@if($activebid->maxBid == 0.0000)
                                   Not Set
@@ -40,8 +40,8 @@
                                   {{$activebid->maxBid}}</td>
                                   @endif
                                 <td>{{$activebid->buyoutPrice}}</td>
-                                <td>{{$activebid->date}}</td>
-                                <td>{{$activebid->endDate}}</td>
+                                <td>{{human($activebid->date)}}</td>
+                                <td>{{human($activebid->endDate)}}</td>
                               </tr>
                               @endforeach
                             </tbody>

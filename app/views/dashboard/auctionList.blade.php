@@ -13,17 +13,30 @@
                 <div class="row">
                  <div class="col-md-12 shadowed"><br>
                 <div class="panel panel-primary">
-                <div class="panel-heading"><h4 class="capital"><b>Your Auction List</h4></b></div>
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-10">
+                      <h4 class="capital"><b>Your Auction List</h4></b>
+                    </div>
+                    <div class="col-md-2">
+                      <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
+                         <option value="/auctionList?status=current">Current</option>
+                         <option value="/auctionList?status=expired" <?php if($status =='expired'){echo 'selected';}?>>Expired</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>  
                 <div class="panel-body">
                 <div class="table-responsive"> 
                   <table class="table table-striped table-bordered table-hover auctions">
                     <thead>
                       <tr>
                         <th>Auction Name</th>
-                        <th>Qty</th>
-                        <th>Amount</th>
+                        <th>Min. Price</th>
+                        <th>Buyout Price</th>
                         <th>Bids</th>
-                        <th>Last Bidder</th>
+                        <th>Max Bid</th>
+                        <th>Max Bidder</th>
                         <th>Date</th>
                         <th>Start Date</th>
                         <th>End Date</th>
@@ -33,19 +46,26 @@
                      <tbody>
                         @foreach($auction as $auction)
                           <tr>
-                            <td>{{$auction->auctionName}}</td>
-                            <td>{{$auction->quantity}}</td>
-                            <td>{{$auction->minimumPrice}}</td>
-                            <td>0</td>
-                            <td>None</td>
-                            <td>-</td>
-                            <td>{{date("d F Y",strtotime($auction->startDate)) }} at {{ date("g:ha",strtotime($auction->startDate)) }}</td>
-                            <td>{{date("d F Y",strtotime($auction->endDate)) }} at {{ date("g:ha",strtotime($auction->endDate)) }}</td>
+                            <td><a href="/auction-listing/{{$auction->id}}">{{$auction->auctionName}}</a> </td>
+                            <td>{{round($auction->minimumPrice,2)}}</td>
+                            <td>{{round($auction->buyoutPrice,2)}}</td>
+                            <td>{{$auction->bidders}}</td>
+                            <td>{{round($auction->maxBid,2)}}</td>
                             <td>
-                              @if($auction->sold==0)
-                               <p style="color:green;"><b>AVAILABLE</b></p>
+                              @if($auction->maxBidder)
+                              <a href="/users/{{$auction->username}}"> {{$auction->maxBidder}}</a>
                               @else
-                                <p style="color:red;"><b>ENDED</b></p>
+                              N/A
+                              @endif
+                            </td>
+                            <td>{{Human($auction->datebid)}}</td>
+                            <td>{{human($auction->startDate) }} </td>
+                            <td>{{human($auction->endDate) }}</td>
+                            <td>
+                              @if(carbonize($auction->endDate) > Carbon::now())
+                                  <span class="success"> <i class="fa fa-play-circle"></i> Active</span>
+                              @else
+                                   <span class="error"> <i class="fa fa-stop"></i> Expired</span>
                               @endif
                             </td>
                          </tr> 
@@ -66,7 +86,7 @@
 <script type="text/javascript">
    $(document).ready(function() {
         $('.auctions').dataTable( {
-        "order": [[ 6, "desc" ]]
+        "order": [[ 8, "desc" ]]
     });
     });
 </script>

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('meta-title','Direct')
+@section('meta-title','Direct Selling')
 @section('header')
 	@include('includes.navbar')
 @stop
@@ -12,36 +12,48 @@
           <div class="row">
             <div class="col-md-12 shadowed"><br>
               <div class="panel panel-primary">
-              <div class="panel-heading"><h4 class="capital"><b>Your Direct Selling List</h4></b></div>
+               <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-10">
+                      <h4 class="capital"><b>Your Auction List</h4></b>
+                    </div>
+                    <div class="col-md-2">
+                      <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
+                         <option value="/directSellingList?status=current">Current</option>
+                         <option value="/directSellingList?status=expired" <?php if($status =='expired'){echo 'selected';}?>>Expired</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>  
               <div class="panel-body">
               <div class="table-responsive" >
                 <table class="table table-striped table-bordered table-hover selling">
                   <thead>
                     <tr>
-                      <th>Sale Name</th>
-                      <th>Qty</th>
-                      <th>Amount</th>
-                      <th>Date Created</th>
-                      <th>End Date</th>
+                      <th>Selling Name</th>
+                      <th>Price</th>
+                      <th>Discount</th>
                       <th>Qty Sold</th>
+                      <th>Event Started</th>
+                      <th>Event Ending</th>
                       <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     @foreach($selling as $selling)
                         <tr>
-                          <td>{{$selling->sellingName}}</td>
-                          <td>{{$selling->quantity}}</td>
+                          <td><a href="/direct-selling/{{$selling->id}}">{{$selling->sellingName}}</a></td>
                           <td>{{$selling->price}}</td>
-                          <td>{{date("d F Y",strtotime($selling->created_at)) }} at {{ date("g:ha",strtotime($selling->created_at)) }}</td>
-                          <td>{{date("d F Y",strtotime($selling->expirationDate)) }} at {{ date("g:ha",strtotime($selling->expirationDate)) }}</td>
-                          <td>0</td>
+                          <td>{{$selling->discount}}</td>
+                           <td>{{$selling->count}}</td>
+                          <td>{{Human($selling->listingDate)}}</td>
+                          <td>{{Human($selling->expirationDate)}}</td>
                           <td>
-                            @if($selling->sold==0)
-                             <p style="color:green;"><b>AVAILABLE</b></p>
-                            @else
-                              <p style="color:red;"><b>ENDED</b></p>
-                            @endif
+                             @if(carbonize($selling->expirationDate) > Carbon::now())
+                                <span class="success"> <i class="fa fa-play-circle"></i> Active</span>
+                              @else
+                                <span class="error"> <i class="fa fa-stop"></i> Expired</span>
+                              @endif
                           </td>
                        </tr> 
                       @endforeach

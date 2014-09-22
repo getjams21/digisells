@@ -160,7 +160,12 @@ class BiddingController extends \BaseController {
 							    ->deliver();
 						    }
 					}
-					//notification for the outbidded user
+					$winner = DB::select('
+						select userID from bidding 
+						where amount = (Select MAX(amount) from bidding where auctionID = '.Input::get('auctionID').')
+						and auctionID = '.Input::get('auctionID').'
+						');
+					//notification for the outbidded  and winning user
 						$outbidded = User::find($highestBidder->userID);
 						$outbidded->newNotification()
 						    ->withType('Outbidded')
@@ -168,15 +173,16 @@ class BiddingController extends \BaseController {
 						    ->withBody("has outbidded you for <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a>")
 						    ->regarding($auction)
 						    ->deliver();
+
 						if(Auth::user()->id==$highestBidder->userID){
-							$winner=User::find($autobid->userID);
-							$winner->newNotification()
+							$newwinner=User::find($winner[0]->userID);
+							$newwinner->newNotification()
 							    ->withType('NewBidding')
 							    ->withSubject('Someone')
 							    ->withBody("Placed a new bid for <a href='auction-listing/".$auction->id."'> <b>".$auction->auctionName." </b> </a> (outbidded)")
 							    ->regarding($auction)
 							    ->deliver();
-						}
+						}	    
 						$ownerdb = DB::select('select a.userID from product as a inner join auction as b 
 							on a.id=b.productID where b.id='.$id);
 						$owner=User::find($ownerdb[0]->userID);

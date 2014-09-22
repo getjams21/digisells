@@ -77,6 +77,7 @@ Route::group(["before" => "auth"], function() {
   Route::get('/auctionList','DashboardController@auctionList'); 
   Route::get('/directSellingList','DashboardController@directSellingList'); 
   Route::get('/soldAuctions','DashboardController@soldAuctions'); 
+  Route::get('/soldSelling','DashboardController@soldDirectSelling'); 
   #NOTIFICATIONS
   Route::post( '/readNotif', 'DashboardController@readNotif' );
   #Funds Controller
