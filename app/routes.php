@@ -54,6 +54,8 @@ Route::resource('/direct-selling', 'DirectSellingController');
 #AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
 
+  #Affiliation Process
+  Route::resource('/promote', 'AffiliateController');
   #User direct change password patch
   Route::patch( '/updateAccount', 'UsersController@updateAccount' );
   #Subcategory select option ajax post

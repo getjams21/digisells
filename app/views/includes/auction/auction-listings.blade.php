@@ -71,7 +71,8 @@
 										echo "Starting Price:";
 									}
 								?>
-							<font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)}}</font></b></h5>
+							<font color="#992D31">${{round($list->minimumPrice, 2)}}</font>&nbsp;&nbsp;&nbsp;Number of Bids:<font color="#992D31">&nbsp;{{($list->bidders)}}</font>
+							&nbsp;&nbsp;&nbsp;Affiliate Commission:<font color="#992D31">&nbsp;{{($list->affiliatePercentage)}}%</font></b></h5>
 							@if (Session::has('flash_message'))
 								<div class="form-group ">
 									<p>{{Session::get('flash_message') }}</p>
@@ -126,6 +127,15 @@
 									onclick="$(this).unwatchProduct({{$list->userID}},{{$list->productID}})">
 									<span class="glyphicon glyphicon-ok">
 									</span>&nbsp;Watched </button>
+								<button class="btn btn-default maxBid" value="{{$list->id}}"
+									<?php 
+									if(Auth::user()){
+										if($list->userID == Auth::user()->id){
+										echo "disabled";}
+									}else{echo "disabled";}
+									?>
+								><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Promote this</button>
+
 							</div>
 						@if(Auth::guest())
 							</a>

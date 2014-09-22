@@ -15,7 +15,15 @@
 					<div class="thumbnail thumbnail-size shadow-default">
 						<img src="../product/images/{{$auction->imageURL}}" class="product-img-prop">
 					</div>
-					<center><button class="btn btn-success btn-lg buyout"><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this for ${{round($auction->buyoutPrice, 2)}}</button></center>
+					<center><button class="btn btn-success btn-lg buyout"
+						<?php 
+							if(Auth::user()){
+								if($auction->userID == Auth::user()->id){
+								echo "disabled";
+								}
+							}else{echo 'disabled';}
+						?>
+						><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this for ${{round($auction->buyoutPrice, 2)}}</button></center>
 				</div>
 				<div class="col-md-7">
 					<div class="breadcrumb brd-prod-name shadow-default">
@@ -133,6 +141,18 @@
 					<div class="desc-text-prop">
 						<center><p>{{$auction->productDescription}}</p></center>
 					</div>
+					<center>
+						<br>
+						<button type="button" class="btn btn-success btn-lg show-maxBid maxBid" value="{{$auction->id}}"
+							<?php 
+							if(Auth::user()){
+								if($auction->userID == Auth::user()->id){
+								echo "disabled";
+								}
+							}else{echo 'disabled';}
+							?>
+						><span class="glyphicon glyphicon-bullhorn"></span>&nbsp; Promote this and Earn<b><font color="#992D31">&nbsp;{{($auction->affiliatePercentage)}}%</font></b> Commission</button>
+					</center>
 				</div>
 			</div>
 		</div>

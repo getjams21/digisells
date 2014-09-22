@@ -43,6 +43,7 @@
 					</div>
 					<div class="col-md-9 inactive">
 						<a href="/direct-selling/{{$list->id}}"><div class="breadcrumb default-blue shadow-default"><center><h4>{{$list->sellingName}}</h4></center></div></a>
+						<p>Affiliate Commission: <font color="#992D31"><b>{{round($list->affiliatePercentage, 2)}}%</b></font></p>
 						<p class="comment">{{$list->productDescription}}</p>
 						<center>
 							<?php 
@@ -89,6 +90,15 @@
 								onclick="$(this).unwatchProduct({{$list->userID}},{{$list->productID}})">
 								<span class="glyphicon glyphicon-ok">
 								</span>&nbsp;Watched </button>
+							<button id="btn-promote" class="btn btn-success promote"
+								<?php 
+								if(Auth::user()){
+									if($list->userID == Auth::user()->id){
+									echo "disabled";}
+								}else{echo "disabled";}
+								?>
+							><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Promote this
+							</button>
 						</div>
 					@if(Auth::guest())
 					<a>
