@@ -38,8 +38,8 @@
                         <th>Max Bid</th>
                         <th>Max Bidder</th>
                         <th>Date</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
+                        <th>Event Created</th>
+                        <th>Event End</th>
                         <th>Status</th>
                       </tr>
                      </thead> 
@@ -47,10 +47,13 @@
                         @foreach($auction as $auction)
                           <tr>
                             <td><a href="/auction-listing/{{$auction->id}}">{{$auction->auctionName}}</a> </td>
-                            <td>{{round($auction->minimumPrice,2)}}</td>
-                            <td>{{round($auction->buyoutPrice,2)}}</td>
+                            <td><i class="fa fa-usd"></i> 
+                              {{money($auction->minimumPrice)}}</td>
+                            <td><i class="fa fa-usd"></i> 
+                              {{money($auction->buyoutPrice)}}</td>
                             <td>{{$auction->bidders}}</td>
-                            <td>{{round($auction->maxBid,2)}}</td>
+                            <td><i class="fa fa-usd"></i> 
+                              {{money($auction->maxBid)}}</td>
                             <td>
                               @if($auction->maxBidder)
                               <a href="/users/{{$auction->username}}"> {{$auction->maxBidder}}</a>
@@ -59,7 +62,7 @@
                               @endif
                             </td>
                             <td>{{Human($auction->datebid)}}</td>
-                            <td>{{human($auction->startDate) }} </td>
+                            <td>{{human($auction->created_at) }} </td>
                             <td>{{human($auction->endDate) }}</td>
                             <td>
                               @if(carbonize($auction->endDate) > Carbon::now())

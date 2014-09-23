@@ -46,7 +46,7 @@ class UsersController extends \BaseController {
 		$this->registrationForm->validate($input);
 		$user = User::create($input);
 		DB::table('user')->where('id', '=', $user->id)
-	->update(array('firstName' =>  $user->username));
+	->update(array('firstName' =>  $user->username,'last_logout' => new Datetime()));
 		if($user->id == 1){
 			$user->roles()->attach(2);	
 			$user->roles()->attach(3);	

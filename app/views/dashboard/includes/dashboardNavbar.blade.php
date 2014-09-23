@@ -52,7 +52,7 @@
                              <a href="/soldAuctions"><i>Sold Auction Events</i></a>
                         </li>
                         <li>
-                             <a href="/soldSelling"><i>Sold D-Selling </i></a>
+                             <a href="/soldSelling"><i>Sold D-selling </i></a>
                        </li>
                     </ul>
                 </li>

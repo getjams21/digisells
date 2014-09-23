@@ -25,7 +25,16 @@ class AdminController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('admin.index');
+		$newusers = DB::select('select count(id) as count from user where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$newauction= DB::select('select count(id) as count from auction where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$selling=DB::select('select count(id) as count from selling where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$deposits=DB::select('select count(id) as count from deposit where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$withdrawals=DB::select('select count(id) as count from withdrawals where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$listings=$newauction[0]->count + $selling[0]->count;
+		$new= array('users'=>$newusers[0]->count,'listings'=>$listings,
+			'deposits'=>$deposits[0]->count,'withdrawals'=>$withdrawals[0]->count);
+		// return dd($new);
+		return View::make('admin.index',['new'=>$new]);
 	}
 	public function auctions()
 	{

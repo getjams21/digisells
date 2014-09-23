@@ -34,9 +34,12 @@
                                @foreach($inactivebids as $inactivebid)
                               <tr>
                                 <td><a href="auction-listing/{{$inactivebid->id}}">{{$inactivebid->auctionName}}</a></td>
-                                <td>{{round($inactivebid->buyoutPrice,2)}}</td>
-                                <td>{{round($inactivebid->maxBid,2)}}</td>
-                                <td><i class="error"> {{round($inactivebid->amount,2)}}</i></td>
+                                <td><i class="fa fa-usd"></i> 
+                                  {{money($inactivebid->buyoutPrice)}}</td>
+                                <td><i class="fa fa-usd"></i> 
+                                  {{money($inactivebid->maxBid)}}</td>
+                                <td><i class="fa fa-usd"></i> 
+                                  <i class="error"> {{money($inactivebid->amount)}}</i></td>
                                 <td>{{human($inactivebid->endDate)}}</td>
                                 <td>
                                    @if(carbonize($inactivebid->endDate) > Carbon::now() && $inactivebid->sold==0)
@@ -65,7 +68,7 @@
 <script type="text/javascript">
    $(document).ready(function() {
         $('#inactivebids').dataTable( {
-        "order": [[ 0, "desc" ]]
+        "order": [[ 5, "desc" ]]
     });
     });
 </script>

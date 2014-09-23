@@ -48,6 +48,10 @@ function thisRole($id,$role){
 		return false;
 	}
 }
+function money($money){
+	$newmoney = number_format($money,2);
+	return $newmoney;
+}
 // function sortBy($column,$body,$route)
 // {
 // 	$direction = (Request::get('direction')=='asc') ? 'desc' : 'asc';

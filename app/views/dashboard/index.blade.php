@@ -36,7 +36,7 @@
                                    {{$notification['body']}} 
                                 </td>
                                 <td>{{carbonize($notification['sent_at'])->diffForHumans();}}</td>
-                                <td ><i>
+                                <td class="readStatus"><i>
                                   @if($notification['is_read'] == 1)
                                   Read
                                   @else

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('meta-title','Sold D-Selling')
+@section('meta-title','D-selling')
 @section('header')
 	@include('includes.navbar')
 @stop
@@ -15,18 +15,21 @@
                     <div class=""><br>
                         <div class="col-md-12"><br>
                      <div class="panel panel-primary">
-                      <div class="panel-heading"><h4><b>Sold Auctions</b></h4>
+                      <div class="panel-heading"><h4><b>Direct Selling Events Sales</b></h4>
                      </div>  
                       <div class="panel-body">
                         <div class="table-responsive" >
-                          <table class="table table-striped table-bordered table-hover" id="soldAuctions">
+                          <table class="table table-striped table-bordered table-hover" id="soldSelling">
                             <thead>
                               <tr>
                                 <th>Selling Name</th>
-                                <th>Price</th>
+                                <th>Orig. Price</th>
                                 <th>Discount</th>
-                                <th>Amount Sold</th>
+                                <th>Selling Price</th>
                                 <th>Qty Sold</th>
+                                <th>Total Amt.</th>
+                                <th>Deductions</th>
+                                <th>Net Profit</th>
                                 <th>Event End</th>
                                 <th>Status</th>
                               </tr>
@@ -35,10 +38,18 @@
                            		@foreach($soldSelling as $soldSelling)
                               <tr>
                               	<td><a href="/direct-selling/{{$soldSelling->sellingID}}"> {{$soldSelling->sellingName}}</a></td>
-                                <td>{{round($soldSelling->price,2)}}</td>
-                                <td>{{$soldSelling->discount}}</td>
-                                <td><b> {{round($soldSelling->amount,2)}}</b></td>
-                              	<td>{{$soldSelling->buyers}}</td>
+                                <td><i class="fa fa-usd"></i> 
+                                  {{money($soldSelling->price)}}</td>
+                                <td>{{$soldSelling->discount}} %</td>
+                                <td><i class="fa fa-usd"></i>
+                                  {{money($soldSelling->amount)}}</td>
+                                <td>{{$soldSelling->buyers}}</td>
+                                <td><i class="fa fa-usd"></i> 
+                                  <i>{{money($soldSelling->amount * $soldSelling->buyers)}}</i></td>
+                                <td><i class="fa fa-usd"></i> 
+                                  <i class="error"> {{money(($soldSelling->amount * $soldSelling->buyers) * .1)}}</i></td>
+                                <td><i class="fa fa-usd"></i> 
+                                  <i class="success">{{money(($soldSelling->amount * $soldSelling->buyers) * .9)}}</i></td>
                               	<td>{{dateformat($soldSelling->endDate)}} at {{timeformat($soldSelling->endDate)}}</td>
                                 <td>@if(carbonize($soldSelling->endDate) > Carbon::now())
                                   <span class="alert alert success"> <i class="fa fa-play-circle"></i> Active</span>
@@ -64,8 +75,8 @@
 @section('script')
 <script type="text/javascript">
    $(document).ready(function() {
-        $('#soldAuctions').dataTable( {
-        "order": [[ 3, "desc" ]]
+        $('#soldSelling').dataTable( {
+        "order": [[ 8, "asc" ]]
     });
     });
 </script>

@@ -82,7 +82,11 @@
   </li>
   <li>
     <a href="#"> <b><span class="glyphicon glyphicon-certificate"></span>
-       0
+      @if(Config::get('currentfund')) 
+      {{number_format(Config::get('currentfund'),2)}}
+      @else
+      0
+      @endif
       </b>
     </a>
   </li>
