@@ -6,6 +6,7 @@ class Sales extends \Eloquent {
 	protected $fillable = [
 		'auctionID',
 		'sellingID',
+		'affiliateID',
 		'buyerID',
 		'amount',
 		'transactionNO'

@@ -32,7 +32,7 @@ class AffiliateController extends \BaseController {
 			}
 			$affiliate->referralLink = time();
 			$affiliate->save();
-			$refLink = 'http://digisells.com/affiliate?u='.$affiliate->userID.'&ref='.$affiliate->referralLink;
+			$refLink = 'http://digisells.com/selling-affiliate?u='.$affiliate->userID.'&ref='.$affiliate->referralLink;
 			return Response::json($refLink);
 		}
 	}
@@ -94,6 +94,18 @@ class AffiliateController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	public function showAffiliatedProductForDirectSelling(){
+		$refLink = Input::get('ref');
+		$affiliate = DB::select('
+				select product.id, selling.id as sellingID from product
+				inner join selling on selling.productID = product.id
+				inner join affiliates on selling.id = affiliates.sellingID
+				where affiliates.referralLink = '.$refLink.'
+			');
+		Session::put('affiliate',$refLink);
+		return Redirect::action('DirectSellingController@show',[$affiliate[0]->id]);
 	}
 
 

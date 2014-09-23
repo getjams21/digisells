@@ -1,3 +1,21 @@
+<!-- promote modal -->
+<div class="modal fade promote-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content modal-prop">
+    	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	    <center>
+	    	<div class="well">
+	    		<center><h5>Copy and save your referral link</h5>
+				<input type="text" id="affiliateLink" class="form-control" style="width:100%;">
+				</center>
+
+			</div>
+		</center>
+      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+    </div>
+  </div>
+</div>
+<!-- end promote modal -->
 <div class="col-md-3 refine-search">
 	<h3>Refine Search</h3>
 </div>
@@ -90,7 +108,8 @@
 								onclick="$(this).unwatchProduct({{$list->userID}},{{$list->productID}})">
 								<span class="glyphicon glyphicon-ok">
 								</span>&nbsp;Watched </button>
-							<button id="btn-promote" class="btn btn-success promote"
+							<input type="hidden" id="isSelling" value="1">	
+							<button id="btn-promote" class="btn btn-success promote" value="{{$list->id}}"
 								<?php 
 								if(Auth::user()){
 									if($list->userID == Auth::user()->id){

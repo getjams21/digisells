@@ -19,6 +19,7 @@ class CreaTableAffiliates extends Migration {
 			$table -> integer('auctionID')->unsigned()->nullable();
 			$table -> integer('sellingID')->unsigned()->nullable();
 			$table -> string('referralLink');
+			$table -> decimal('amount', 19, 4);
 			$table -> timestamps();
 			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
