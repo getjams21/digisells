@@ -29,6 +29,9 @@
                                 <th>Qty Sold</th>
                                 <th>Total Amt.</th>
                                 <th>Deductions</th>
+                                <th>Aff. %</th>
+                                <th>Aff. #</th>
+                                <th>Aff. Amt.</th>
                                 <th>Net Profit</th>
                                 <th>Event End</th>
                                 <th>Status</th>
@@ -48,9 +51,13 @@
                                   <i>{{money($soldSelling->amount * $soldSelling->buyers)}}</i></td>
                                 <td><i class="fa fa-usd"></i> 
                                   <i class="error"> {{money(($soldSelling->amount * $soldSelling->buyers) * .1)}}</i></td>
+                                <td>{{$soldSelling->affiliatePercentage}} %</td>
+                                <td>{{$soldSelling->affiliates}}</td>
+                                <td><i class="fa fa-usd"></i>  
+                                  {{money(($soldSelling->amount * ($soldSelling->affiliatePercentage / 100)) * $soldSelling->affiliates)}}</td>
                                 <td><i class="fa fa-usd"></i> 
-                                  <i class="success">{{money(($soldSelling->amount * $soldSelling->buyers) * .9)}}</i></td>
-                              	<td>{{dateformat($soldSelling->endDate)}} at {{timeformat($soldSelling->endDate)}}</td>
+                                  <i class="success">{{money((($soldSelling->amount * $soldSelling->buyers) * .9)- (($soldSelling->amount * ($soldSelling->affiliatePercentage / 100)) * $soldSelling->affiliates))}}</i></td>
+                              	<td>{{dateformat($soldSelling->endDate)}} {{timeformat($soldSelling->endDate)}}</td>
                                 <td>@if(carbonize($soldSelling->endDate) > Carbon::now())
                                   <span class="alert alert success"> <i class="fa fa-play-circle"></i> Active</span>
                                   @else

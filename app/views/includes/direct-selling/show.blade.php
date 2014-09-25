@@ -8,6 +8,7 @@
 	$isDiscounted = true;
 	}
 ?>
+<!-- buy modal -->
 <div class="modal fade buy-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm">
     <div class="modal-content modal-prop">
@@ -22,7 +23,25 @@
     </div>
   </div>
 </div>
-<!-- End Modal -->
+<!-- End buy Modal -->
+<!-- promote modal -->
+<div class="modal fade promote-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content modal-prop">
+    	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	    <center>
+	    	<div class="well">
+	    		<center><h5>Copy and save your referral link</h5>
+				<input type="text" id="affiliateLink" class="form-control" style="width:100%;">
+				</center>
+
+			</div>
+		</center>
+      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+    </div>
+  </div>
+</div>
+<!-- end promote modal -->
 <div class="col-md-12">
 	<div class="container">
 		<div class="well product-well-prop">
@@ -70,7 +89,8 @@
 						<center><p>{{$selling->productDescription}}</p></center>
 					</div>
 				<center>	
-				<div class="input-group prop-s">	
+				<div class="input-group prop-s">
+					<div class="btn-group">	
 						<button type="button" id="watch{{$selling->productID}}" 
 						class="btn btn-warning watchProduct <?php if(!$selling->watched || $selling->watched==0){echo '';}else{echo ' hidden';};?>" 
 						onclick="$(this).watchProduct({{$selling->userID}},{{$selling->productID}}, 1)" 
@@ -90,7 +110,18 @@
 							class="btn btn-success unwatchProduct <?php if(!$selling->watched || $selling->watched==0){echo 'hidden';}else{echo ' ';};?>" 
 							onclick="$(this).unwatchProduct({{$selling->userID}},{{$selling->productID}})">
 							<span class="glyphicon glyphicon-ok">
-							</span>&nbsp; Watched </button>	
+							</span>&nbsp; Watched </button>
+						<input type="hidden" id="isSelling" value="1">	
+						<button type="submit" id="btn-promote" class="btn btn-success promote" name="promote-selling" value="{{$selling->id}}"
+								<?php 
+								if(Auth::user()){
+									if($selling->userID == Auth::user()->id){
+									echo "disabled";}
+								}else{echo "disabled";}
+								?>
+							><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Promote this and Earn <font color="#992D31"><b>{{round($selling->affiliatePercentage, 2)}}%</b></font> Commission
+							</button>
+					</div>
 				</div>
 				</center>
 			</div>

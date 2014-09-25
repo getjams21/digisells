@@ -55,6 +55,9 @@ Route::resource('/direct-selling', 'DirectSellingController');
 #AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
 
+  #Affiliation Process
+  Route::resource('/promote', 'AffiliateController');
+  Route::get('/selling-affiliate', 'AffiliateController@showAffiliatedProductForDirectSelling');
   #User direct change password patch
   Route::patch( '/updateAccount', 'UsersController@updateAccount' );
   #Subcategory select option ajax post
@@ -77,6 +80,7 @@ Route::group(["before" => "auth"], function() {
   Route::get('/directSellingList','DashboardController@directSellingList'); 
   Route::get('/soldAuctions','DashboardController@soldAuctions'); 
   Route::get('/soldSelling','DashboardController@soldDirectSelling'); 
+  Route::get('/affiliations','DashboardController@affiliations'); 
   #NOTIFICATIONS
   Route::post( '/readNotif', 'DashboardController@readNotif' );
   #Funds Controller
@@ -103,6 +107,10 @@ Route::group(["before" => "role:admin"], function() {
 
    Route::get('/admin',['as' => 'admin', 'uses' =>'AdminController@index']);
    Route::get('/admin-auctions','AdminController@auctions');
+   Route::get('/admin-selling','AdminController@selling');
+   Route::get('/admin-bidding','AdminController@bidding');
+   Route::get('/admin-auctionSales','AdminController@auctionSales');
+   Route::get('/admin-sellingSales','AdminController@sellingSales');
    #Admin Users routes
    Route::get('/admin-users','AdminUserController@users');
    Route::get('/admin-users/{user}/edit','AdminUserController@edit');

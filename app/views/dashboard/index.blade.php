@@ -26,7 +26,7 @@
                         </thead> 
                         <tbody>
                           @foreach($notifications as $notification)
-                              <tr class="<?php if($notification['is_read'] == 0){echo "unread";};?>">
+                              <tr class="<?php if($notification['is_read'] == 0){echo "unread";}else{echo "read";};?>">
                                 <td class="notifID hidden">{{$notification['id']}}</td>
                                 <td>@if($notification['subject']=='Someone')
                                     {{$notification['subject']}}

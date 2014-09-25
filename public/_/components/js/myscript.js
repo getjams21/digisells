@@ -982,6 +982,20 @@ $(".clickableRow").click(function() {
 	$('#btn-buy').click(function(event) {
 		$('.buy-modal').modal('show');
 	});
+	$('#btn-promote').click(function(event) {
+		var val = $(this).val();
+		var isSelling = $('#isSelling').val();
+		$.get('/promote/create',{val:val,isSelling:isSelling},function(data){
+			if(data){
+				$('#affiliateLink').val(data);
+				$('.promote-modal').modal('show');
+			}
+		});
+		$('#affiliateLink').click(function(event) {
+			var this = $(this);
+			this.select();
+		});   
+	});
 	//description shortening
 	 $(".comment").shorten({
 	    "showChars" : 150,

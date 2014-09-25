@@ -86,6 +86,9 @@
                     <a href="/invoices">Invoices</a>
                 </li>
                 <li>
+                    <a href="/affiliations">Affiliations</a>
+                </li>
+                <li>
                     <a href="#">Credits</a>
                 </li>
             </ul>

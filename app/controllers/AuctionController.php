@@ -301,7 +301,7 @@ class AuctionController extends \BaseController {
 			$query = ' ';
 		}
 		$listings = DB::select('
-			select a.id,a.buyoutPrice, a.auctionName,a.productID,a.endDate,p.userID, p.imageURL,p.productDescription,
+			select a.id,a.buyoutPrice, a.auctionName,a.productID,a.endDate,a.affiliatePercentage,p.userID, p.imageURL,p.productDescription,
 			(SELECT COUNT(id) from bidding where auctionID = a.id and amount != 0 and highestBidder = 1) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
 			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder '.$w.' from auction as a 

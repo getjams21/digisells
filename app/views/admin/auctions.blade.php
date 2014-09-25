@@ -1,5 +1,5 @@
 @extends('admin.master.layout')
-@section('meta-title',$body)
+@section('meta-title','Auction_List')
 @section('content')
       <div class="row">
           <div class="col-lg-12">
@@ -10,11 +10,18 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            @if($expired == 1)Expired 
-                            @elseif($status==1) Sold
-                            @else Current
-                            @endif Auctions
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-10">
+                              <h4 class="capital"><b><?php if($expired ==1){echo 'Expired';}else{ echo 'Current';}?> Auction List</h4></b>
+                            </div>
+                            <div class="col-md-2">
+                              <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
+                                 <option value="/admin-auctions?expired=0">Current</option>
+                                 <option value="/admin-auctions?expired=1" <?php if($expired ==1){echo 'selected';}?>>Expired</option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -23,27 +30,53 @@
                                     <thead>
                                         <tr>
                                             <th>Auction Name</th>
-                                            <th>Product Name</th>
-                                            <th>Minimum Price</th>
+                                            <th>Min. Price</th>
                                             <th>Buyout Price</th>
-                                            <th>Increment</th>
-                                            <th>Affiliate %</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
+                                            <th>Aff. %</th>
+                                            <th>Bids</th>
+                                            <th>Max Bid</th>
+                                            <th>Max Bidder</th>
+                                            <th>Event Created</th>
+                                            <th>Event End</th>
+                                            <th>Seller</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                          @foreach($auctions as $auction)
-			                              <tr> 
-			                                <td>{{$auction->auctionName}}</td>
-			                                <td>{{$auction->productName}}</td>
-			                                <td>{{$auction->minimumPrice}}</td>
-			                                <td>{{$auction->buyoutPrice}}</td>
-                                            <td>{{$auction->incrementation}}</td>
-                                            <td>{{$auction->affiliatePercentage}}</td>
-			                                <td>{{dateformat($auction->startDate)}} at {{timeformat($auction->startDate)}}</td>
-                                            <td>{{dateformat($auction->endDate)}} at {{timeformat($auction->endDate)}}</td>
-			                             </tr> 
+			                              <tr>
+                                            <td><a href="/auction-listing/{{$auction->id}}">{{$auction->auctionName}}</a> </td>
+                                            <td><i class="fa fa-usd"></i> 
+                                              {{money($auction->minimumPrice)}}</td>
+                                            <td><i class="fa fa-usd"></i> 
+                                              {{money($auction->buyoutPrice)}}</td>
+                                            <td> {{$auction->affiliatePercentage}}</td>
+                                            <td>{{$auction->bidders}}</td>
+                                            <td>
+                                                @if($auction->minimumPrice==$auction->maxBid)
+                                                N/A
+                                                @else
+                                              <i class="fa fa-usd"></i>  {{money($auction->maxBid)}}
+                                              @endif
+                                            </td>
+                                            <td>
+                                              @if($auction->maxBidder)
+                                              <a href="/users/{{$auction->username}}"> {{$auction->maxBidder}}</a>
+                                              @else
+                                              N/A
+                                              @endif
+                                            </td>
+                                            <td>{{human($auction->created_at) }} </td>
+                                            <td>{{human($auction->endDate) }}</td>
+                                            <td><a href="/users/{{$auction->sellerUsername}}">{{$auction->seller }}</a> </td>
+                                            <td>
+                                              @if(carbonize($auction->endDate) > Carbon::now())
+                                                  <span class="success"> <i class="fa fa-play-circle"></i> Ongoing</span>
+                                              @else
+                                                   <span class="error"> <i class="fa fa-stop"></i> Expired</span>
+                                              @endif
+                                            </td>
+                                         </tr>  
 			                            @endforeach
                                     </tbody>
                                 </table>

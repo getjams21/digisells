@@ -15,7 +15,7 @@
                <div class="panel-heading">
                   <div class="row">
                     <div class="col-md-10">
-                      <h4 class="capital"><b>Your Auction List</h4></b>
+                      <h4 class="capital"><b>Your Selling List</h4></b>
                     </div>
                     <div class="col-md-2">
                       <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">

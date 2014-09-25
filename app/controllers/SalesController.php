@@ -109,6 +109,22 @@ class SalesController extends \BaseController {
 			$sales->sellingID = $selling->id;
 			$sales->buyerID = Auth::user()->id;
 			$sales->transactionNO = time();
+			// $sales->save();
+			
+			//add commission to affiliate if affiliated
+			$affiliateID = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').'');
+			// echo '<pre>';
+			// return dd($affiliate);
+			if($affiliateID){
+				$affiliateCommission = (float) $sales->amount * ((float) $selling->affiliatePercentage/100);
+				$affiliate = Affiliate::find($affiliateID[0]->id);
+				$affiliate->amount = $affiliateCommission;
+				$affiliate->save();
+
+				//update sales record
+				$sales->affiliateID = $affiliate->id;
+			}
+			//save sales
 			$sales->save();
 
 			//deduct amount to current fund of buyer
@@ -128,19 +144,19 @@ class SalesController extends \BaseController {
 			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
 			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
 
-			//add commission to company
-			$company = User::find(1);
-			$company->fund += ((float) $sales->amount * 0.09);
-			$company->save();
-
-			//add commission to affiliate if affiliated
+			//deduct company commission
+			$companyCommission = ((float) $sales->amount * 0.09);
 
 			//add funds to the seller
-			$totalAmount = ((float) $sales->amount - (float) $company->fund) - (float) $credits->creditAdded;
+			$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $affiliate->amount;
 			$product = Product::find($selling->productID);
 			$seller = User::find($product->userID);
 			$seller->fund += $totalAmount;
 			$seller->save();
+			// dd($seller->fund);
+			// echo '<pre>';
+			// return dd($sales);
+			// ;
 			return View::make('pages.direct-selling.invoice', compact('selling','product','sales','buyer','seller','credits','totalCredits'));
 		}
 	}
