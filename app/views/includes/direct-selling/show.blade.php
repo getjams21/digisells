@@ -56,7 +56,7 @@
 								echo '<p>Original Price: <span class="originalPrice"> <b>$'.round($originalPrice, 2).'</b></span></p>';
 							}
 						 ?>
-						<button id="btn-buy" class="btn btn-success btn-lg"
+						<button id="btn-buy" class="btn btn-success btn-lg buy"
 							<?php 
 							if(Auth::user()){
 								if($selling->userID == Auth::user()->id){

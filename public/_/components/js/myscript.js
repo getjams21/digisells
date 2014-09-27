@@ -977,10 +977,18 @@ $(".clickableRow").click(function() {
 			.remove()
 			.end();
 	 });
-	$('#btn-buy').click(function(event) {
+	$('.buy').click(function(event) {
+		$('.confirm-buy').val($(this).val());
+		// alert($('.confirm-buy').val());
 		$('.buy-modal').modal('show');
 	});
-	$('#btn-promote').click(function(event) {
+	// $('.confirm-buy').click(function(event) {
+	// 	var val = $(this).val();
+	// 	$.post('/sales',{val:val},function(data){
+			
+	// 	});
+	// });
+	$('.promote').click(function(event) {
 		var val = $(this).val();
 		var isSelling = $('#isSelling').val();
 		$.get('/promote/create',{val:val,isSelling:isSelling},function(data){

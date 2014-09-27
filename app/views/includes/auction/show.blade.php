@@ -5,8 +5,23 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 @foreach($auctionEvent as $auction)
+<!-- buy modal -->
+<div class="modal fade buy-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content modal-prop">
+	    <center>
+			{{ Form::open(['route'=>'sales.store']) }}
+				<input class="confirm-buy" type="hidden" name="auctionID" value="">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Confirm Purchase</button>
+			{{ Form::close() }}
+		</center>
+      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+    </div>
+  </div>
+</div>
+<!-- End buy Modal -->
 <div class="col-md-12">
 	<div class="container">
 		<div class="well product-well-prop">
@@ -15,7 +30,9 @@
 					<div class="thumbnail thumbnail-size shadow-default">
 						<img src="../product/images/{{$auction->imageURL}}" class="product-img-prop">
 					</div>
-					<center><button class="btn btn-success btn-lg buyout"
+					<center>
+						<input type="hidden" id="isSelling" value="0">
+						<button class="btn btn-success btn-lg buy" value="{{$auction->id}}"
 						<?php 
 							if(Auth::user()){
 								if($auction->userID == Auth::user()->id){
@@ -23,7 +40,8 @@
 								}
 							}else{echo 'disabled';}
 						?>
-						><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this for ${{round($auction->buyoutPrice, 2)}}</button></center>
+						><span class="glyphicon glyphicon-check">&nbsp;</span>Buy this for ${{round($auction->buyoutPrice, 2)}}</button>
+					</center>
 				</div>
 				<div class="col-md-7">
 					<div class="breadcrumb brd-prod-name shadow-default">

@@ -16,6 +16,21 @@
   </div>
 </div>
 <!-- end promote modal -->
+<div class="modal fade buy-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content modal-prop">
+	    <center>
+			{{ Form::open(['route'=>'sales.store']) }}
+				<input class="confirm-buy" type="hidden" name="sellingID" value="">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Confirm Purchase</button>
+			{{ Form::close() }}
+		</center>
+      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+    </div>
+  </div>
+</div>
+<!-- End Modal -->
 <div class="col-md-3 refine-search">
 	<h3>Refine Search</h3>
 </div>
@@ -35,21 +50,6 @@
 			$isDiscounted = true;
 			}
 		?>
-		<div class="modal fade buy-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-		  <div class="modal-dialog modal-sm">
-		    <div class="modal-content modal-prop">
-			    <center>
-					{{ Form::open(['route'=>'sales.store']) }}
-						<input type="hidden" name="sellingID" value="{{$list->id}}">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Confirm Purchase of <font color="#992D31" size="4"><b>${{round($list->price, 2)}}</b></font></button>
-					{{ Form::close() }}
-				</center>
-		      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
-		    </div>
-		  </div>
-		</div>
-		<!-- End Modal -->
 		<br>
 		<div class="container-fluid">
 			<div class="well listing-prop">
@@ -118,6 +118,7 @@
 								?>
 							><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Promote this
 							</button>
+							<!-- <input type="hidden" class="store-sales" value="{{$list->id}}"> -->
 						</div>
 					@if(Auth::guest())
 					<a>

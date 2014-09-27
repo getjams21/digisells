@@ -25,14 +25,17 @@ class AffiliateController extends \BaseController {
 			$affiliate->userID = Auth::user()->id;
 			if(Input::get('isSelling') == '1'){
 				$affiliate->sellingID = Input::get('val');
+				$affiliate->referralLink = time();
+				$affiliate->save();
+				$refLink = 'http://digisells.com/selling-affiliate?u='.$affiliate->userID.'&ref='.$affiliate->referralLink;
 				// $selling = Selling::where('id','=',$affiliate->sellingID)->firstOrFail();
 			}else {
 				$affiliate->auctionID = Input::get('val');
+				$affiliate->referralLink = time();
+				$affiliate->save();
+				$refLink = 'http://digisells.com/auction-affiliate?u='.$affiliate->userID.'&ref='.$affiliate->referralLink;
 				// $auction = Auction::where('id','=',$affiliate->auctionID)->firstOrFail();
 			}
-			$affiliate->referralLink = time();
-			$affiliate->save();
-			$refLink = 'http://digisells.com/selling-affiliate?u='.$affiliate->userID.'&ref='.$affiliate->referralLink;
 			return Response::json($refLink);
 		}
 	}
@@ -105,7 +108,18 @@ class AffiliateController extends \BaseController {
 				where affiliates.referralLink = '.$refLink.'
 			');
 		Session::put('affiliate',$refLink);
-		return Redirect::action('DirectSellingController@show',[$affiliate[0]->id]);
+		return Redirect::action('DirectSellingController@show',[$affiliate[0]->sellingID]);
+	}
+	public function showAffiliatedProductForAuction(){
+		$refLink = Input::get('ref');
+		$affiliate = DB::select('
+				select product.id, auction.id as auctionID from product
+				inner join auction on auction.productID = product.id
+				inner join affiliates on auction.id = affiliates.auctionID
+				where affiliates.referralLink = '.$refLink.'
+			');
+		Session::put('affiliate',$refLink);
+		return Redirect::action('AuctionController@show',[$affiliate[0]->auctionID]);
 	}
 
 
