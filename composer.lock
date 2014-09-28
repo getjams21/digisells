@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "f4e6a1560572a87134326f8c858eff48",
+    "hash": "046f2d334264993b077e1194560d142e",
     "packages": [
         {
             "name": "artdarek/oauth-4-laravel",
@@ -236,16 +237,16 @@
         },
         {
             "name": "indatus/dispatcher",
-            "version": "dev-master",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Indatus/dispatcher.git",
-                "reference": "704a4a49d70b8ffb4ec04a422071cfaa5a1bbfc3"
+                "reference": "42c32027e947718873af2784af5f7567e2d246f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Indatus/dispatcher/zipball/704a4a49d70b8ffb4ec04a422071cfaa5a1bbfc3",
-                "reference": "704a4a49d70b8ffb4ec04a422071cfaa5a1bbfc3",
+                "url": "https://api.github.com/repos/Indatus/dispatcher/zipball/42c32027e947718873af2784af5f7567e2d246f9",
+                "reference": "42c32027e947718873af2784af5f7567e2d246f9",
                 "shasum": ""
             },
             "require": {
@@ -285,7 +286,7 @@
                 "laravel",
                 "schedule"
             ],
-            "time": "2014-09-03 12:35:39"
+            "time": "2014-09-22 17:06:36"
         },
         {
             "name": "intervention/image",
@@ -293,12 +294,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "88b625394a2428e9ea1202289f1d5435c687c24a"
+                "reference": "da8477b9cc59499ffebc148bf95d8e680ae1726f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/88b625394a2428e9ea1202289f1d5435c687c24a",
-                "reference": "88b625394a2428e9ea1202289f1d5435c687c24a",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/da8477b9cc59499ffebc148bf95d8e680ae1726f",
+                "reference": "da8477b9cc59499ffebc148bf95d8e680ae1726f",
                 "shasum": ""
             },
             "require": {
@@ -316,8 +317,8 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Intervention\\Image\\": "src/"
+                "psr-4": {
+                    "Intervention\\Image\\": "src/Intervention/Image"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -341,7 +342,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2014-09-06 08:11:17"
+            "time": "2014-09-25 16:51:21"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -628,16 +629,16 @@
         },
         {
             "name": "lusitanian/oauth",
-            "version": "v0.3.0",
+            "version": "v0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Lusitanian/PHPoAuthLib.git",
-                "reference": "f981b349c03f7e233b7058a9d30903809898659c"
+                "reference": "ac5a1cd5a4519143728dce2213936eea302edf8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Lusitanian/PHPoAuthLib/zipball/f981b349c03f7e233b7058a9d30903809898659c",
-                "reference": "f981b349c03f7e233b7058a9d30903809898659c",
+                "url": "https://api.github.com/repos/Lusitanian/PHPoAuthLib/zipball/ac5a1cd5a4519143728dce2213936eea302edf8a",
+                "reference": "ac5a1cd5a4519143728dce2213936eea302edf8a",
                 "shasum": ""
             },
             "require": {
@@ -676,9 +677,7 @@
                 },
                 {
                     "name": "Pieter Hordijk",
-                    "email": "info@pieterhordijk.com",
-                    "homepage": "https://pieterhordijk.com",
-                    "role": "developer"
+                    "email": "info@pieterhordijk.com"
                 }
             ],
             "description": "PHP 5.3+ oAuth 1/2 Library",
@@ -688,7 +687,7 @@
                 "oauth",
                 "security"
             ],
-            "time": "2014-03-30 13:50:10"
+            "time": "2014-09-05 15:19:58"
         },
         {
             "name": "monolog/monolog",
@@ -1317,16 +1316,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.2.1",
+            "version": "v5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "2b9af56cc676c338d52fca4c657e5bdff73bb7af"
+                "reference": "e02f71a35436af4bd58a1bd90116089e632e29e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/2b9af56cc676c338d52fca4c657e5bdff73bb7af",
-                "reference": "2b9af56cc676c338d52fca4c657e5bdff73bb7af",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/e02f71a35436af4bd58a1bd90116089e632e29e1",
+                "reference": "e02f71a35436af4bd58a1bd90116089e632e29e1",
                 "shasum": ""
             },
             "require": {
@@ -1352,13 +1351,11 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "name": "Chris Corbyn"
                 },
                 {
-                    "name": "Chris Corbyn"
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Swiftmailer, free feature-rich PHP mailer",
@@ -1367,7 +1364,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-06-13 11:44:54"
+            "time": "2014-09-20 07:17:36"
         },
         {
             "name": "symfony/browser-kit",
@@ -2284,12 +2281,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xroot/laravel-paypalpayment.git",
-                "reference": "bcdc7e5fee078544ec8fdd212995d1882b63e250"
+                "reference": "fdf2602d05936b453c2598002b5c31a68d3b61c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xroot/laravel-paypalpayment/zipball/bcdc7e5fee078544ec8fdd212995d1882b63e250",
-                "reference": "bcdc7e5fee078544ec8fdd212995d1882b63e250",
+                "url": "https://api.github.com/repos/xroot/laravel-paypalpayment/zipball/fdf2602d05936b453c2598002b5c31a68d3b61c8",
+                "reference": "fdf2602d05936b453c2598002b5c31a68d3b61c8",
                 "shasum": ""
             },
             "require": {
@@ -2311,12 +2308,12 @@
             ],
             "authors": [
                 {
-                    "name": "Anouar",
+                    "name": "Anouar Abdessalam",
                     "email": "dtekind@gmail.com"
                 }
             ],
             "description": "laravel-paypalpayment is simple package help you process direct credit card payments, stored credit card payments and PayPal account payments with your L4 projects using paypal REST API SDK.",
-            "time": "2014-07-09 19:06:23"
+            "time": "2014-09-24 13:10:22"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -2368,22 +2365,16 @@
             "time": "2013-05-30 11:35:33"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "intervention/image": 20,
         "kartik-v/bootstrap-star-rating": 20,
         "webpatser/laravel-uuid": 20,
-        "indatus/dispatcher": 20,
         "artdarek/oauth-4-laravel": 20,
         "anouar/paypalpayment": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
 }

@@ -33,8 +33,8 @@ class AdminController extends \BaseController {
 		$listings=$newauction[0]->count + $selling[0]->count;
 		$new= array('users'=>$newusers[0]->count,'listings'=>$listings,
 			'deposits'=>$deposits[0]->count,'withdrawals'=>$withdrawals[0]->count);
-		// return dd($new);
-		return View::make('admin.index',['new'=>$new]);
+		return dd($newusers);
+		// return View::make('admin.index',['new'=>$new]);
 	}
 	public function auctions()
 	{ 

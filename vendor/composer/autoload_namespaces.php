@@ -40,7 +40,6 @@ return array(
     'Math' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Laracasts\\Validation' => array($vendorDir . '/laracasts/validation/src'),
     'Jeremeamia\\SuperClosure' => array($vendorDir . '/jeremeamia/SuperClosure/src'),
-    'Intervention\\Image\\' => array($vendorDir . '/intervention/image/src'),
     'Indatus\\Dispatcher\\' => array($vendorDir . '/indatus/dispatcher/src'),
     'Illuminate' => array($vendorDir . '/laravel/framework/src'),
     'File' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),

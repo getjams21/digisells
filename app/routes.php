@@ -14,8 +14,7 @@ Route::when('*', 'csrf', array('post'));
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
-//   // $newdate = Carbon::now()->timezone('Asia/Shanghai');
-//   // return dd($newdate);
+//   return 'hello';
 // });
 Route::get('/facebookLogin', 'SessionsController@loginWithFacebook');
 Route::get('/googleLogin', 'SessionsController@loginWithGoogle');
