@@ -84,7 +84,11 @@
     @else
     {{ HTML::image('images/users/default.png', 'profile photo', array('class' => 'nav-img')) }}
     @endif
-      {{Auth::user()->username}}
+        @if(Auth::user()->type)
+          {{Auth::user()->firstName}}
+        @else
+          {{Auth::user()->username}}
+        @endif
       <span class="badge alert-danger" id="unreadNotif">{{Config::get('currentNotifications')}}</span>
       <span class="caret" ></span></a>
       

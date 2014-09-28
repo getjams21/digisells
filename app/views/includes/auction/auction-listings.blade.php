@@ -6,6 +6,39 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal fade buy-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content modal-prop">
+	    <center>
+			{{ Form::open(['route'=>'sales.store']) }}
+				<input class="confirm-buy" type="hidden" name="auctionID" value="">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Confirm Purchase</button>
+			{{ Form::close() }}
+		</center>
+      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+    </div>
+  </div>
+</div>
+<!-- End Modal -->
+<!-- promote modal -->
+<div class="modal fade promote-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content modal-prop">
+    	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	    <center>
+	    	<div class="well">
+	    		<center><h5>Copy and save your referral link</h5>
+				<input type="text" id="affiliateLink" class="form-control" style="width:100%;">
+				</center>
+
+			</div>
+		</center>
+      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+    </div>
+  </div>
+</div>
+<!-- end promote modal -->
 <br>
 	<div class="col-md-3 refine-search">
 		<h3>Refine Search</h3>
@@ -18,21 +51,6 @@
 			<input id="currentID" type="text" value="{{Auth::user()->id}}" hidden>
 			@endif
 			@foreach($listings as $list)
-			<div class="modal fade buy-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog modal-sm">
-			    <div class="modal-content modal-prop">
-				    <center>
-						{{ Form::open(['route'=>'sales.store']) }}
-							<input type="hidden" name="auctionID" value="{{$list->id}}">
-							<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-							<button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Confirm Purchase of <font color="#992D31" size="4"><b>${{round($list->buyoutPrice, 2)}}</b></font></button>
-						{{ Form::close() }}
-					</center>
-			      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
-			    </div>
-			  </div>
-			</div>
-			<!-- End Modal -->
 			<br>
 			<div class="container-fluid">
 				<div class="well listing-prop">
@@ -127,15 +145,16 @@
 									onclick="$(this).unwatchProduct({{$list->userID}},{{$list->productID}})">
 									<span class="glyphicon glyphicon-ok">
 									</span>&nbsp;Watched </button>
-								<button class="btn btn-default maxBid" value="{{$list->id}}"
+								<input type="hidden" id="isSelling" value="0">
+								<button id="btn-promote" class="btn btn-success promote" value="{{$list->id}}"
 									<?php 
 									if(Auth::user()){
 										if($list->userID == Auth::user()->id){
 										echo "disabled";}
 									}
 									?>
-								><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Promote this</button>
-
+								><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Promote this
+								</button>
 							</div>
 						@if(Auth::guest())
 							</a>

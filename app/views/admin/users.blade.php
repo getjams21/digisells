@@ -24,6 +24,7 @@
                                 <th>Email</th>
                                 <th>Name</th>
                                 <th>Funds</th>
+                                <th>Credits</th>
                                 <th>Last Active</th>
                                 <th>Role</th>
                                 <th>Status</th>
@@ -39,7 +40,13 @@
                                 	@else{{$user->firstName." ".$user->lastName}}
                                 	@endif
                                 </td>
-                                <td>{{$user->fund}}</td>
+                                <td><i class="fa fa-usd"></i> {{money($user->fund)}}</td>
+                                <td>@if($user->credits)
+                                   <span class="glyphicon glyphicon-certificate"></span> {{money($user->credits)}}
+                                    @else
+                                   <span class="glyphicon glyphicon-certificate"></span> 0.00
+                                    @endif
+                                </td>
                                 <td>{{carbonize($user->last_activity)->diffForHumans()}}</td>
                                 <td>{{$user->role}} 
                                     @if(Auth::user()->hasRole('owner') && Auth::user()->id!=$user->id && $user->id!=1)

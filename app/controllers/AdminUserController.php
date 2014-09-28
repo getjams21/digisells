@@ -14,7 +14,8 @@ class AdminUserController extends \BaseController {
 
 	public function users(){
 		if(Request::get('status') !=1){$status=0;}else{$status=1;}
-		$users =DB::select("select a.*,b.role from user as a inner join 
+		$users =DB::select("select a.*,(select sum(creditAdded)-sum(creditDeducted) from credits where userID=a.id)
+			as credits,b.role from user as a inner join 
 			(select a.user_id, GROUP_CONCAT(b.name SEPARATOR ', ') 
 				as role FROM role_user as a inner join roles as b 
 				on a.role_id=b.id group by a.user_id) as b on a.id=b.user_id 

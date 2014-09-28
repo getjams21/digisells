@@ -80,7 +80,11 @@
                             <td>@if($affiliations->sellingName)
                               {{ $affiliations->affCount}}
                                 @else
-                             <a href="/users/{{ $affiliations->username}}"> {{ $affiliations->firstName}}</a>
+                                    @if($affiliations->firstName)
+                                    <a href="/users/{{ $affiliations->username}}"> {{ $affiliations->firstName}}</a>
+                                    @else
+                                    N/A
+                                    @endif
                                 @endif</td>
                             <td>@if($affiliations->affCount>0)
                                    @if($affiliations->sellingName)  

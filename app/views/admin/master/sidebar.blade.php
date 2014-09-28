@@ -72,6 +72,21 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
+                    <a href="/admin-affiliations" id="Affiliations"><i class="fa fa-bullhorn"></i> Affiliations</a>
+                    
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="/admin-credits" id="Credits"><span class="glyphicon glyphicon-certificate"></span> Credits</a>
+                    
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="/admin-sumary" id="Summary"><i class="fa fa-files-o"></i> Summary</a>
+                    
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Settings<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>

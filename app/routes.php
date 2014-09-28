@@ -57,6 +57,7 @@ Route::group(["before" => "auth"], function() {
   #Affiliation Process
   Route::resource('/promote', 'AffiliateController');
   Route::get('/selling-affiliate', 'AffiliateController@showAffiliatedProductForDirectSelling');
+  Route::get('/auction-affiliate', 'AffiliateController@showAffiliatedProductForAuction');
   #User direct change password patch
   Route::patch( '/updateAccount', 'UsersController@updateAccount' );
   #Subcategory select option ajax post
@@ -111,6 +112,9 @@ Route::group(["before" => "role:admin"], function() {
    Route::get('/admin-bidding','AdminController@bidding');
    Route::get('/admin-auctionSales','AdminController@auctionSales');
    Route::get('/admin-sellingSales','AdminController@sellingSales');
+   Route::get('/admin-affiliations','AdminController@affiliations');
+   Route::get('/admin-credits','AdminController@credits');
+   Route::get('/admin-sumary','AdminController@summary');
    #Admin Users routes
    Route::get('/admin-users','AdminUserController@users');
    Route::get('/admin-users/{user}/edit','AdminUserController@edit');

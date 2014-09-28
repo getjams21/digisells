@@ -25,7 +25,7 @@ class AdminController extends \BaseController {
 	 */
 	public function index()
 	{
-		$newusers = DB::select('select count(id) as count from user where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$newusers = DB::select('select count(id) as count from user where created_at > now()');
 		$newauction= DB::select('select count(id) as count from auction where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
 		$selling=DB::select('select count(id) as count from selling where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
 		$deposits=DB::select('select count(id) as count from deposit where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
@@ -33,8 +33,8 @@ class AdminController extends \BaseController {
 		$listings=$newauction[0]->count + $selling[0]->count;
 		$new= array('users'=>$newusers[0]->count,'listings'=>$listings,
 			'deposits'=>$deposits[0]->count,'withdrawals'=>$withdrawals[0]->count);
-		return dd($newusers);
-		// return View::make('admin.index',['new'=>$new]);
+		// return dd($newusers);
+		return View::make('admin.index',['new'=>$new]);
 	}
 	public function auctions()
 	{ 
@@ -76,7 +76,8 @@ class AdminController extends \BaseController {
 			,b.minimumPrice,b.buyoutPrice,d.username,d.firstName,e.username as affUsername,e.firstName as affFirstName,
 			 (select count(id) from bidding where auctionID=a.auctionID and amount>0 and userID!=c.userID) as bidders
 		  from sales as a inner join auction as b on a.auctionID=b.id inner join product as c on b.productID=c.id 
-		  inner join user as d on a.buyerID=d.id left join (select * from user) as e on e.id=a.affiliateID where a.auctionID IS NOT NULL ");
+		  inner join user as d on a.buyerID=d.id left join affiliates as f on f.id=a.affiliateID left join (select * from user)
+		  as e on e.id=f.userID where a.auctionID IS NOT NULL ");
 		return View::make('admin.auctionSales',['auctionSales'=>$auctionSales ]);
 	}
 	public function sellingSales()
@@ -87,6 +88,39 @@ class AdminController extends \BaseController {
 			 product as c on b.productID=c.id inner join user as d on c.userID=d.id where a.sellingID 
 			 IS NOT NULL group by a.sellingID');
 		return View::make('admin.sellingSales',['sellingSales'=>$sellingSales ]);
+	}
+	public function affiliations()
+	{ 
+		$affiliations= DB::select('select a.*,(select count(id) from sales where affiliateID=a.id) as affCount
+			,c.sellingName,b.amount as amountSold,c.price as sellingPrice, c.discount as sellingDiscount
+			,c.affiliatePercentage as sellingAffPerc ,d.auctionName,d.minimumPrice, d.buyoutPrice,
+			d.affiliatePercentage as auctionAffPerc,e.username,e.firstName from affiliates as a left join
+			 sales as b on a.id=b.affiliateID and (a.auctionID=b.auctionID or a.sellingID=b.sellingID) left
+			  join selling as c on c.id=a.sellingID left join auction as d on d.id=a.auctionID left join user
+			   as e on e.id=a.userID 
+			 ');
+		//echo '<pre>';
+		//return dd($affiliations);
+		return View::make('admin.affiliations',['affiliations'=>$affiliations ]);
+	}
+	public function credits()
+	{ 
+		$credits= DB::select('select a.*,b.amount,b.sellingID,b.auctionID,c.sellingName,d.auctionName
+			,e.username,e.firstName from credits as a 
+			inner join sales as b on b.id=a.salesID inner join user as e on e.id=a.userID
+			left join selling as c on c.id=b.sellingID 
+			left join auction as d on d.id=b.auctionID ');
+		//echo '<pre>';
+		//return dd($credits);
+		return View::make('admin.credits',['credits'=>$credits ]);
+	}
+	public function summary()
+	{ 
+		// $summary= DB::select('');
+		$summary= 'summary';
+		//echo '<pre>';
+		//return dd($credits);
+		return View::make('admin.summary',['summary'=>$summary ]);
 	}
 	public function categories()
 	{
@@ -150,7 +184,7 @@ class AdminController extends \BaseController {
 	}
 	public function deposits(){
 		$deposits=DB::select('Select a.*,b.methodName,c.username from deposit as a inner join method as b
-							on b.id=a.methodID inner join user as c on a.userID=c.id');
+							on b.id=a.methodID inner join user as c on a.userID=c.id where a.status=1');
 		return View::make('admin.fundDeposits',['deposits'=>$deposits]);
 	}
 	public function withdrawals(){

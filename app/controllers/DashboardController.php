@@ -130,7 +130,8 @@ class DashboardController extends \BaseController {
 	}
 	public function credits()
 	{
-		$credits= DB::select('select a.*,b.amount,b.sellingID,b.auctionID,c.sellingName,d.auctionName from credits as a inner join sales as b on b.id=a.salesID left join selling as c on c.id=b.sellingID 
+		$credits= DB::select('select a.*,b.amount,b.sellingID,b.auctionID,c.sellingName,d.auctionName from credits as a 
+			inner join sales as b on b.id=a.salesID left join selling as c on c.id=b.sellingID 
 		left join auction as d on d.id=b.auctionID 
 		 where a.userID='.Auth::user()->id);
 		return View::make('dashboard.credits',['credits'=>$credits]);
