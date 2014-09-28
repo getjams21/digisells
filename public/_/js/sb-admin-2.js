@@ -87,6 +87,12 @@ $('#userlist tr').click(function(){
         });
     $(this).addClass('active');
 });
+$('#datalist tr').click(function(){
+    $("#datalist").each(function(){
+        $("tr").removeClass("active");
+        });
+    $(this).addClass('active');
+});
 //roles activation buttons
 $('#activateAdmin').click(function(){
     activateAdmin();

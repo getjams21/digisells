@@ -7,6 +7,8 @@ class SessionsController extends \BaseController {
 	function __construct(LoginForm $loginForm)
 	{
 		$this->loginForm = $loginForm;
+		$this->beforeFilter('guest',['only' => ['create']]);
+		// $this->beforeFilter('auth',['only' => ['show']]);
 	}
 	
 		/**

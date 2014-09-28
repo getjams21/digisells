@@ -27,6 +27,7 @@ class CreateTableUser extends Migration {
 			$table ->decimal('fund', 19, 2)->default(0.00);
 			$table -> boolean('status')->default(1);
 			$table->timestamp('last_activity')->nullable();
+			// $table->string('timezone')->nullable();
 			$table -> timestamps();
 		});
 	}

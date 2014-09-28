@@ -7,7 +7,17 @@
 body {
     background-color: #f8f8f8;
 }
-
+.table-responsive
+{
+    /*overflow-x: auto;*/
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+th,tbody > tr > td { 
+white-space: nowrap !important; 
+}
+.table>thead>tr>th {
+vertical-align:top;}
 #wrapper {
     width: 100%;
 }

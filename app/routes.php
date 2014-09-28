@@ -14,7 +14,8 @@ Route::when('*', 'csrf', array('post'));
 #Home
 Route::get('/',['as'=>'home','uses'=>'HomePageController@index']);
 // Route::get('/',function(){
-
+//   // $newdate = Carbon::now()->timezone('Asia/Shanghai');
+//   // return dd($newdate);
 // });
 Route::get('/facebookLogin', 'SessionsController@loginWithFacebook');
 Route::get('/googleLogin', 'SessionsController@loginWithGoogle');
@@ -80,6 +81,8 @@ Route::group(["before" => "auth"], function() {
   Route::get('/directSellingList','DashboardController@directSellingList'); 
   Route::get('/soldAuctions','DashboardController@soldAuctions'); 
   Route::get('/soldSelling','DashboardController@soldDirectSelling'); 
+  Route::get('/affiliations','DashboardController@affiliations'); 
+  Route::get('/credits','DashboardController@credits'); 
   #NOTIFICATIONS
   Route::post( '/readNotif', 'DashboardController@readNotif' );
   #Funds Controller
@@ -106,6 +109,10 @@ Route::group(["before" => "role:admin"], function() {
 
    Route::get('/admin',['as' => 'admin', 'uses' =>'AdminController@index']);
    Route::get('/admin-auctions','AdminController@auctions');
+   Route::get('/admin-selling','AdminController@selling');
+   Route::get('/admin-bidding','AdminController@bidding');
+   Route::get('/admin-auctionSales','AdminController@auctionSales');
+   Route::get('/admin-sellingSales','AdminController@sellingSales');
    #Admin Users routes
    Route::get('/admin-users','AdminUserController@users');
    Route::get('/admin-users/{user}/edit','AdminUserController@edit');

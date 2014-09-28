@@ -97,21 +97,45 @@ class DashboardController extends \BaseController {
 	}
 	public function soldAuctions()
 	{
-		$soldAuctions= DB::select("select a.*,b.auctionName,b.minimumPrice,b.buyoutPrice,d.username,d.firstName,
+		$soldAuctions= DB::select("select a.*,b.affiliatePercentage,e.username as affUsername,e.firstName as affFirstName,
+			b.auctionName,b.minimumPrice,b.buyoutPrice,d.username,d.firstName,
 		 (select count(id) from bidding where auctionID=a.auctionID and amount>0 and userID!=".Auth::user()->id.") as bidders
 		  from sales as a inner join auction as b on a.auctionID=b.id inner join product as c on b.productID=c.id 
-		  inner join user as d on a.buyerID=d.id where a.auctionID IS NOT NULL and c.userID =".Auth::user()->id);
+		  inner join user as d on a.buyerID=d.id left join (select * from user) as e on e.id=a.affiliateID
+		  where a.auctionID IS NOT NULL and c.userID =".Auth::user()->id);
 		// echo '<pre>';
 		// return dd($soldAuctions);
 		return View::make('dashboard.soldAuctions',['soldAuctions'=>$soldAuctions]);
 	}
 	public function soldDirectSelling()
 	{
-		$soldSelling= DB::select('select a.sellingID,b.sellingName,b.price,b.discount,count(a.sellingID) as buyers,b.expirationDate as endDate
+		$soldSelling= DB::select('select a.sellingID,b.affiliatePercentage,(select count(id) from sales where 
+			sellingID=a.sellingID and affiliateID IS NOT NULL) as affiliates,b.sellingName,b.price,b.discount,count(a.sellingID) as buyers,b.expirationDate as endDate
 			,a.amount ,d.firstName as seller from sales as a inner join selling as b on a.sellingID=b.id inner join
 			 product as c on b.productID=c.id inner join user as d on c.userID=d.id where a.sellingID 
 			 IS NOT NULL and d.id='.Auth::user()->id.' group by a.sellingID');
 		return View::make('dashboard.soldSelling',['soldSelling'=>$soldSelling]);
+	}
+	public function affiliations()
+	{
+		$affiliations= DB::select('select a.*,count(b.id) as affCount,c.sellingName,b.amount as amountSold,c.price as sellingPrice,
+			c.discount as sellingDiscount,c.affiliatePercentage as sellingAffPerc ,d.auctionName,d.minimumPrice,
+			d.buyoutPrice,d.affiliatePercentage as auctionAffPerc,e.username,e.firstName from affiliates as a left join sales as b on a.id=b.affiliateID
+			 and (a.auctionID=b.auctionID or a.sellingID=b.sellingID) left join selling as c
+			  on c.id=a.sellingID left join auction as d on d.id=a.auctionID left join user as e on e.id=b.buyerID 
+			 where a.userID ='.Auth::user()->id.' group by a.id');
+		return View::make('dashboard.affiliations',['affiliations'=>$affiliations]);
+		// echo '<pre>';
+		// return dd($affiliations);
+	}
+	public function credits()
+	{
+		$credits= DB::select('select a.*,b.amount,b.sellingID,b.auctionID,c.sellingName,d.auctionName from credits as a inner join sales as b on b.id=a.salesID left join selling as c on c.id=b.sellingID 
+		left join auction as d on d.id=b.auctionID 
+		 where a.userID='.Auth::user()->id);
+		return View::make('dashboard.credits',['credits'=>$credits]);
+		// echo '<pre>';
+		// return dd($credits);
 	}
 	
 	/**

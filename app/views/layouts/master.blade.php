@@ -3,6 +3,7 @@
 	<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# digisells: http://ogp.me/ns/fb/digisells#">  
 		<meta name="_token" content="{{ csrf_token() }}" />
 		 <link rel="shortcut icon" type="image/x-icon" href="_/fonts/favicon.ico" />
+		 <meta name="timezone" content="" />
 		<meta charset="utf-8">
 		<meta property="fb:app_id" content="1497689920490189">
 		<meta property="fb:admins" content="10202842632170362"/>
@@ -69,6 +70,7 @@
 		{{ HTML::script('_/js/plugins/dataTables/dataTables.bootstrap.js') }}
 		{{ HTML::script('_/js/bootstrap-datepicker.js') }}
 		{{ HTML::script('_/js/jquery.form.js') }}
+		{{ HTML::script('_/js/timezone.js') }}
 		{{ HTML::script('_/js/plugins/metisMenu/metisMenu.min.js') }}
 		@yield('script')
 		{{ HTML::script('_/js/sb-admin-2.js') }}

@@ -22,9 +22,9 @@
                             <thead>
                               <tr>
                                 <th>Auction Name</th>
+                                <th>Buyout Price</th>
                                 <th>Amount Bid</th>
                                 <th>Max Bid</th>
-                                <th>Buyout Price</th>
                                 <th>Bid Date</th>
                                 <th>Auction End Date</th>
                               </tr>
@@ -33,13 +33,15 @@
                               @foreach($activebids as $activebid)
                               <tr>
                                 <td><a href="auction-listing/{{$activebid->id}}"> {{$activebid->auctionName}}</a></td>
-                                <td>{{$activebid->amount}}</td>
+                                <td><i class="fa fa-usd"></i> 
+                                  {{number_format($activebid->buyoutPrice,2)}}</td>
+                                <td><i class="fa fa-usd"></i> 
+                                  {{number_format($activebid->amount,2)}}</td>
                                 <td>@if($activebid->maxBid == 0.0000)
                                   Not Set
                                   @else
-                                  {{$activebid->maxBid}}</td>
+                                  {{number_format($activebid->maxBid,2)}}</td>
                                   @endif
-                                <td>{{$activebid->buyoutPrice}}</td>
                                 <td>{{human($activebid->date)}}</td>
                                 <td>{{human($activebid->endDate)}}</td>
                               </tr>

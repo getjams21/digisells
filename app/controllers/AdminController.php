@@ -25,19 +25,68 @@ class AdminController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('admin.index');
+		$newusers = DB::select('select count(id) as count from user where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$newauction= DB::select('select count(id) as count from auction where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$selling=DB::select('select count(id) as count from selling where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$deposits=DB::select('select count(id) as count from deposit where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$withdrawals=DB::select('select count(id) as count from withdrawals where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
+		$listings=$newauction[0]->count + $selling[0]->count;
+		$new= array('users'=>$newusers[0]->count,'listings'=>$listings,
+			'deposits'=>$deposits[0]->count,'withdrawals'=>$withdrawals[0]->count);
+		// return dd($new);
+		return View::make('admin.index',['new'=>$new]);
 	}
 	public function auctions()
-	{
-		if(Request::get('status') !=1){$status=0;}else{$status=1;}
+	{ 
 		if(Request::get('expired') ==1){$expire='<=';}else{$expire='>';}
-		$auctions =DB::select("select a.*,b.productName from auction as a inner join product
-				as b on a.productID=b.id
-				where sold=".$status." and endDate ".$expire." NOW() order by created_at desc");
-		if($status==1){$body='Sold_Auctions';}else{$body='Current_Auctions';}
-		if(Request::get('expired') ==1){$body ='Expired_Auctions';}
-		return View::make('admin.auctions',['auctions'=>$auctions,'status'=>$status,'body'=>$body,'expired'=>Request::get('expired')]);
+		$auctions =DB::select("select a.*,(select count(id) from bidding where auctionID=a.id and amount>0 and userID!=b.userID) 
+				as bidders,e.username,(select username from user where id=b.userID) as sellerUsername,
+				(select firstname from user where id=b.userID) as seller,e.firstName as maxBidder,d.created_at as datebid,
+				d.amount as maxBid from auction as a inner join product as b on a.productID=b.id left join (select max(amount) 
+				as amount,auctionID from bidding group by auctionID) as c on a.id=c.auctionID
+				left join bidding as d on d.amount=c.amount left join user as e on d.userID=e.id and e.id!= b.userID
+				where a.sold=0 and a.endDate ".$expire." NOW() order by created_at desc");
+		return View::make('admin.auctions',['auctions'=>$auctions,'expired'=>Request::get('expired')]);
 		// return dd($auctions);
+	}
+	public function selling()
+	{ 
+		if(Request::get('expired') ==1){$expire='<=';}else{$expire='>';}
+		$selling=DB::select("select a.*,d.username as sellerUsername,d.firstName as seller, c.count from selling as a inner join product as b on a.productID=b.id 
+				left join (select count(sellingID) as count,sellingID from sales group by sellingID) as c on a.id=c.sellingID 
+				left join user as d on d.id=b.userID where a.expirationDate ".$expire." NOW() order by created_at desc");
+		return View::make('admin.selling',['selling'=>$selling,'expired'=>Request::get('expired')]);
+		// return dd($auctions);
+	}
+	public function bidding()
+	{ 
+		$bidding=DB::select('select a.*,b.productName,c.maxBid,c.amount,c.userID,d.username as bidderUsername,
+				d.firstName as maxBidder, c.created_at as date from auction as a inner join product as b 
+				on a.productID=b.id inner join bidding as c on c.auctionID=a.id inner join (select max(amount) 
+				as max, auctionID from bidding group by auctionID) as temp on 
+				temp.max=c.amount left join user as d on d.id=c.userID where a.sold=0 ');
+		return View::make('admin.bidding',['bidding'=>$bidding ]);
+		// return dd($auctions);
+	}
+	public function auctionSales()
+	{ 
+		$auctionSales=DB::select("select a.*,(select username from user where id=c.userID) as sellerUsername
+			,(select firstName from user where id=c.userID) as sellerFirstname,e.username as affUsername,e.firstName 
+			as affFirstname,b.auctionName,b.affiliatePercentage as affiliatePercentage
+			,b.minimumPrice,b.buyoutPrice,d.username,d.firstName,e.username as affUsername,e.firstName as affFirstName,
+			 (select count(id) from bidding where auctionID=a.auctionID and amount>0 and userID!=c.userID) as bidders
+		  from sales as a inner join auction as b on a.auctionID=b.id inner join product as c on b.productID=c.id 
+		  inner join user as d on a.buyerID=d.id left join (select * from user) as e on e.id=a.affiliateID where a.auctionID IS NOT NULL ");
+		return View::make('admin.auctionSales',['auctionSales'=>$auctionSales ]);
+	}
+	public function sellingSales()
+	{ 
+		$sellingSales= DB::select('select a.sellingID,(select count(id) from sales where sellingID=a.sellingID and affiliateID IS NOT NULL) 
+			as affiliates ,b.sellingName,b.affiliatePercentage,b.price,b.discount,count(a.sellingID) as buyers,b.expirationDate as endDate
+			,a.amount ,d.firstName as sellerFirstname,d.username as sellerUsername from sales as a inner join selling as b on a.sellingID=b.id inner join
+			 product as c on b.productID=c.id inner join user as d on c.userID=d.id where a.sellingID 
+			 IS NOT NULL group by a.sellingID');
+		return View::make('admin.sellingSales',['sellingSales'=>$sellingSales ]);
 	}
 	public function categories()
 	{

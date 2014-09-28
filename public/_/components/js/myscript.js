@@ -29,6 +29,8 @@ $.fn.unwatchProduct = function(userID, prodID){
 
 
 $(document).ready(function(){
+	var tz = jstz.determine();
+	$('meta[name="timezone"]').attr('content',tz.name()) ;
 	//file browser display file name
 	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         

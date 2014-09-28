@@ -32,58 +32,29 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-list" ></i> Manage Listings<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-list" ></i> View Listings<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">Auction Events <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="/admin-auctions?status=0" id="Current_Auctions">Current Auctions</a>
-                                </li>
-                                <li>
-                                    <a href="/admin-auctions?status=1" id="Sold_Auctions">Sold Auctions</a>
-                                </li>
-                                <li>
-                                    <a href="/admin-auctions?status=0&expired=1" id="Expired_Auctions">Expired Auctions</a>
-                                </li>
-                               
-                            </ul>
+                            <a href="/admin-auctions?expired=0" id="Auction_List">Auction Events </a>
                         </li>
                         <li>
-                            <a href="#"> Direct Selling <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="#" id="Active_Selling"> Active Selling</a>
-                                </li>
-                                <li>
-                                    <a href="#" id="Expired_Selling"> Ended Selling</a>
-                                </li>
-                               
-                            </ul>
+                            <a href="/admin-selling?expired=0" id="Selling_List"> Direct Selling Events</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-usd fa-fw"></i> Biddings<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#" id="Active_Biddings"> Active Biddings<span ></span></a>
-                        </li>
-                        <li>
-                            <a href="#" id="Inactive_Biddings"> Inactive Biddings</a>
-                        </li>
-                    </ul>
+                    <a href="/admin-bidding" id="Active_Biddings"><i class="fa fa-usd fa-fw" ></i> Active Biddings</a>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-shopping-cart">&nbsp;</i> Sales<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#" id="Auction_Sales">Auction Sales<span></span></a>
+                            <a href="/admin-auctionSales" id="Auction_Sales">Auction Sales<span></span></a>
                         </li>
                         <li>
-                            <a href="#" id="Direct_Selling">Direct Selling Sales</a>
+                            <a href="/admin-sellingSales" id="Selling_Sales">Direct Selling Sales</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

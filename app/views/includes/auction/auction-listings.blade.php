@@ -113,7 +113,7 @@
 										if($list->userID == Auth::user()->id){
 										echo "disabled";
 										}
-									}else{echo "disabled";}
+									}
 									?>
 								><span class="glyphicon glyphicon-bell"></span>&nbsp;Bid for this</button>
 								<button class="btn btn-success maxBid" value="{{$list->id}}"
@@ -121,7 +121,7 @@
 									if(Auth::user()){
 										if($list->userID == Auth::user()->id){
 										echo "disabled";}
-									}else{echo "disabled";}
+									}
 									?>
 								><span class="glyphicon glyphicon-circle-arrow-up"></span>&nbsp;Set Auto Outbid</button>
 
@@ -134,7 +134,7 @@
 										}else{
 											echo "onclick='$(this).watchProduct(".$list->userID.",".$list->productID.", 1)'";
 										}
-									}else{echo "disabled";}
+									}
 									?>>
 									<span class="glyphicon glyphicon-eye-open">
 									</span>&nbsp;Watch this</button>
@@ -151,7 +151,7 @@
 									if(Auth::user()){
 										if($list->userID == Auth::user()->id){
 										echo "disabled";}
-									}else{echo "disabled";}
+									}
 									?>
 								><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Promote this
 								</button>

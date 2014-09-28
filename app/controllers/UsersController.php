@@ -10,7 +10,6 @@ class UsersController extends \BaseController {
 		$this->registrationForm = $registrationForm;
 		$this->beforeFilter('currentUser',['only' => ['edit','update']]);
 		$this->beforeFilter('guest',['only' => ['create']]);
-		// $this->beforeFilter('auth',['only' => ['show']]);
 	}
 	
 	/**

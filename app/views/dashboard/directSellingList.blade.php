@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('meta-title','Direct Selling')
+@section('meta-title','Selling')
 @section('header')
 	@include('includes.navbar')
 @stop
@@ -15,7 +15,7 @@
                <div class="panel-heading">
                   <div class="row">
                     <div class="col-md-10">
-                      <h4 class="capital"><b>Your Auction List</h4></b>
+                      <h4 class="capital"><b>Your Selling List</h4></b>
                     </div>
                     <div class="col-md-2">
                       <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
@@ -31,8 +31,9 @@
                   <thead>
                     <tr>
                       <th>Selling Name</th>
-                      <th>Price</th>
+                      <th>Orig. Price</th>
                       <th>Discount</th>
+                      <th>Selling Price</th>
                       <th>Qty Sold</th>
                       <th>Event Started</th>
                       <th>Event Ending</th>
@@ -43,9 +44,12 @@
                     @foreach($selling as $selling)
                         <tr>
                           <td><a href="/direct-selling/{{$selling->id}}">{{$selling->sellingName}}</a></td>
-                          <td>{{$selling->price}}</td>
-                          <td>{{$selling->discount}}</td>
-                           <td>{{$selling->count}}</td>
+                          <td><i class="fa fa-usd"></i> 
+                            {{money($selling->price)}}</td>
+                          <td>{{$selling->discount}} %</td>
+                          <td><i class="fa fa-usd"></i> 
+                            {{money($selling->price-($selling->price * ($selling->discount / 100)))}}</td>
+                          <td>{{$selling->count}}</td>
                           <td>{{Human($selling->listingDate)}}</td>
                           <td>{{Human($selling->expirationDate)}}</td>
                           <td>

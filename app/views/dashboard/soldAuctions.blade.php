@@ -26,6 +26,11 @@
                                 <th>Buyout Price</th>
                                 <th>Bids</th>
                                 <th>Amount Sold</th>
+                                <th>Deductions</th>
+                                <th>Aff. %</th>
+                                <th>Aff. Amt.</th>
+                                <th>Affiliate</th>
+                                <th>Net Profit</th>
                                 <th>Buyer</th>
                                 <th>Date Sold</th>
                               </tr>
@@ -34,12 +39,33 @@
                            		@foreach($soldAuctions as $soldAuction)
                               <tr>
                               	<td><a href="/auction-listing/{{$soldAuction->auctionID}}">{{$soldAuction->auctionName}}</a> </td>
-                              	<td><i class="fa fa-usd"></i> {{round($soldAuction->minimumPrice,2)}}</td>
-                              	<td><i class="fa fa-usd"></i> {{round($soldAuction->buyoutPrice,2)}}</td>
+                              	<td><i class="fa fa-usd"></i> {{money($soldAuction->minimumPrice)}}</td>
+                              	<td><i class="fa fa-usd"></i> {{money($soldAuction->buyoutPrice)}}</td>
                               	<td>{{$soldAuction->bidders}}</td>
-                              	<td><b><i class="fa fa-usd"></i> {{round($soldAuction->amount,2)}}</b></td>
+                              	<td><i class="fa fa-usd"></i><i> {{money($soldAuction->amount)}}</i></td>
+                                <td><i class="fa fa-usd"></i><i class="error"> {{money($soldAuction->amount * .10)}}</i></td>
+                                <td>{{$soldAuction->affiliatePercentage}} %</td>
+                                <td>@if($soldAuction->affiliateID)
+                                      <i class="fa fa-usd"></i> <i>{{ money($soldAuction->amount * ($soldAuction->affiliatePercentage / 100))}}</i> 
+                                    @else
+                                      <i>N/A</i>
+                                    @endif
+                                </td>
+                                <td>@if($soldAuction->affiliateID)
+                                   <a href="/users/{{$soldAuction->affUsername}}"> {{$soldAuction->affFirstName}}</a>
+                                    @else
+                                      <i>N/A</i>
+                                    @endif</td>
+                                <td>
+                                    @if($soldAuction->affiliateID)
+                                   <i class="fa fa-usd"></i><i class="success">{{money(($soldAuction->amount - ($soldAuction->amount * .10)) - 
+                                      ($soldAuction->amount * ($soldAuction->affiliatePercentage / 100)))}}</i> 
+                                    @else
+                                    <i class="fa fa-usd"></i> <i class="success">{{money($soldAuction->amount - ($soldAuction->amount * .10))}}</i>
+                                    @endif
+                                </td>
                                 <td><a href="/users/{{$soldAuction->username}}">{{$soldAuction->firstName}}</a> </td>
-                              	<td>{{dateformat($soldAuction->created_at)}} at {{timeformat($soldAuction->created_at)}}</td>
+                              	<td>{{dateformat($soldAuction->created_at)}} {{timeformat($soldAuction->created_at)}}</td>
                               </tr>
                               @endforeach
                             </tbody>

@@ -1,7 +1,6 @@
 <?php 
 
  // Fetch the User object
-	$user = Auth::user()->id;
-	$fund = DB::select('select sum(amountAdded)-sum(amountDeducted) as currentfund from funds where userID='.$user);
-	$currentfund=$fund[0]->currentfund;
-	return $currentfund;
+	$fund = DB::select('select sum(creditAdded)-sum(creditDeducted) as currentcredit from credits where userID='.Auth::user()->id);
+	$currentcredit=$fund[0]->currentcredit;
+	return $currentcredit;

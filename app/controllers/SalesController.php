@@ -33,18 +33,29 @@ class SalesController extends \BaseController {
 	{
 		//check if sales is from auction or selling
 		if(Input::get('auctionID')){
+			$creditsUsed = 0.00;
 			// dd(Input::get('auctionID'));
 			$auction = Auction::find(Input::get('auctionID'));
 
 			$sales = new Sales;
 			$sales->amount = $auction->buyoutPrice;
 			if(Auth::user()->fund < $sales->amount){
-				return Redirect::back()->withFlashMessage('
-					<center><div class="alert alert-danger square error-bid" role="alert">
-						<b>Ohh Snap!..Insufficient Fund!</b><br>
-						<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
-					</div></center>
+				$creditsAdd = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
+				$creditsDeduct = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
+				$creditsTotal = (float) $creditsAdd[0]->added - (float) $creditsDeduct[0]->deducted;
+
+				$fundPlusCredits = $creditsTotal + (float) Auth::user()->fund;
+				if($fundPlusCredits < $sales->amount){
+					return Redirect::back()->withFlashMessage('
+						<center><div class="alert alert-danger square error-bid" role="alert">
+							<b>Ohh Snap!..Insufficient Fund!</b><br>
+							<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
+						</div></center>
 					');
+				}
+				else{
+					$creditsUsed = (float)$sales->amount - (float)Auth::user()->fund;
+				}
 			}
 			$sales->auctionID = $auction->id;
 			$sales->buyerID = Auth::user()->id;
@@ -78,7 +89,11 @@ class SalesController extends \BaseController {
 
 			//deduct amount to current fund of buyer
 			$buyer = User::find(Auth::user()->id);
-			$buyer->fund -= (float) $sales->amount;
+			if($creditsUsed != 0.00){
+				$buyer->fund = 0.00;
+			}else{
+				$buyer->fund -= (float) $sales->amount;
+			}
 			$buyer->save();
 
 			//add credits to buyer
@@ -86,6 +101,9 @@ class SalesController extends \BaseController {
 			$credits->userID = Auth::user()->id;
 			$credits->salesID = $sales->id;
 			$credits->creditAdded = ((float) $sales->amount * 0.01);
+			if($creditsUsed){
+				$credits->creditDeducted = $creditsUsed;
+			}
 			$credits->save();
 
 			//total credits
@@ -93,18 +111,18 @@ class SalesController extends \BaseController {
 			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
 			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
 
-			//add commission to company
-			$company = User::find(1);
-			$company->fund += ((float) $sales->amount * 0.09);
-			$company->save();
-
-			//add commission to affiliate if affiliated
+			//deduct company commission
+			$companyCommission = ((float) $sales->amount * 0.09);
 
 			//add funds to the seller
-			$totalAmount = ((float) $sales->amount - (float) $company->fund) - (float) $credits->creditAdded;
+			$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $affiliateCommission;
+			// echo '<pre>';
+			// return dd($totalAmount);
 			$product = Product::find($auction->productID);
 			$seller = User::find($product->userID);
 			$seller->fund += $totalAmount;
+			// echo '<pre>';
+			// return dd($seller->fund);
 			$seller->save();
 
 			//set auction event as sold
@@ -113,7 +131,7 @@ class SalesController extends \BaseController {
 			return View::make('pages.auction.invoice', compact('auction','product','sales','buyer','seller','credits','totalCredits'));
 		}
 		else if(Input::get('sellingID')){
-
+			$creditsUsed = 0.00;
 			//get price from db
 			$selling = Selling::find(Input::get('sellingID'));
 			$sales = new Sales;
@@ -124,12 +142,22 @@ class SalesController extends \BaseController {
 				$sales->amount = $selling->price;
 			}
 			if(Auth::user()->fund < $sales->amount){
-				return Redirect::back()->withFlashMessage('
-					<div class="alert alert-danger square error-bid" role="alert">
-						<b>Ohh Snap!..Insufficient Fund!</b><br>
-						<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
-					</div>
+				$creditsAdd = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
+				$creditsDeduct = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
+				$creditsTotal = (float) $creditsAdd[0]->added - (float) $creditsDeduct[0]->deducted;
+
+				$fundPlusCredits = $creditsTotal + (float) Auth::user()->fund;
+				if($fundPlusCredits < $sales->amount){
+					return Redirect::back()->withFlashMessage('
+						<center><div class="alert alert-danger square error-bid" role="alert">
+							<b>Ohh Snap!..Insufficient Fund!</b><br>
+							<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
+						</div></center>
 					');
+				}
+				else{
+					$creditsUsed = (float)$sales->amount - (float)Auth::user()->fund;
+				}
 			}
 			$sales->sellingID = $selling->id;
 			$sales->buyerID = Auth::user()->id;
@@ -164,7 +192,11 @@ class SalesController extends \BaseController {
 
 			//deduct amount to current fund of buyer
 			$buyer = User::find(Auth::user()->id);
-			$buyer->fund -= (float) $sales->amount;
+			if($creditsUsed != 0.00){
+				$buyer->fund = 0.00;
+			}else{
+				$buyer->fund -= (float) $sales->amount;
+			}
 			$buyer->save();
 
 			//add credits to buyer
@@ -172,6 +204,9 @@ class SalesController extends \BaseController {
 			$credits->userID = Auth::user()->id;
 			$credits->salesID = $sales->id;
 			$credits->creditAdded = ((float) $sales->amount * 0.01);
+			if($creditsUsed != 0.00){
+				$credits->creditDeducted = $creditsUsed;
+			}
 			$credits->save();
 
 			//total credits
