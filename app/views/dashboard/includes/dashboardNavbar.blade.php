@@ -89,7 +89,7 @@
                     <a href="/affiliations">Affiliations</a>
                 </li>
                 <li>
-                    <a href="#">Credits</a>
+                    <a href="/credits">Credits</a>
                 </li>
             </ul>
             </div>
