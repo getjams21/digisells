@@ -40,6 +40,8 @@ Route::get('/users/{username}', ['as' => 'profile', 'uses' => 'UsersController@s
 Route::resource('uploadImage', 'ImageUploadController');
 #password reminders
 Route::controller('password','RemindersController');
+#Product Detailing
+Route::get('/edit-details/{id}', 'DirectSellingController@editProductDetails');
 #Selling Platform Option
 Route::get('/selling', 'HomePageController@selling');
 #Marketplace Routes

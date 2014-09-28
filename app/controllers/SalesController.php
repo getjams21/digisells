@@ -34,6 +34,7 @@ class SalesController extends \BaseController {
 		//check if sales is from auction or selling
 		if(Input::get('auctionID')){
 			$creditsUsed = 0.00;
+			$affiliateCommission = 0.00;
 			// dd(Input::get('auctionID'));
 			$auction = Auction::find(Input::get('auctionID'));
 
@@ -62,8 +63,8 @@ class SalesController extends \BaseController {
 			$sales->transactionNO = time();
 
 			//add commission to affiliate if affiliated
-			$affiliateCommission = (float) $sales->amount * ((float) $auction->affiliatePercentage/100);
 			if(Session::get('affiliate')){
+				$affiliateCommission = (float) $sales->amount * ((float) $auction->affiliatePercentage/100);
 				$affiliateID = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').' 
 								and auctionID = '.Input::get('auctionID').'');
 				// echo '<pre>';
@@ -132,6 +133,7 @@ class SalesController extends \BaseController {
 		}
 		else if(Input::get('sellingID')){
 			$creditsUsed = 0.00;
+			$affiliateCommission = 0.00;
 			//get price from db
 			$selling = Selling::find(Input::get('sellingID'));
 			$sales = new Sales;
@@ -165,8 +167,8 @@ class SalesController extends \BaseController {
 			// $sales->save();
 			
 			//add commission to affiliate if affiliated
-			$affiliateCommission = (float) $sales->amount * ((float) $selling->affiliatePercentage/100);
 			if(Session::get('affiliate')){
+				$affiliateCommission = (float) $sales->amount * ((float) $selling->affiliatePercentage/100);
 				$affiliateID = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').' 
 								and sellingID = '.Input::get('sellingID').'');
 				// echo '<pre>';
