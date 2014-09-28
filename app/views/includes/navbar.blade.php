@@ -76,14 +76,14 @@
   <li>
     <a href="/payment"> <b><i class="fa fa-money"></i>  
      <i class="fa fa-usd"></i>
-       {{ Auth::user()->fund}}
+       {{ money(Auth::user()->fund)}}
       </b>
     </a>
   </li>
   <li>
-    <a href="#"> <b><span class="glyphicon glyphicon-certificate"></span>
+    <a href="/credits"> <b><span class="glyphicon glyphicon-certificate"></span>
       @if(Config::get('currentfund')) 
-      {{number_format(Config::get('currentfund'),2)}}
+      {{money(Config::get('currentfund'))}}
       @else
       0
       @endif

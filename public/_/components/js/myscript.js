@@ -996,10 +996,12 @@ $(".clickableRow").click(function() {
 		$.get('/promote/create',{val:val,isSelling:isSelling},function(data){
 			if(data){
 				$('#affiliateLink').val(data);
+				$('.banner460x60').val('<a href="'+data+'" target="_blank"><img src="http://digisells.com/_/fonts/auction_banner_460x60.gif" alt="" title="" /></a>');
+				$('.banner300x300').val('<a href="'+data+'" target="_blank"><img src="http://digisells.com/_/fonts/banner_300x300.gif" alt="" title="" /></a>');
 				$('.promote-modal').modal('show');
 			}
 		});
-		$('#affiliateLink').click(function(event) {
+		$('#affiliateLink,.banner460x60,.banner300x300').click(function(event) {
 			var this = $(this);
 			this.select();
 		});   
