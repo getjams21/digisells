@@ -46,17 +46,23 @@ class DashboardController extends \BaseController {
 	public function invoices()
 	{
 		$auctionInvoice = DB::select('
-			select s.*,p.productName,p.downloadLink from sales as s
+			select s.*,p.id as productID,p.productName,p.downloadLink,
+			(select id from reviews where userID = '.Auth::user()->id.' and productID = p.id) as reviewID
+			from sales as s
 			inner join auction as a on s.auctionID = a.id
 			inner join product as p on a.productID = p.id
 			where buyerID = '.Auth::user()->id.'
 			');
 		$sellingInvoice = DB::select('
-			select s.*,p.productName,p.downloadLink from sales as s
+			select s.*,p.id as productID,p.productName,p.downloadLink,
+			(select id from reviews where userID = '.Auth::user()->id.' and productID = p.id) as reviewID
+			from sales as s
 			inner join selling as se on s.sellingID = se.id
 			inner join product as p on se.productID = p.id
 			where buyerID = '.Auth::user()->id.'
 			');
+		// dd($sellingInvoice);
+		// $reviewed = DB::select('select id from reviews where userID = '.Auth::user()->id.'')
 			return View::make('dashboard.invoices', compact('auctionInvoice','sellingInvoice'));
 			// return $sellingInvoice;
 	}

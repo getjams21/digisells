@@ -17,7 +17,7 @@ class CreateTableReviews extends Migration {
 			$table->increments('id');
 			$table -> integer('userID')->unsigned();
 			$table -> integer('productID')->unsigned();
-			$table-> integer('stars')->nullable();
+			$table-> decimal('stars', 1,1)->nullable();
 			$table -> text('reviews')->nullable();
 			$table->timestamps();
 		});

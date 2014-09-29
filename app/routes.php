@@ -106,6 +106,9 @@ Route::group(["before" => "auth"], function() {
   // Route::resource('watchlist','WatchlistController');
   Route::get('/watchers', ['as' => 'watchers', 'uses' => 'WatchlistController@watchers']);
 
+  #Reviews
+  Route::resource('/product-review', 'ReviewsController');
+
 });
 
 Route::group(["before" => "role:admin"], function() {
