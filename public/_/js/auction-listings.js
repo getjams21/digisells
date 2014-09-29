@@ -1,8 +1,17 @@
+$(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+        }
+    });
+});
+
 $(document).ready(function() {
 	//auction countdown
 	var endDate = $('#endingDate').val();
 	var auction_ID = $('#auction-id').val();
 	var path = '/auction-listing';
+	var token = $('meta[name="_token"]').attr('content');
 	if($('#isShow').val == '1'){
 		var path = '../auction-listing';
 	}
@@ -25,7 +34,10 @@ $(document).ready(function() {
 					$('.countdown.default').append('<div class="alert alert-danger" role="alert">\
 							This auction has ended on '+data+'\
 							<br>\
-							<center><button class="btn btn-success" value="'+auction_ID+'"><font size="2" color="white">View auction result</font></button></center>\
+							<form method="POST" action="http://digisells.com/auction-result" accept-charset="UTF-8">\
+							<input name="_token" type="hidden" value="'+token+'">\
+								<center><button type="submit" name="view-result" class="btn btn-success" value="'+auction_ID+'"><font size="2" color="white">View auction result</font></button></center>\
+							</form>\
 						</div>');
 					$('.bid,.maxBid,.watchProduct,.unwatchProduct,.buyout').attr({
 						'disabled': 'disabled'

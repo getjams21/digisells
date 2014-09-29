@@ -20,6 +20,7 @@ class CreaTableBidding extends Migration {
 			$table -> boolean('highestBidder')->default(1);
 			$table -> decimal('amount', 19, 4);
 			$table -> decimal('maxBid', 19, 4)->default(0.0000);
+			$table -> integer('referredBy')->unsigned()->nullable();
 			$table -> timestamps();
 		});
 	}

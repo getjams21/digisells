@@ -18,6 +18,8 @@ class AddForeignKeyToBiddingTable extends Migration {
 			->onDelete('restrict')->onUpdate('cascade');
 			$table-> foreign('userID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');
+			$table-> foreign('referredBy')->references('id')->on('user')
+			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
@@ -32,6 +34,7 @@ class AddForeignKeyToBiddingTable extends Migration {
 		{
 			$table->dropForeign('bidding_auctionID_foreign');
 			$table->dropForeign('bidding_userID_foreign');
+			$table->dropForeign('bidding_referredBy_foreign');
 		});
 	}
 

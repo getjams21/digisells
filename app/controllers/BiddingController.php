@@ -73,6 +73,15 @@ class BiddingController extends \BaseController {
 					$bidding->userID = Auth::user()->id;
 					$bidding->amount = Input::get('bidPrice');
 					$bidding->highestBidder = 1;
+					//check if affiliated
+					if(Session::get('affiliate')){
+						$affiliate = Affiliate::where('referralLink', '=', Session::get('affiliate'));
+						$hasAffiliate = Bidding::where('referredBy','=',$affiliate->userID)
+												->where('auctionID','=',Input::get('auctionID'));
+						if(!$hasAffiliate){
+							$autobid->refferedBy = $affiliate->userID;
+						}
+					}
 					$bidding->save();
 					// bidding notification for watchers
 					
@@ -313,6 +322,15 @@ class BiddingController extends \BaseController {
 				if($outbidders){
 					$hasOutBid = 1;
 					$autobid = new Bidding;
+					//check if affiliated
+					if(Session::get('affiliate')){
+						$affiliate = Affiliate::where('referralLink', '=', Session::get('affiliate'));
+						$hasAffiliate = Bidding::where('referredBy','=',$affiliate->userID)
+												->where('auctionID','=',Input::get('auctionID'));
+						if(!$hasAffiliate){
+							$autobid->refferedBy = $affiliate->userID;
+						}
+					}
 					$nextBid = (float)Input::get("minPrice");
 					while ($hasOutBid == 1) {							
 						foreach ($outbidders as $outbidder) {

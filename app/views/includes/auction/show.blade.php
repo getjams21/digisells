@@ -173,7 +173,35 @@
 					</center>
 				</div>
 			</div>
+			<br>
+		<hr class="style-fade"></hr>
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Additional Information</h3>
+		  </div>
+		  <div class="panel-body">
+		    <?php if($auction->details != '0'){
+				echo $auction->details;
+				}
+			?>
+		  </div>
 		</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="panel panel-edit square" 
+<?php
+if(Auth::user()){
+	if($auction->userID != Auth::user()->id){
+	echo "hidden";
+	}
+}else{echo "hidden";}
+;?>>
+	<div class="container">
+		<center>
+			<a href="{{URL::route('edit-details.edit',$auction->productID)}}"><button class="btn btn-primary"><span class="glyphicon glyphicon-edit">&nbsp</span><span class="error-msg">Let me customize this Sales Page</span></button></a>
+		</center>
 	</div>
 </div>
 @endforeach
