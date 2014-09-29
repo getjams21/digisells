@@ -175,7 +175,8 @@ class AuctionController extends \BaseController {
 			(SELECT COUNT(id) from bidding where auctionID = '.$id.' and amount != 0) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
 			(Select userID from bidding where auctionID = '.$id.' order by amount desc limit 1) as highestBidder,
-			p.imageURL,p.productDescription,p.userID,p.details '.$w.'
+			p.imageURL,p.productDescription,p.userID,p.details,
+			(select stars from reviews where productID = a.productID) as stars '.$w.'
 			from auction as a inner join product as p on a.productID = p.id 
 			'.$query.' where a.id ='.$id.''
 		);

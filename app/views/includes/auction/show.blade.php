@@ -50,7 +50,13 @@
 						</center>
 					</div>
 					<div class="reviews">
-						<center><p><input id="input-5a" class="rating" data-readonly="true" data-size="xs" data-show-clear="false" data-show-caption="true" value="0">&nbsp;No Customer Reviews</p> </center>
+						<center><p><input id="input-5a" class="rating" data-readonly="true" data-size="xs" data-show-clear="false" data-show-caption="true" value="<?php
+							if($auction->stars == NULL){
+								echo '0';
+							}else{
+								echo $auction->stars;
+							}
+						?>">&nbsp;No Customer Reviews</p> </center>
 					</div>
 					<div class="panel expiration-date square">
 						<center>

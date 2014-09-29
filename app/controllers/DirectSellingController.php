@@ -121,7 +121,8 @@ class DirectSellingController extends \BaseController {
 		}
 		$sellingEvent = DB::select('
 			select s.*,
-			p.imageURL,p.productDescription,p.userID,p.details '.$w.' 
+			p.imageURL,p.productDescription,p.userID,p.details,
+			(select AVG(stars) from reviews where productID = s.productID) as stars '.$w.' 
 			from selling as s inner join product as p on s.productID = p.id 
 			'.$query.' where s.id ='.$id.''
 		);
