@@ -18,9 +18,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-align" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav" id="nav">
-      	<li><a href="/">Home</a></li>
         <li><a href="/selling">Sell</a></li>
-        <li><a href="#">Affiliate</a></li>
         <li class="dropdown" >
           <a href="" class="dropdown-toggle" style="height:50px;">
             Marketplace
@@ -42,12 +40,23 @@
 
        </li>
       </ul>
-      <form class="navbar-form navbar-left" role="submit">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Product Search">
-        </div>
-        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-      </form>
+   
+       <div class="navbar-form navbar-left">
+         {{ Form::open(['method'=>'GET','id'=>'loc']) }}
+         <div class="form-group" style="width:65%;">
+            <div class="input-group">
+              <input type="text" class="form-control " name="q" placeholder="Search..." style="width:62%;"> 
+               <select class="form-control input-group" style="width:38%;" id="x">
+                   <option value="/auction-listings" 
+                  >AU</option>
+                   <option value="/direct-selling-listings" 
+                  >DS</option>
+               </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-default" id="search"><span class="glyphicon glyphicon-search"></span></button >
+        {{ Form::close() }}
+      </div>
       <ul class="nav navbar-nav navbar-right">
 @if (Auth::guest())
         <li><a href="/register">Register</a></li>

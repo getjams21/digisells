@@ -12,7 +12,7 @@
           <div class="row">
             <div class="col-md-12 shadowed">
               <div class=""><br>
-                  <h4 class="capital"><b><a href="/users/{{Auth::user()->username}}">{{ Auth::user()->username }}'s</a> Invoices</h4></b><br>
+                  <h4 class="capital"><b><a href="/users/{{Auth::user()->username}}">{{ Auth::user()->firstName }}'s</a> Invoices</h4></b><br>
                    <div class="col-md-6 " >
                    <div class="panel panel-primary">
                       <div class="panel-heading"><h4>Auction Invoices</h4></div>

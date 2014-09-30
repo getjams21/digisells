@@ -1,17 +1,7 @@
 <div class="navbar-default sidebar top-links" role="navigation" style="margin-top:65px;">
         <div class="sidebar-nav navbar-collapse" >
             <ul class="nav" id="side-menu">
-                <li class="sidebar-search">
-                    <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                    </div>
-                    <!-- /input-group -->
-                </li>
+               
                 <li>
                     <a href="/admin" id="Dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
@@ -82,21 +72,16 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="/admin-sumary" id="Summary"><i class="fa fa-files-o"></i> Summary</a>
+                    <a href="/admin-sumary" id="Summary"><i class="fa fa-files-o"></i> Reports</a>
                     
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-wrench fa-fw"></i> Settings<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#">Settings Churva</a>
-                        </li>
-                        </ul>
+                    <a href="#"><i class="fa fa-wrench fa-fw"></i> Settings</a>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bullhorn fa-fw"></i> Complaints<span class="fa arrow"></span></a>
+                    <a href="/admin-complaints" id="Complaints"><i class="fa fa-bullhorn fa-fw"></i> Complaints</a>
                 </li>
             </ul>
         </div>

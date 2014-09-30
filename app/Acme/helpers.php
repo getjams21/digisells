@@ -52,6 +52,12 @@ function money($money){
 	$newmoney = number_format($money,2);
 	return $newmoney;
 }
+function day(){
+	$dt = Carbon::now()->dayOfWeek;  
+	$dates = array("", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+	$day= $dates[$dt];                 
+	return $day; 
+}
 // function sortBy($column,$body,$route)
 // {
 // 	$direction = (Request::get('direction')=='asc') ? 'desc' : 'asc';

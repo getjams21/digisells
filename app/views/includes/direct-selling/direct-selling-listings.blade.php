@@ -39,10 +39,9 @@
     </div>
   </div>
 </div>
-<!-- End Modal -->
-<div class="col-md-3 refine-search">
-	<h3>Refine Search</h3>
-</div>
+<!-- End Modal --><br>
+
+@include('includes.search');
 <div class="container">
 	<div class="col-md-3">
 	</div>
@@ -138,6 +137,11 @@
 			</div>
 		</div>
 	@endforeach
+		@if(!$listings)
+			<div class="well"> 
+				<div class="alert alert-danger" role="alert"><b>Oh snap! No Products Found!</b>  Please try our Refine Search</div>
+			</div>
+		@endif
 		<div class="container-fluid lists">
 		</div>
 	<div class="loading">

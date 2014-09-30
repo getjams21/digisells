@@ -3,7 +3,7 @@
 class DirectSellingController extends \BaseController {
 	function __construct()
 	{
-		$this->beforeFilter('auth',['only' => ['index','store','listingSteps','showDirectSellingListings']]);
+		$this->beforeFilter('auth',['only' => ['index','store','listingSteps']]);
 	}
 	/**
 	 * Display a listing of the resource.
@@ -188,6 +188,27 @@ class DirectSellingController extends \BaseController {
 		//check if there are bidders
 		//If bidded, set minimum price to highest bidder
 		//else, set minimum price to starting price
+		
+		if(Request::get('q')){
+			$search=' and s.sellingName LIKE "%'.Request::get('q').'%" ';
+		}else{$search = '';}
+		if(Request::get('SubCategory')){
+			$subcategory=' and p.subcategoryID ='.Request::get('SubCategory').'';
+		}else{$subcategory = '';}
+		if(Request::get('price')){
+			if(Request::get('price') ==1){
+				$x= '<50';
+			}elseif(Request::get('price') ==2){
+				$x= '>=50 and s.price <100';
+			}elseif(Request::get('price') ==3){
+				$x= '>=100 and s.price <500';
+			}elseif(Request::get('price') ==4){
+				$x= '>=500 and s.price <1000';
+			}elseif(Request::get('price') ==5){
+				$x= '>=1000';
+			}
+			$price=' and s.price '.$x.'';
+		}else{$price = '';}
 		if(Auth::user()){
 			$w = ',w.status as watched';
 			$query='left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on s.productID=w.productID ';
@@ -195,17 +216,20 @@ class DirectSellingController extends \BaseController {
 			$w=',0 as watched ';
 			$query = ' ';
 		}
+		$category = Category::lists('categoryName','id');
+		$subCategories = DB::table('Subcategory')->where('categoryID', 1)->lists('name','id');
 		$listings = DB::select('
 			select s.*,p.userID, p.imageURL,p.productDescription '.$w.' from selling as s 
 			inner join product as p on s.productID=p.id '.$query.' 
-			where s.sold=0
+			where s.sold=0 '.$search.''.$subcategory.''.$price.'
 			order by s.created_at desc limit 4
 		');
 		if($listings){
 			$lastItem = end($listings);
 			$lastID = $lastItem->id;
 			Session::put('lastID', $lastID);
-			return View::make('pages.direct-selling.direct-selling-listings',compact('listings'));
 		}
+		return View::make('pages.direct-selling.direct-selling-listings',compact('listings','category','subCategories'));
+
 	}
 }

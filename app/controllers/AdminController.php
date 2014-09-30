@@ -6,8 +6,8 @@ use PayPal\Types\AP\PaymentDetailsRequest;
 class AdminController extends \BaseController {
 	private $_apiContext;
 	private $paypal;
-    private $_ClientId='ATp6uBApduUYkCLe5iOKhD7lQhfc8kdmKc2dvtlLaCfiYDmmolDMoAu2vwAJ';
-    private $_ClientSecret='ENvUWRCSJf06XpAdKaiNtVLAMpB4uvupciqloNExUyQYK13ZRbQ78BcupVst';
+    private $_ClientId='AaexIxC3q4yf1Fj65Mg0e7fxjCSYjBw0rUwRuiXuBxwIan0Biqb1QtHbFav-';
+    private $_ClientSecret='EBDU3RAmr8mtH9J-KP027YM2rLbUN_vKOtWFMVvIBwpEvFWBV0T2pCIwQ91b';
     public function __construct()
 	    {
     		$this->_apiContext = Paypalpayment::ApiContext(
@@ -25,7 +25,7 @@ class AdminController extends \BaseController {
 	 */
 	public function index()
 	{
-		$newusers = DB::select('select count(id) as count from user where created_at > now()');
+		$newusers = DB::select('select count(id) as count from user where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
 		$newauction= DB::select('select count(id) as count from auction where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
 		$selling=DB::select('select count(id) as count from selling where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
 		$deposits=DB::select('select count(id) as count from deposit where created_at between date_sub(now(),INTERVAL 1 WEEK) and now()');
@@ -33,8 +33,17 @@ class AdminController extends \BaseController {
 		$listings=$newauction[0]->count + $selling[0]->count;
 		$new= array('users'=>$newusers[0]->count,'listings'=>$listings,
 			'deposits'=>$deposits[0]->count,'withdrawals'=>$withdrawals[0]->count);
-		// return dd($newusers);
-		return View::make('admin.index',['new'=>$new]);
+		$daily=DB::select('select DATE(created_at) as date,count(amount) as count,sum(amount) as amount from sales where created_at between date_sub(now(),INTERVAL 1 WEEK) and now() GROUP BY DATE(created_at)');
+		$dates= array();
+		$amounts = array();
+		$i=0;
+		foreach($daily as $dailies){
+			$dates[$i] = $dailies->date;
+			$amounts[$i] = $dailies->amount;
+			$amounts[$i] = $dailies->amount;
+			$i++;
+		};
+		return View::make('admin.index',['new'=>$new,'dates'=>$dates,'amounts'=>$amounts,'dailies'=>$daily]);
 	}
 	public function auctions()
 	{ 
@@ -94,13 +103,11 @@ class AdminController extends \BaseController {
 		$affiliations= DB::select('select a.*,(select count(id) from sales where affiliateID=a.id) as affCount
 			,c.sellingName,b.amount as amountSold,c.price as sellingPrice, c.discount as sellingDiscount
 			,c.affiliatePercentage as sellingAffPerc ,d.auctionName,d.minimumPrice, d.buyoutPrice,
-			d.affiliatePercentage as auctionAffPerc,e.username,e.firstName from affiliates as a left join
+			d.affiliatePercentage as auctionAffPerc,e.username,e.firstName from affiliates as a inner join
 			 sales as b on a.id=b.affiliateID and (a.auctionID=b.auctionID or a.sellingID=b.sellingID) left
 			  join selling as c on c.id=a.sellingID left join auction as d on d.id=a.auctionID left join user
 			   as e on e.id=a.userID 
 			 ');
-		//echo '<pre>';
-		//return dd($affiliations);
 		return View::make('admin.affiliations',['affiliations'=>$affiliations ]);
 	}
 	public function credits()
@@ -114,14 +121,44 @@ class AdminController extends \BaseController {
 		//return dd($credits);
 		return View::make('admin.credits',['credits'=>$credits ]);
 	}
+	public function complaints()
+	{ 
+		$complaints = DB::select('select ticket,tittle from complaints  group by ticket');
+		
+		return View::make('admin.complaints',['complaint'=>$complaints ]);
+	}
+	public function editcomplaints($ticket)
+	{ 
+		$complaints=DB::select('select a.*,b.username,b.firstName from complaints as a inner join user as b on b.id=a.userID where ticket = '.$ticket );
+		 $title=DB::table('complaints')->where('ticket', '=', $ticket)->first();
+	// return dd($complain);
+		return View::make('admin.editcomplaint',['complaints'=>$complaints,'ticket'=>$ticket,'title'=> $title]);
+	}
 	public function summary()
 	{ 
-		// $summary= DB::select('');
-		$summary= 'summary';
-		//echo '<pre>';
-		//return dd($credits);
-		return View::make('admin.summary',['summary'=>$summary ]);
+		
+		$deposits=DB::select('Select count(amount) as count, sum(amount) as amount from deposit where status=1') ;
+		$withdrawals=DB::select('Select count(amount) as count, sum(amount) as amount from withdrawals where status=1') ;
+		$userfunds=DB::select('Select sum(fund) as funds from user');
+		$usercredits=DB::select('Select sum(creditAdded)-sum(creditDeducted) as credits from credits');
+		$auctionSales=DB::select("select count(amount) as count,sum(amount) as amount from sales where auctionID IS NOT NULL");
+		$sellingSales= DB::select('select count(amount) as count,sum(amount) as amount from sales where sellingID IS NOT NULL');
+		$daily=DB::select('select DATE(created_at) as date,count(amount) as count,sum(amount) as amount from sales where created_at between date_sub(now(),INTERVAL 1 WEEK) and now() GROUP BY DATE(created_at)');
+		$dates= array();
+		$amounts = array();
+		$i=0;
+		// echo '<pre>';
+		// return dd($daily);
+		foreach($daily as $dailies){
+			$dates[$i] = $dailies->date;
+			$amounts[$i] = $dailies->amount;
+			$amounts[$i] = $dailies->amount;
+			$i++;
+		};
+		return View::make('admin.summary',['deposits'=>$deposits,'withdrawals'=>$withdrawals,'userfunds'=>$userfunds,'dailies'=>$daily,
+											'usercredits'=>$usercredits,'auctionSales'=>$auctionSales,'sellingSales'=>$sellingSales,'dates'=>$dates,'amounts'=>$amounts ]);
 	}
+
 	public function categories()
 	{
 		$categories = DB::select('Select * from Category order by status desc');
@@ -206,9 +243,9 @@ class AdminController extends \BaseController {
 		// return 'hello';
 		$sdkConfig = array(
 			"mode" => "sandbox",
-			"acct1.UserName" => "admin_api1.digisells.com",
-			"acct1.Password" => "1408017508",
-			"acct1.Signature" => "AeCea6xAGs-n.GkSEXGeWXluuTzOAQSphFYGiGoMTvunIwAhl6PAZu1P",
+			"acct1.UserName" => "digisells_api1.admin.com",
+			"acct1.Password" => "PFT5XFQ42YDDEJYM",
+			"acct1.Signature" => "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AfQR4MeCy8ViZ7PE4umi3Me1o3PU",
 			"acct1.AppId" => "APP-80W284485P519543T"
 		);
 		$requestEnvelope = new RequestEnvelope("en_US");

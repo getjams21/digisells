@@ -39,6 +39,8 @@ Route::get('/users/{username}', ['as' => 'profile', 'uses' => 'UsersController@s
 Route::resource('uploadImage', 'ImageUploadController');
 #password reminders
 Route::controller('password','RemindersController');
+#Product Detailing
+Route::get('/edit-details/{id}', 'DirectSellingController@editProductDetails');
 #Selling Platform Option
 Route::get('/selling', 'HomePageController@selling');
 #Marketplace Routes
@@ -82,6 +84,11 @@ Route::group(["before" => "auth"], function() {
   Route::get('/soldSelling','DashboardController@soldDirectSelling'); 
   Route::get('/affiliations','DashboardController@affiliations'); 
   Route::get('/credits','DashboardController@credits'); 
+  Route::resource('/support','ComplaintController'); 
+  Route::get('/editComplaint','ComplaintController@editComplaint');
+  Route::post('/addComplaint','ComplaintController@addComplaint');
+
+  // Route::get('/summary','DashboardController@summary'); 
   #NOTIFICATIONS
   Route::post( '/readNotif', 'DashboardController@readNotif' );
   #Funds Controller
@@ -134,6 +141,9 @@ Route::group(["before" => "role:admin"], function() {
    Route::get('/admin-withdrawals','AdminController@withdrawals');
    Route::get('/admin-deposits/{paymentID}','AdminController@showDeposit');
    Route::get('/admin-withdrawals/{payKey}','AdminController@showWithdrawal');
+   Route::get('/admin-complaints','AdminController@complaints');
+   Route::get('/admin-complaints/{ticket}','AdminController@editcomplaints');
+
 });
 Route::get( '/404', function(){
   return View::make('error.404');

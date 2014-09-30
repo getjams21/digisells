@@ -72,6 +72,7 @@
 		{{ HTML::script('_/js/jquery.form.js') }}
 		{{ HTML::script('_/js/timezone.js') }}
 		{{ HTML::script('_/js/plugins/metisMenu/metisMenu.min.js') }}
+		{{ HTML::script('_/js/chart.min.js') }}
 		@yield('script')
 		{{ HTML::script('_/js/sb-admin-2.js') }}
 		@yield('scripts')

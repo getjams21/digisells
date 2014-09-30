@@ -22,6 +22,7 @@ class CreaTableProduct extends Migration {
 			$table -> integer('quantity');
 			$table -> string('imageURL');
 			$table -> string('downloadLink');
+			$table -> text('details');
 			$table -> timestamps();
 		});
 	}

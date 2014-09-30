@@ -29,6 +29,7 @@ $.fn.unwatchProduct = function(userID, prodID){
 
 
 $(document).ready(function(){
+
 	var tz = jstz.determine();
 	$('meta[name="timezone"]').attr('content',tz.name()) ;
 	//file browser display file name
@@ -1012,6 +1013,24 @@ $(".clickableRow").click(function() {
 	    "moreText"  : "Read More >>",
 	    "lessText"  : "<< Less",
 	 });
+
+	 var select = document.getElementById("x");
+	var location= select.options[select.selectedIndex].value;
+	$('#loc').attr('action',location);
+	$('#x').change(function(){
+		var select = document.getElementById("x");
+		var location= select.options[select.selectedIndex].value;
+		$('#loc').attr('action',location);
+	});
+	var select = document.getElementById("searchTypes");
+	var location= select.options[select.selectedIndex].value;
+	$('#refineSearch').attr('action',location);
+	$('#searchTypes').change(function(){
+		var select = document.getElementById("searchTypes");
+		var location= select.options[select.selectedIndex].value;
+		$('#refineSearch').attr('action',location);
+	});
+	 
 });//end of onload
 
 

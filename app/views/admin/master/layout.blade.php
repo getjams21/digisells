@@ -37,7 +37,7 @@
 			{{ HTML::script('_/js/plugins/dataTables/jquery.dataTables.js') }}
 			{{ HTML::script('_/js/plugins/dataTables/dataTables.bootstrap.js') }}
 			{{ HTML::script('_/js/plugins/metisMenu/metisMenu.min.js') }}
-			{{ HTML::script('_/js/sb-admin-2.js') }}	
+			{{ HTML::script('_/js/sb-admin-2.js') }}
 			<!-- chart script --><!-- 
 			{{ HTML::script('_/js/plugins/morris/raphael.min.js') }}
 			{{ HTML::script('_/js/plugins/morris/morris.min.js') }}

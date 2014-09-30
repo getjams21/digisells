@@ -12,7 +12,7 @@
             <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12 shadowed"><br>
-                      <h4 class="capital"><b><a href="/users/{{Auth::user()->username}}">{{ Auth::user()->username }}'s</a> Inactive Bids</h4></b>
+                      <h4 class="capital"><b><a href="/users/{{Auth::user()->username}}">{{ Auth::user()->firstName }}'s</a> Inactive Bids</h4></b>
                       <hr >
                         <div class="col-md-12">
                         <div class="panel panel-primary">

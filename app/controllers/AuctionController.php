@@ -293,6 +293,26 @@ class AuctionController extends \BaseController {
 		//check if there are bidders
 		//If bidded, set minimum price to highest bidder
 		//else, set minimum price to starting price
+		if(Request::get('q')){
+			$search=' and a.auctionName LIKE "%'.Request::get('q').'%" ';
+		}else{$search = '';}
+		if(Request::get('SubCategory')){
+			$subcategory=' and p.subcategoryID ='.Request::get('SubCategory').'';
+		}else{$subcategory = '';}
+		if(Request::get('price')){
+			if(Request::get('price') ==1){
+				$x= '<=50';
+			}elseif(Request::get('price') ==2){
+				$x= ' between 50 and 100';
+			}elseif(Request::get('price') ==3){
+				$x= ' between 100 and 500';
+			}elseif(Request::get('price') ==4){
+				$x= ' between 500 and 1000';
+			}elseif(Request::get('price') ==5){
+				$x= '>=1000';
+			}
+			$price=' and (a.minimumPrice '.$x.' or a.buyoutPrice '.$x.')';
+		}else{$price = '';}
 		if(Auth::user()){
 			$w = ',w.status as watched';
 			$query='left join (select * from watchlist where watcherID='.Auth::user()->id.') as w on a.productID=w.productID ';
@@ -300,13 +320,15 @@ class AuctionController extends \BaseController {
 			$w=',0 as watched ';
 			$query = ' ';
 		}
+		$category = Category::lists('categoryName','id');
+		$subCategories = DB::table('Subcategory')->where('categoryID', 1)->lists('name','id');
 		$listings = DB::select('
 			select a.id,a.buyoutPrice, a.auctionName,a.productID,a.endDate,a.affiliatePercentage,p.userID, p.imageURL,p.productDescription,
 			(SELECT COUNT(id) from bidding where auctionID = a.id and amount != 0 and highestBidder = 1) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
 			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder '.$w.' from auction as a 
-			inner join product as p on a.productID=p.id '.$query.'
-			where a.sold=0 and a.endDate >= NOW()
+			inner join product as p on a.productID=p.id '.$query.' 
+			where a.sold=0 and a.endDate >= NOW() '.$search.''.$subcategory.''.$price.'
 			order by a.created_at desc limit 10
 		');
 		if($listings){
@@ -314,7 +336,8 @@ class AuctionController extends \BaseController {
 			$lastID = $lastItem->id;
 			Session::put('lastID', $lastID);
 		}
-		return View::make('pages.auction.auction-listings',compact('listings'));
+		$selected ='AU';
+		return View::make('pages.auction.auction-listings',compact('listings','category','subCategories'));
 		
 	}
 	public function loadMoreAuction(){

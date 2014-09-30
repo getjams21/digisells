@@ -21,6 +21,12 @@ vertical-align:top;}
 #wrapper {
     width: 100%;
 }
+.align-right{
+    text-align:right;
+}
+.align-center{
+    text-align:center;
+}
 
 #page-wrapper {
     padding: 0 15px;

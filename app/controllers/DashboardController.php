@@ -101,7 +101,7 @@ class DashboardController extends \BaseController {
 			b.auctionName,b.minimumPrice,b.buyoutPrice,d.username,d.firstName,
 		 (select count(id) from bidding where auctionID=a.auctionID and amount>0 and userID!=".Auth::user()->id.") as bidders
 		  from sales as a inner join auction as b on a.auctionID=b.id inner join product as c on b.productID=c.id 
-		  inner join user as d on a.buyerID=d.id left join (select * from user) as e on e.id=a.affiliateID
+		  inner join user as d on a.buyerID=d.id left join affiliates as f on f.id=a.affiliateID left join (select * from user) as e on e.id=f.userID
 		  where a.auctionID IS NOT NULL and c.userID =".Auth::user()->id);
 		// echo '<pre>';
 		// return dd($soldAuctions);
@@ -138,6 +138,7 @@ class DashboardController extends \BaseController {
 		// echo '<pre>';
 		// return dd($credits);
 	}
+	// 
 	
 	/**
 	 * Show the form for creating a new resource.

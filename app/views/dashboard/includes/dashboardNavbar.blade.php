@@ -67,6 +67,9 @@
                         <li>
                              <a href="/withdrawal"><i>Withdrawals</i></a>
                        </li>
+                       <!-- <li>
+                             <a href="/summary"><i>Summary</i></a>
+                       </li> -->
                     </ul>
                 </li>
                 <li class="sidehead">
@@ -90,6 +93,9 @@
                 </li>
                 <li>
                     <a href="/credits">Credits</a>
+                </li>
+                 <li>
+                    <a href="/support">Support</a>
                 </li>
             </ul>
             </div>

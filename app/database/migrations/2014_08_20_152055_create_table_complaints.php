@@ -16,7 +16,8 @@ class CreateTableComplaints extends Migration {
 		{
 			$table->increments('id');
 			$table -> integer('userID')->unsigned();
-			$table -> integer('productID')->unsigned();
+			$table -> integer('productID')->unsigned()->nullable();
+			$table -> integer('ticket');
 			$table -> string('tittle')->nullable();
 			$table -> text('description')->nullable();
 			$table->timestamps();
