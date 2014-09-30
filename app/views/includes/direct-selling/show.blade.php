@@ -83,7 +83,13 @@
 						</center>
 					</div>
 					<div class="reviews">
-						<center><p><input id="input-5a" class="rating" data-readonly="true" data-size="xs" data-show-clear="false" data-show-caption="true" value="0">&nbsp;No Customer Reviews</p> </center>
+						<center><p><input id="input-5a" class="rating" data-readonly="true" data-size="xs" data-show-clear="false" data-show-caption="true" value="<?php
+							if($selling->stars == NULL){
+								echo '0';
+							}else{
+								echo $selling->stars;
+							}
+						?>"> </center>
 					</div>
 					<div class="panel expiration-date square">
 						<center><span>This listing is available until
@@ -134,7 +140,34 @@
 				</div>
 				</center>
 			</div>
+			<br>
+			<hr class="style-fade"></hr>
+			<div class="panel panel-primary">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Additional Information</h3>
+			  </div>
+			  <div class="panel-body">
+			    <?php if($selling->details != '0'){
+					echo $selling->details;
+					}
+				?>
+			  </div>
+			</div>
 		</div>
+	</div>
+</div>
+<div class="panel panel-edit square" 
+<?php
+if(Auth::user()){
+	if($selling->userID != Auth::user()->id){
+	echo "hidden";
+	}
+}else{echo "hidden";}
+;?>>
+	<div class="container">
+		<center>
+			<a href="{{URL::route('edit-details.edit',$selling->productID)}}"><button class="btn btn-primary"><span class="glyphicon glyphicon-edit">&nbsp</span><span class="error-msg">Let me customize this Sales Page</span></button></a>
+		</center>
 	</div>
 </div>
 @endforeach

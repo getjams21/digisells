@@ -175,7 +175,8 @@ class AuctionController extends \BaseController {
 			(SELECT COUNT(id) from bidding where auctionID = '.$id.' and amount != 0) as bidders,
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = '.$id.') as amount,
 			(Select userID from bidding where auctionID = '.$id.' order by amount desc limit 1) as highestBidder,
-			p.imageURL,p.productDescription,p.userID '.$w.'
+			p.imageURL,p.productDescription,p.userID,p.details,
+			(select stars from reviews where productID = a.productID) as stars '.$w.'
 			from auction as a inner join product as p on a.productID = p.id 
 			'.$query.' where a.id ='.$id.''
 		);
@@ -196,55 +197,113 @@ class AuctionController extends \BaseController {
 			// $auction->sold = 1;
 			// $auction->save();
 
-			$sales = new Sales;
-			$sales->amount = $auction->buyoutPrice;
-			if(Auth::user()->fund < $sales->amount){
-				return Redirect::back()->withFlashMessage('
-					<center><div class="alert alert-danger square error-bid" role="alert">
-						<b>Ohh Snap!..Insufficient Fund!</b><br>
-						<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
-					</div></center>
-					');
-			}
-			$sales->auctionID = $auction->id;
-			$sales->buyerID = Auth::user()->id;
-			$sales->transactionNO = time();
-			$sales->save();
-
-			//deduct amount to current fund of buyer
-			$buyer = User::find(Auth::user()->id);
-			$buyer->fund -= (float) $sales->amount;
-			$buyer->save();
-
-			//add credits to buyer
-			$credits = new Credits;
-			$credits->userID = Auth::user()->id;
-			$credits->salesID = $sales->id;
-			$credits->creditAdded = ((float) $sales->amount * 0.01);
-			$credits->save();
-
-			//total credits
-			$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
-			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
-			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
-
-			//add commission to company
-			$company = User::find(1);
-			$company->fund += ((float) $sales->amount * 0.09);
-			$company->save();
-
-			//add commission to affiliate if affiliated
-
-			//add funds to the seller
-			$totalAmount = ((float) $sales->amount - (float) $company->fund) - (float) $credits->creditAdded;
+			//identify the seller
 			$product = Product::find($auction->productID);
-			$seller = User::find($product->userID);
-			$seller->fund += $totalAmount;
-			$seller->save();
 
-			//set auction event as sold
-			$auction->sold = 1;
-			$auction->save();
+			$creditsUsed = 0.00;
+			$affiliateCommission = 0.00;
+
+			//check if has highest bidder
+			$bidder = DB::select('select userID, MAX(amount) as amount from bidding where auctionID='.$id.' and userID != '.$product->userID.'');
+
+			if($bidder[0]->amount != NULL){
+				// echo '<pre>';
+				// return dd($bidder);
+				$winner = User::find($bidder[0]->userID);
+				$sales = new Sales;
+				$sales->amount = (float) $bidder[0]->amount;
+				if($winner->fund < $sales->amount){
+					$creditsAdd = DB::select('select SUM(creditAdded) as added from credits where userID='.$winner->id.'');
+					$creditsDeduct = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.$winner->id.'');
+					$creditsTotal = (float) $creditsAdd[0]->added - (float) $creditsDeduct[0]->deducted;
+
+					$fundPlusCredits = $creditsTotal + (float) $winner->fund;
+					if($fundPlusCredits < $sales->amount){
+						return Redirect::back()->withFlashMessage('
+							<center><div class="alert alert-danger square error-bid" role="alert">
+								<b>Ohh Snap!..Insufficient Fund!</b><br>
+								<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
+							</div></center>
+						');
+					}
+					else{
+						$creditsUsed = (float)$sales->amount - (float)Auth::user()->fund;
+					}
+				}
+				$sales->auctionID = $auction->id;
+				$sales->buyerID = $winner->id;
+				$sales->transactionNO = time();
+
+				//add commission to affiliate if affiliated
+				$refferedBy = DB::select('select referredBy from bidding where auctionID = '.$id.' and referredBy != NULL');
+				if($refferedBy != NULL){
+					$affiliateCommission = (float) $sales->amount * ((float) $auction->affiliatePercentage/100);
+					$affiliateID = DB::select('select id from affiliates where userID = '.$refferedBy[0]->refferedBy.' 
+									and auctionID = '.Input::get('auctionID').'');
+					// echo '<pre>';
+					// return dd($affiliateID);
+					if($affiliateID){
+						$affiliate = Affiliate::find($affiliateID[0]->id);
+						$affiliate->amount = $affiliateCommission;
+						$affiliate->save();
+
+						//update sales record
+						$sales->affiliateID = $affiliate->id;
+
+						//add commission to affiliate fund
+						$affiliateUser = User::find($affiliate->userID);
+						$affiliateUser->fund += $affiliateCommission;
+						$affiliateUser->save();
+						// echo '<pre>';
+						// return dd($affiliateUser->fund);
+					}
+				}
+				//save sales
+				$sales->save();
+
+				//deduct amount to current fund of buyer
+				$buyer = User::find($winner->id);
+				if($creditsUsed != 0.00){
+					$buyer->fund = 0.00;
+				}else{
+					$buyer->fund -= (float) $sales->amount;
+				}
+				$buyer->save();
+
+				//add credits to buyer
+				$credits = new Credits;
+				$credits->userID = $winner->id;
+				$credits->salesID = $sales->id;
+				$credits->creditAdded = ((float) $sales->amount * 0.01);
+				if($creditsUsed){
+					$credits->creditDeducted = $creditsUsed;
+				}
+				$credits->save();
+
+				//total credits
+				$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.$winner->id.'');
+				$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.$winner->id.'');
+				$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
+
+				//deduct company commission
+				$companyCommission = ((float) $sales->amount * 0.09);
+
+				//add funds to the seller
+				$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $affiliateCommission;
+				// echo '<pre>';
+				// return dd($totalAmount);
+				$seller = User::find($product->userID);
+				$seller->fund += $totalAmount;
+				// echo '<pre>';
+				// return dd($seller->fund);
+				$seller->save();
+
+				//set auction event as sold
+				$auction->sold = 1;
+				$auction->save();
+			}
+			// $auction->sold = 1;
+			// $auction->save();
 			return Response::json($auction->endDate);
 		}
 	}
@@ -388,5 +447,32 @@ class AuctionController extends \BaseController {
 			}
 		}
 		dd($reservedFund);
+	}
+	public function auctionResult(){
+		//get id of the seller
+		$seller = DB::select('
+			select userID from product 
+			inner join auction on auction.productID = product.id 
+			where auction.id = '.Input::get('view-result').'
+			');
+
+		//get all bidding info for this auction
+		$auctionResult = DB::select('
+			select b.*, u.username, a.* from bidding as b
+			inner join user as u on b.userID = u.id
+			inner join auction as a on a.id = b.auctionID
+			where b.auctionID = '.Input::get('view-result').'
+			and b.userID != '.$seller[0]->userID.'
+			');
+		$summary = DB::select('
+			select u.username, amount as maxAmount from bidding as b
+			inner join user as u on b.userID = u.id
+			where auctionID = '.Input::get('view-result').'
+			and userID != '.$seller[0]->userID.'
+			and amount = (select MAX(amount) from bidding where auctionID = '.Input::get('view-result').')
+			');
+		$bidders = DB::select('select COUNT(id) as bidders from bidding where auctionID = '.Input::get('view-result').'
+			and userID != '.$seller[0]->userID.'');
+		return View::make('pages.auction.auction-result', compact('auctionResult','summary','bidders'));
 	}
 }

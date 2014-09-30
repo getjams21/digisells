@@ -42,8 +42,7 @@
 <div class="panel panel-edit square">
 	<div class="container">
 		<center>
-			<a href="/edit-details/{{$product->id}}"><button class="btn btn-primary"><span class="glyphicon glyphicon-edit">&nbsp</span><span class="error-msg">Let me customize this Sales Page</span></button></a>
-			<button class="btn btn-success"><span class="glyphicon glyphicon-check">&nbsp</span><span class="error-msg">I'm okay with this</span></button>
+			<a href="{{URL::route('edit-details.edit',$selling->productID)}}"><button class="btn btn-primary"><span class="glyphicon glyphicon-edit">&nbsp</span><span class="error-msg">Let me customize this Sales Page</span></button></a>
 		</center>
 	</div>
 </div>

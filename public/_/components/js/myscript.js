@@ -1007,6 +1007,17 @@ $(".clickableRow").click(function() {
 			this.select();
 		});   
 	});
+	//star review on change
+	$('#input-5a').on('rating.change', function(event, value, caption) {
+	    $(this).val(value);
+	    // alert($(this).val());
+	    // console.log(value);
+	    // console.log(caption);
+	});
+	//
+	$('.close-panel').click(function(event) {
+		$('.panel-edit').hide();
+	});
 	//description shortening
 	 $(".comment").shorten({
 	    "showChars" : 150,

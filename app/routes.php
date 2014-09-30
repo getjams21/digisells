@@ -40,7 +40,7 @@ Route::resource('uploadImage', 'ImageUploadController');
 #password reminders
 Route::controller('password','RemindersController');
 #Product Detailing
-Route::get('/edit-details/{id}', 'DirectSellingController@editProductDetails');
+Route::resource('edit-details', 'ProductController');
 #Selling Platform Option
 Route::get('/selling', 'HomePageController@selling');
 #Marketplace Routes
@@ -51,6 +51,7 @@ Route::get('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionControll
 #Auction Selling Platform
 Route::resource('/auction', 'AuctionController');
 Route::resource('/auction-listing', 'AuctionController');
+Route::post('/auction-result', 'AuctionController@auctionResult');
 #Direct Selling Platform
 Route::resource('/direct-selling', 'DirectSellingController');
 #AUTH FILTER ROUTES
@@ -108,6 +109,9 @@ Route::group(["before" => "auth"], function() {
   Route::get('/watchlist', ['as' => 'watchlist', 'uses' => 'WatchlistController@index']);
   // Route::resource('watchlist','WatchlistController');
   Route::get('/watchers', ['as' => 'watchers', 'uses' => 'WatchlistController@watchers']);
+
+  #Reviews
+  Route::resource('/product-review', 'ReviewsController');
 
 });
 
