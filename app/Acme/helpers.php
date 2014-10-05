@@ -16,6 +16,10 @@ function user_photos_display($user)
 {
 	return '/images/users/'.$user->username."/".$user->userImage;
 }
+function screenshot_photos_path()
+{
+	return public_path() .'/images/screenshots/';
+}
 function auth_redirect($user)
 {
 	if($user == Auth::user()->username){

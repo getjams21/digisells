@@ -2,14 +2,17 @@
 use Acme\Forms\RegistrationForm;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
+use Acme\Mailers\UserMailer as Mailer;
 class UsersController extends \BaseController {
 	protected $registrationForm;
 
-	function __construct(RegistrationForm $registrationForm)
+	function __construct(RegistrationForm $registrationForm , Mailer $mailer)
 	{
 		$this->registrationForm = $registrationForm;
 		$this->beforeFilter('currentUser',['only' => ['edit','update']]);
 		$this->beforeFilter('guest',['only' => ['create']]);
+		$this->mailer = $mailer;
+	
 	}
 	
 	/**
@@ -51,6 +54,7 @@ class UsersController extends \BaseController {
 			$user->roles()->attach(3);	
 		}
 		$user->roles()->attach(1);
+		$this->mailer->welcome($user);
 		Auth::login($user);
 		if($user->id == 1){
 			return Redirect::to('/admin');
@@ -108,6 +112,8 @@ class UsersController extends \BaseController {
 	{
 		$user = User::whereUsername($username)->firstOrFail();
 		$input = Input::only('firstName','lastName', 'address');
+		// echo '<pre>';
+		// return dd(Input::file('userImage'));
 			if(Input::hasFile('userImage'))
 			{
 				$file = Input::file('userImage');

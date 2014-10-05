@@ -81,7 +81,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="/admin-complaints" id="Complaints"><i class="fa fa-bullhorn fa-fw"></i> Complaints</a>
+                    <a href="/admin-complaints" id="Complaints"><i class="fa fa-bullhorn fa-fw"></i> Requests</a>
                 </li>
             </ul>
         </div>
