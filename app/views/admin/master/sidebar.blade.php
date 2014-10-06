@@ -49,7 +49,7 @@
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
-                <li>
+               <!--  <li>
                     <a href="#"><i class="fa fa-money">&nbsp;</i> Funding Activities<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -59,8 +59,7 @@
                             <a href="/admin-withdrawals" id="Fund_Withdrawals"> Fund Withdrawals</a>
                         </li>
                     </ul>
-                    <!-- /.nav-second-level -->
-                </li>
+                </li> -->
                 <li>
                     <a href="/admin-affiliations" id="Affiliations"><i class="fa fa-bullhorn"></i> Affiliations</a>
                     

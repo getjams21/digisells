@@ -11,7 +11,7 @@ class PaymentController extends \BaseController {
                 $this->_ClientId,
                 $this->_ClientSecret
             )
-        );
+        	);
     	}
 	/**
 	 * Display a listing of the resource.

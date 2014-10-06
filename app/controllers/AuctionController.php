@@ -2,10 +2,20 @@
 
 use Carbon\Carbon;
 class AuctionController extends \BaseController {
+	private $_apiContext;
+	private $paypal;
+    private $_ClientId='AaexIxC3q4yf1Fj65Mg0e7fxjCSYjBw0rUwRuiXuBxwIan0Biqb1QtHbFav-';
+    private $_ClientSecret='EBDU3RAmr8mtH9J-KP027YM2rLbUN_vKOtWFMVvIBwpEvFWBV0T2pCIwQ91b';
 	function __construct()
-	{
+	{	
 		$this->beforeFilter('auth',['only' => ['index','store','testBidding','showDirectSellingListings',
 			'placingBid','validateReservedFunds']]);
+		$this->_apiContext = Paypalpayment::ApiContext(
+            Paypalpayment::OAuthTokenCredential(
+                $this->_ClientId,
+                $this->_ClientSecret
+            )
+        );
 	}
 	/**
 	 * Display a listing of the resource.

@@ -8,8 +8,14 @@ use PayPal\Types\AP\PaymentDetailsRequest;
 use PayPal\Types\AA\GetVerifiedStatusRequest;
 use PayPal\Types\AA\AccountIdentifierType;
 use PayPal\Service\AdaptiveAccountsService;
+// use Acme\Mailers\SellerMailer as Mailer;
 class SalesController extends \BaseController {
 
+	// function __construct(Mailer $mailer)
+	// 	{
+	// 		$this->mailer = $mailer;
+		
+	// 	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -59,9 +65,13 @@ class SalesController extends \BaseController {
 				$affiliateID=null;
 				$affiliateCommission = null;
 			}
+			$auction= Auction::find(Input::get('auctionID'));
+			$product = Product::find($auction->productID);
+			$seller = User::find($product->userID);
 			Session::put('pay',['sellingID'=> null,
 								'auctionID'=> Input::get('auctionID'),
 								'amount'=>$amount,
+								'sellerID'=>$seller->id,
 								'creditsUsed'=>$creditsUsed,
 								'affiliateID' =>$affiliateID,
 								'affCommision'=>$affiliateCommission
@@ -96,9 +106,13 @@ class SalesController extends \BaseController {
 				$affiliateCommission = null;
 			}
 			//PAYPAL PAYMENT
+			$selling= Auction::find(Input::get('sellingID'));
+			$product = Product::find($selling->productID);
+			$seller = User::find($product->userID);
 			Session::put('pay',['sellingID'=> Input::get('sellingID'),
 								'auctionID'=> null,
 								'amount'=>$amount,
+								'sellerID'=>$seller->id,
 								'creditsUsed'=>$creditsUsed,
 								'affiliateID' =>$affiliateID,
 								'affCommision'=>$affiliateCommission
@@ -109,23 +123,26 @@ class SalesController extends \BaseController {
  	public function pay(){
  			$session = Session::get("pay");
  			$payRequest = new PayRequest();
+ 			$seller = User::find($session['sellerID']);
  			//company
 			$receiver = array();
 			$receiver[0] = new Receiver();
 			$receiver[0]->amount = $session['amount'] * .1;
 			$receiver[0]->email = "digisells@admin.com";
 			if($session['affiliateID']){
+				$affiliate = Affiliate::find($session['affiliateID']);
+				$aff = User::find($affiliate->userID);
 				$receiver[1] = new Receiver();
 				$receiver[1]->amount = ($session['amount'] * .9) - $session['affCommision'];
-				$receiver[1]->email = "seller@digisells.com";
+				$receiver[1]->email = $seller->paypal;
 
 				$receiver[2] = new Receiver();
 				$receiver[2]->amount = $session['affCommision'];
-				$receiver[2]->email = "affiliate@digisells.com";
+				$receiver[2]->email = $aff->paypal;
 			}else{
 				$receiver[1] = new Receiver();
 				$receiver[1]->amount = $session['amount'] * .9;
-				$receiver[1]->email = "seller@digisells.com";
+				$receiver[1]->email = $seller->paypal;
 			}
 			$receiverList = new ReceiverList($receiver);
 			$payRequest->receiverList = $receiverList;
@@ -206,6 +223,11 @@ class SalesController extends \BaseController {
 				$selling= Selling::find($session['sellingID']);
 				$product = Product::find($selling->productID);
 				$seller = User::find($product->userID);
+				// echo '<pre>';
+				// return dd($seller->email);
+				Mail::send('emails.seller', ['user'=> $seller], function($message) use($seller){
+        $message->to( $seller->email, $seller->firstName)->subject('Your Digisells Product Has Been Sold.');
+   		 });
 				return View::make('pages.direct-selling.invoice', compact('selling','product','sales','seller','credits','totalCredits'));
 		 	}else{
 				$auction= Auction::find($session['auctionID']);
