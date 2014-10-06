@@ -4,6 +4,7 @@
 	@include('includes.navbar')
 @stop
 @section('content')
+@include('includes.salesDateModal')
 <div clas="row" >
     <div id="wrapper">
     @include('dashboard.includes.dashboardNavbar')
@@ -46,7 +47,9 @@
                                 <td>{{$soldSelling->discount}} %</td>
                                 <td><i class="fa fa-usd"></i>
                                   {{money($soldSelling->amount)}}</td>
-                                <td>{{$soldSelling->buyers}}</td>
+                                <td>{{$soldSelling->buyers}}  &nbsp; 
+                                  <button class="btn btn-info btn-xs" onclick="salesDate({{$soldSelling->sellingID}})"><i class="fa fa-list-alt"></i> Details</button>
+                                </td>
                                 <td><i class="fa fa-usd"></i> 
                                   <i>{{money($soldSelling->amount * $soldSelling->buyers)}}</i></td>
                                 <td><i class="fa fa-usd"></i> 

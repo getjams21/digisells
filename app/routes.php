@@ -74,6 +74,8 @@ Route::group(["before" => "auth"], function() {
   Route::resource('/sales-page-default', 'SalesPageController');
   #Sales Processes
   Route::resource('/sales', 'SalesController');
+  Route::get('/pay', 'SalesController@pay');
+  Route::get('/sales-return', 'SalesController@returnPP');
   #Dashboard pages
   Route::get('/notifications','DashboardController@index');
   Route::get('/invoices','DashboardController@invoices');
@@ -86,8 +88,8 @@ Route::group(["before" => "auth"], function() {
   Route::get('/affiliations','DashboardController@affiliations'); 
   Route::get('/credits','DashboardController@credits'); 
   Route::resource('/support','ComplaintController'); 
-  Route::get('/editComplaint','ComplaintController@editComplaint');
-  Route::post('/addComplaint','ComplaintController@addComplaint');
+  Route::get('/solveRequest/{ticket}','ComplaintController@solveRequest');
+  Route::post('/addComplaint/{ticket}','ComplaintController@addComplaint');
 
   // Route::get('/summary','DashboardController@summary'); 
   #NOTIFICATIONS
@@ -109,6 +111,7 @@ Route::group(["before" => "auth"], function() {
   Route::get('/watchlist', ['as' => 'watchlist', 'uses' => 'WatchlistController@index']);
   // Route::resource('watchlist','WatchlistController');
   Route::get('/watchers', ['as' => 'watchers', 'uses' => 'WatchlistController@watchers']);
+  Route::post( '/fetchSalesDetails', 'DashboardController@fetchSalesDetails' );
 
   #Reviews
   Route::resource('/product-review', 'ReviewsController');

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeyToComplaintsTable extends Migration {
+class AddFkToComplaints extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -18,6 +18,8 @@ class AddForeignKeyToComplaintsTable extends Migration {
 			->onDelete('restrict')->onUpdate('cascade');
 			$table-> foreign('productID')->references('id')->on('product')
 			->onDelete('restrict')->onUpdate('cascade');
+			// $table-> foreign('categoryID')->references('id')->on('complaintcategory')
+			// ->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
@@ -32,6 +34,7 @@ class AddForeignKeyToComplaintsTable extends Migration {
 		{
 			$table->dropForeign('complaints_userID_foreign');
 			$table->dropForeign('complaints_productID_foreign');
+			// $table->dropForeign('complaints_categoryID_foreign');
 		});
 	}
 

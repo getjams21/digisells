@@ -1,5 +1,13 @@
 <?php
-
+use PayPal\Types\AP\PayRequest;
+use PayPal\Types\AP\Receiver;
+use PayPal\Types\AP\ReceiverList;
+use PayPal\Types\Common\RequestEnvelope;
+use PayPal\Service\AdaptivePaymentsService;
+use PayPal\Types\AP\PaymentDetailsRequest;
+use PayPal\Types\AA\GetVerifiedStatusRequest;
+use PayPal\Types\AA\AccountIdentifierType;
+use PayPal\Service\AdaptiveAccountsService;
 class SalesController extends \BaseController {
 
 	/**
@@ -35,187 +43,164 @@ class SalesController extends \BaseController {
 		if(Input::get('auctionID')){
 			$creditsUsed = 0.00;
 			$affiliateCommission = 0.00;
-			// dd(Input::get('auctionID'));
 			$auction = Auction::find(Input::get('auctionID'));
-
-			$sales = new Sales;
-			$sales->amount = $auction->buyoutPrice;
-			if(Auth::user()->fund < $sales->amount){
-				$creditsAdd = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
-				$creditsDeduct = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
-				$creditsTotal = (float) $creditsAdd[0]->added - (float) $creditsDeduct[0]->deducted;
-
-				$fundPlusCredits = $creditsTotal + (float) Auth::user()->fund;
-				if($fundPlusCredits < $sales->amount){
-					return Redirect::back()->withFlashMessage('
-						<center><div class="alert alert-danger square error-bid" role="alert">
-							<b>Ohh Snap!..Insufficient Fund!</b><br>
-							<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
-						</div></center>
-					');
-				}
-				else{
-					$creditsUsed = (float)$sales->amount - (float)Auth::user()->fund;
-				}
-			}
-			$sales->auctionID = $auction->id;
-			$sales->buyerID = Auth::user()->id;
-			$sales->transactionNO = time();
-
-			//add commission to affiliate if affiliated
+			$amount = $auction->buyoutPrice;
 			if(Session::get('affiliate')){
-				$affiliateCommission = (float) $sales->amount * ((float) $auction->affiliatePercentage/100);
-				$affiliateID = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').' 
+				$affiliateCommission = (float) $amount * ((float) $auction->affiliatePercentage/100);
+				$affiliate = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').' 
 								and auctionID = '.Input::get('auctionID').'');
-				// echo '<pre>';
-				// return dd($affiliateID);
-				if($affiliateID){
-					$affiliate = Affiliate::find($affiliateID[0]->id);
-					$affiliate->amount = $affiliateCommission;
-					$affiliate->save();
-
-					//update sales record
-					$sales->affiliateID = $affiliate->id;
-
-					//add commission to affiliate fund
-					$affiliateUser = User::find($affiliate->userID);
-					$affiliateUser->fund += $affiliateCommission;
-					$affiliateUser->save();
-					// echo '<pre>';
-					// return dd($affiliateUser->fund);
+			
+				if($affiliate){
+					$affiliateID=$affiliate[0]->id;
+				}else{
+					$affiliateID=null;
 				}
-			}
-			//save sales
-			$sales->save();
-
-			//deduct amount to current fund of buyer
-			$buyer = User::find(Auth::user()->id);
-			if($creditsUsed != 0.00){
-				$buyer->fund = 0.00;
 			}else{
-				$buyer->fund -= (float) $sales->amount;
+				$affiliateID=null;
+				$affiliateCommission = null;
 			}
-			$buyer->save();
+			Session::put('pay',['sellingID'=> null,
+								'auctionID'=> Input::get('auctionID'),
+								'amount'=>$amount,
+								'creditsUsed'=>$creditsUsed,
+								'affiliateID' =>$affiliateID,
+								'affCommision'=>$affiliateCommission
+								]);
+			return Redirect::to('/pay');
 
-			//add credits to buyer
-			$credits = new Credits;
-			$credits->userID = Auth::user()->id;
-			$credits->salesID = $sales->id;
-			$credits->creditAdded = ((float) $sales->amount * 0.01);
-			if($creditsUsed){
-				$credits->creditDeducted = $creditsUsed;
-			}
-			$credits->save();
-
-			//total credits
-			$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
-			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
-			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
-
-			//deduct company commission
-			$companyCommission = ((float) $sales->amount * 0.09);
-
-			//add funds to the seller
-			$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $affiliateCommission;
-			// echo '<pre>';
-			// return dd($totalAmount);
-			$product = Product::find($auction->productID);
-			$seller = User::find($product->userID);
-			$seller->fund += $totalAmount;
-			// echo '<pre>';
-			// return dd($seller->fund);
-			$seller->save();
-
-			//set auction event as sold
-			$auction->sold = 1;
-			$auction->save();
-			return View::make('pages.auction.invoice', compact('auction','product','sales','buyer','seller','credits','totalCredits'));
 		}
 		else if(Input::get('sellingID')){
 			$creditsUsed = 0.00;
 			$affiliateCommission = 0.00;
 			//get price from db
 			$selling = Selling::find(Input::get('sellingID'));
-			$sales = new Sales;
 			//check if the price has discount
 			if((float) $selling->discount > 0.00){
-				$sales->amount = (float) $selling->price - ((float) $selling->price * ((float) $selling->discount)/100);
+				$amount = (float) $selling->price - ((float) $selling->price * ((float) $selling->discount)/100);
 			}else{
-				$sales->amount = $selling->price;
+				$amount = $selling->price;
 			}
-			if(Auth::user()->fund < $sales->amount){
-				$creditsAdd = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
-				$creditsDeduct = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
-				$creditsTotal = (float) $creditsAdd[0]->added - (float) $creditsDeduct[0]->deducted;
-
-				$fundPlusCredits = $creditsTotal + (float) Auth::user()->fund;
-				if($fundPlusCredits < $sales->amount){
-					return Redirect::back()->withFlashMessage('
-						<center><div class="alert alert-danger square error-bid" role="alert">
-							<b>Ohh Snap!..Insufficient Fund!</b><br>
-							<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
-						</div></center>
-					');
-				}
-				else{
-					$creditsUsed = (float)$sales->amount - (float)Auth::user()->fund;
-				}
-			}
-			$sales->sellingID = $selling->id;
-			$sales->buyerID = Auth::user()->id;
-			$sales->transactionNO = time();
-			// $sales->save();
-			
-			//add commission to affiliate if affiliated
+			$amount -= $creditsUsed;
+			//IF it has affiliate
 			if(Session::get('affiliate')){
-				$affiliateCommission = (float) $sales->amount * ((float) $selling->affiliatePercentage/100);
-				$affiliateID = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').' 
+				$affiliateCommission = (float) $amount * ((float) $selling->affiliatePercentage/100);
+				$affiliate = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').' 
 								and sellingID = '.Input::get('sellingID').'');
-				// echo '<pre>';
-				// return dd($affiliateID);
-				if($affiliateID){
-					$affiliate = Affiliate::find($affiliateID[0]->id);
-					$affiliate->amount = $affiliateCommission;
-					$affiliate->save();
-
-					//update sales record
-					$sales->affiliateID = $affiliate->id;
-
-					//add commission to affiliate fund
-					$affiliateUser = User::find($affiliate->userID);
-					$affiliateUser->fund += $affiliateCommission;
-					$affiliateUser->save();
-					// echo '<pre>';
-					// return dd($affiliateUser->fund);
+				if($affiliate){
+					$affiliateID=$affiliate[0]->id;
+				}else{
+					$affiliateID=null;
 				}
-			}
-			//save sales
-			$sales->save();
-
-			//deduct amount to current fund of buyer
-			$buyer = User::find(Auth::user()->id);
-			if($creditsUsed != 0.00){
-				$buyer->fund = 0.00;
 			}else{
-				$buyer->fund -= (float) $sales->amount;
+				$affiliateID=null;
+				$affiliateCommission = null;
 			}
-			$buyer->save();
+			//PAYPAL PAYMENT
+			Session::put('pay',['sellingID'=> Input::get('sellingID'),
+								'auctionID'=> null,
+								'amount'=>$amount,
+								'creditsUsed'=>$creditsUsed,
+								'affiliateID' =>$affiliateID,
+								'affCommision'=>$affiliateCommission
+								]);
+			return Redirect::to('/pay');
+		}
+	}
+ 	public function pay(){
+ 			$session = Session::get("pay");
+ 			$payRequest = new PayRequest();
+ 			//company
+			$receiver = array();
+			$receiver[0] = new Receiver();
+			$receiver[0]->amount = $session['amount'] * .1;
+			$receiver[0]->email = "digisells@admin.com";
+			if($session['affiliateID']){
+				$receiver[1] = new Receiver();
+				$receiver[1]->amount = ($session['amount'] * .9) - $session['affCommision'];
+				$receiver[1]->email = "seller@digisells.com";
+
+				$receiver[2] = new Receiver();
+				$receiver[2]->amount = $session['affCommision'];
+				$receiver[2]->email = "affiliate@digisells.com";
+			}else{
+				$receiver[1] = new Receiver();
+				$receiver[1]->amount = $session['amount'] * .9;
+				$receiver[1]->email = "seller@digisells.com";
+			}
+			$receiverList = new ReceiverList($receiver);
+			$payRequest->receiverList = $receiverList;
+
+			$requestEnvelope = new RequestEnvelope("en_US");
+			$payRequest->requestEnvelope = $requestEnvelope; 
+			$payRequest->actionType = "PAY";
+			$payRequest->cancelUrl = "http://digisells.com?cancel=true";
+			$payRequest->returnUrl = "http://digisells.com/sales-return?success=true";
+			$payRequest->currencyCode = "USD";
+			$payRequest->ipnNotificationUrl = "http://replaceIpnUrl.com";
+
+			$sdkConfig = array(
+				"mode" => "sandbox",
+				"acct1.UserName" => "digisells_api1.admin.com",
+				"acct1.Password" => "PFT5XFQ42YDDEJYM",
+				"acct1.Signature" => "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AfQR4MeCy8ViZ7PE4umi3Me1o3PU",
+				"acct1.AppId" => "APP-80W284485P519543T"
+			);
+			$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
+			$payResponse = $adaptivePaymentsService->Pay($payRequest); 
+			Session::put('payKey', $payResponse->payKey);
+			return Redirect::away('https://www.sandbox.paypal.com/webscr?cmd=_ap-payment&paykey='.$payResponse->payKey);
+ 	}
+	public function returnPP()
+	{
+		$session = Session::get("pay");
+		$payKey = Session::get("payKey");
+			$sdkConfig = array(
+				"mode" => "sandbox",
+				"acct1.UserName" => "digisells_api1.admin.com",
+				"acct1.Password" => "PFT5XFQ42YDDEJYM",
+				"acct1.Signature" => "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AfQR4MeCy8ViZ7PE4umi3Me1o3PU",
+				"acct1.AppId" => "APP-80W284485P519543T"
+			);
+		$requestEnvelope = new RequestEnvelope("en_US");
+		$paymentDetailsRequest = new PaymentDetailsRequest($requestEnvelope);
+		$paymentDetailsRequest->payKey = $payKey;
+		$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
+		try {
+		$paymentDetailsResponse = $adaptivePaymentsService->PaymentDetails($paymentDetailsRequest);
+		} catch (PayPal\Exception\PPConnectionException $ex) {
+	         return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
+		}
+		// echo '<pre>';
+		// return dd($paymentDetailsResponse);
+		if($paymentDetailsResponse->status=='COMPLETED'){
+			$sales = new Sales;
+			$sales->sellingID = $session['sellingID'];
+			$sales->auctionID = $session['auctionID'];
+			$sales->buyerID = Auth::user()->id;
+			$sales->amount = $session['amount'];
+			$sales->transactionNO = time();
+			$sales->affiliateID = $session['affiliateID'];
+			$sales->payKey = $payKey;
+			$sales->save();
 
 			//add credits to buyer
 			$credits = new Credits;
 			$credits->userID = Auth::user()->id;
 			$credits->salesID = $sales->id;
 			$credits->creditAdded = ((float) $sales->amount * 0.01);
-			if($creditsUsed != 0.00){
-				$credits->creditDeducted = $creditsUsed;
+			if($session['creditsUsed'] != 0.00){
+				$credits->creditDeducted = $session['creditsUsed'];
 			}
 			$credits->save();
-
-			//total credits
+			if($session['affiliateID']){
+				$affiliate = Affiliate::find($session['affiliateID']);
+				$affiliate->amount = $session['affCommision'];
+				$affiliate->save();
+				//update sales record
+			}
 			$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
 			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
 			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
-
 			//deduct company commission
 			$companyCommission = ((float) $sales->amount * 0.09);
 
@@ -237,15 +222,23 @@ class SalesController extends \BaseController {
 				$seller->qouta = 0.00;
 			}
 			$seller->save();
-			// dd($seller->fund);
-			// echo '<pre>';
-			// return dd($sales);
-			// ;
-			return View::make('pages.direct-selling.invoice', compact('selling','product','sales','buyer','seller','credits','totalCredits'));
+			if($session['sellingID'])
+			{
+				$selling= Selling::find($session['sellingID']);
+				$product = Product::find($selling->productID);
+				$seller = User::find($product->userID);
+				return View::make('pages.direct-selling.invoice', compact('selling','product','sales','seller','credits','totalCredits'));
+		 	}else{
+				$auction= Auction::find($session['auctionID']);
+				$auction->sold=1;
+				$auction->save();
+				$product = Product::find($auction->productID);
+				$seller = User::find($product->userID);
+		 	return View::make('pages.auction.invoice', compact('auction','product','sales','seller','credits','totalCredits'));
+			}
 		}
+	
 	}
-
-
 	/**
 	 * Display the specified resource.
 	 *

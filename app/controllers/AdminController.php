@@ -123,16 +123,21 @@ class AdminController extends \BaseController {
 	}
 	public function complaints()
 	{ 
-		$complaints = DB::select('select ticket,tittle from complaints  group by ticket');
-		
+		$complaints = DB::select('select a.* ,(select count(id) from complaintdetails where complaintID=a.id and senderID!= a.userID )
+		as replies,(select username from user where id=(select senderID from complaintdetails where id=b.id)) as username,
+		(select firstName from user where id=(select senderID from complaintdetails where id=b.id)) as firstName from complaints as a 
+		left join (select max(id) as id,complaintID from complaintdetails group by complaintID) as b on a.id=b.complaintID ');
+		// echo '<pre>';
+		// return dd($complaints);
 		return View::make('admin.complaints',['complaint'=>$complaints ]);
 	}
 	public function editcomplaints($ticket)
 	{ 
-		$complaints=DB::select('select a.*,b.username,b.firstName from complaints as a inner join user as b on b.id=a.userID where ticket = '.$ticket );
-		 $title=DB::table('complaints')->where('ticket', '=', $ticket)->first();
-	// return dd($complain);
-		return View::make('admin.editcomplaint',['complaints'=>$complaints,'ticket'=>$ticket,'title'=> $title]);
+		$complaint=DB::select('select a.*,b.username,b.firstName from complaints as a inner join user as b on b.id=a.userID 
+								where a.ticket = '.$ticket);
+		 $details = DB::select('select a.*,b.username,b.firstName from complaintdetails as a inner join user as b on b.id=a.senderID 
+		 		 where a.complaintID = '.$complaint[0]->id.' order by a.created_at desc');
+		return View::make('admin.editcomplaint',['complaint'=>$complaint,'details'=>$details]);
 	}
 	public function summary()
 	{ 

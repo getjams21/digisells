@@ -1,6 +1,7 @@
 @extends('admin.master.layout')
 @section('meta-title','Selling_Sales')
 @section('content')
+@include('includes.salesDateModal')
       <div class="row">
           <div class="col-lg-12">
               <h1 class="page-header">Direct Selling Sales</h1>
@@ -51,7 +52,7 @@
                                             <td>{{$sellingSales->discount}} %</td>
                                             <td><i class="fa fa-usd"></i>
                                               {{money($sellingSales->amount)}}</td>
-                                            <td>{{$sellingSales->buyers}}</td>
+                                            <td>{{$sellingSales->buyers}} <button class="btn btn-info btn-xs" onclick="salesDate({{$sellingSales->sellingID}})"><i class="fa fa-list-alt"></i> Details</button></td>
                                             <td><i class="fa fa-usd"></i> 
                                               <i>{{money($sellingSales->amount * $sellingSales->buyers)}}</i></td>
                                             <td><i class="fa fa-usd"></i> 

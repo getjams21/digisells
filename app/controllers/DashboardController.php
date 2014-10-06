@@ -122,6 +122,18 @@ class DashboardController extends \BaseController {
 			 IS NOT NULL and d.id='.Auth::user()->id.' group by a.sellingID');
 		return View::make('dashboard.soldSelling',['soldSelling'=>$soldSelling]);
 	}
+	public function fetchSalesDetails()
+	{
+		if(Request::ajax()){
+			$selling=Input::all();
+			$sellingID=$selling['sellingID'];
+			$details = DB::select("select a.transactionNO,a.amount,a.created_at,b.firstName,b.username from sales as a inner join user as b on a.buyerID=b.id where sellingID = ".$sellingID."
+								 order by a.created_at desc");
+			
+  			return Response::json($details);
+  			
+  		}
+	}
 	public function affiliations()
 	{
 		$affiliations= DB::select('select a.*,count(b.id) as affCount,c.sellingName,b.amount as amountSold,c.price as sellingPrice,

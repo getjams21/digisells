@@ -119,7 +119,7 @@ $('#roleBtn').click(function(){
     else if(admin==0&&owner==1){var roles='member, owner';}
      $.post('/editroles',{id:id,admin:admin,owner:owner},function(data){
         $('#roleModal').modal('hide');
-        table.cell(idx,5).data(roles+' <button class="btn btn-info btn-xs"onclick="editRole('+id+');">Edit</button>').draw();
+        table.cell(idx,6).data(roles+' <button class="btn btn-info btn-xs"onclick="editRole('+id+');">Edit</button>').draw();
      });
 });
 //user deactivation button

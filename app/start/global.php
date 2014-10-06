@@ -55,18 +55,14 @@ App::error(function(Laracasts\Validation\FormValidationException $exception, $co
 {
 	return Redirect::back()->withInput()->withErrors($exception->getErrors());
 });
-// App::error(function(Symfony \ Component \ Debug \ Exception \ FatalErrorException $exception, $code)
-// {
-// 	return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Request Time out!</div></center>');
-// });
 App::error(function(Symfony \ Component \ HttpKernel \ Exception \ NotFoundHttpException $exception, $code)
 {
 	return Redirect::to('/404');
 });
-App::error(function(Symfony \ Component \ Debug \ Exception \ FatalErrorException $exception, $code)
-{
-return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b></div></center>');
-});
+// App::error(function(Symfony \ Component \ Debug \ Exception \ FatalErrorException $exception, $code)
+// {
+// return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b></div></center>');
+// });
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler

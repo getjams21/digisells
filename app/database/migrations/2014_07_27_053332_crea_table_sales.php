@@ -21,6 +21,7 @@ class CreaTableSales extends Migration {
 			$table -> integer('buyerID')->unsigned();
 			$table -> decimal('amount', 19, 4);
 			$table -> integer('transactionNO');
+			$table -> string('payKey',50);
 			$table -> timestamps();
 			$table-> foreign('buyerID')->references('id')->on('user')
 			->onDelete('restrict')->onUpdate('cascade');

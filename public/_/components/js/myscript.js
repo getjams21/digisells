@@ -26,10 +26,32 @@ $.fn.unwatchProduct = function(userID, prodID){
  	  $.post('/unwatchProduct',{userID:userID,prodID:prodID},function(data){
 		 }); 
 }
+function salesDate(id){
+	$.post('/fetchSalesDetails',{sellingID:id},function(data){
+		//removing currrent options on select
+		$('#salesTable tbody')
+		.find('tr')
+		.remove()
+		.end();
+	$.each(data, function(k, v) {
+	    		$('#salesTable tbody')
+	        	.append('<tr>\
+	        		<td><a href="/users/'+v['username']+'" >'+v['firstName']+'</a></td>\
+	        		<td> 1 </td>\
+	        		<td>'+v['amount']+'</td>\
+	        		<td>'+v['created_at']+'</td>\
+	        		</tr>');
+	});
 
+      });
+	$('#salesDateModal').modal('show');
+}
 
 $(document).ready(function(){
-
+	
+	$('#solveBtn').click(function(){
+		$('#solveRequestModal').modal('show');
+	});
 	var tz = jstz.determine();
 	$('meta[name="timezone"]').attr('content',tz.name()) ;
 	//file browser display file name
@@ -1045,6 +1067,8 @@ $(".clickableRow").click(function() {
 		var location= select.options[select.selectedIndex].value;
 		$('#refineSearch').attr('action',location);
 	});
+
+	
 	 
 });//end of onload
 

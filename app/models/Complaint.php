@@ -5,6 +5,9 @@ class Complaint extends \Eloquent {
 	protected $guarded = ['id'];
 	protected $fillable = [
 		'ticket',
-		'tittle',
-		'description'];
+		'title',
+		'category',
+		'priority',
+		'screenshot'
+		];
 }
