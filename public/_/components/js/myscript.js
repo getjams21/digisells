@@ -1040,6 +1040,10 @@ $(".clickableRow").click(function() {
 	$('.close-panel').click(function(event) {
 		$('.panel-edit').hide();
 	});
+	$('#btn-settings').click(function(event) {
+		$('.auctionID').val($(this).val());
+		$('.duration-modal').modal('show');
+	});
 	//description shortening
 	 $(".comment").shorten({
 	    "showChars" : 150,

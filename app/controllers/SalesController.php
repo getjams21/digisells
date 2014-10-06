@@ -218,6 +218,27 @@ class SalesController extends \BaseController {
 			$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
 			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
 			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
+			//deduct company commission
+			$companyCommission = ((float) $sales->amount * 0.09);
+
+			//add funds to the seller
+			$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $affiliateCommission;
+			$product = Product::find($selling->productID);
+			$seller = User::find($product->userID);
+			$seller->fund += $totalAmount;
+			$seller->qouta += $sales->amount;
+			//check if qouta is reached
+			if($seller->qouta >= 1000){
+				//give rewards of 5% of total qouta
+				$sellerCredits = new Credits;
+				$sellerCredits->userID = $product->userID;
+				$sellerCredits->salesID = $sales->id;
+				$sellerCredits->creditAdded = (float) $seller->qouta * 0.05;
+				$sellerCredits->save();
+				//rollback qouta to 0
+				$seller->qouta = 0.00;
+			}
+			$seller->save();
 			if($session['sellingID'])
 			{
 				$selling= Selling::find($session['sellingID']);
