@@ -74,6 +74,8 @@ Route::group(["before" => "auth"], function() {
   Route::resource('/sales-page-default', 'SalesPageController');
   #Sales Processes
   Route::resource('/sales', 'SalesController');
+  Route::get('/pay', 'SalesController@pay');
+  Route::get('/sales-return', 'SalesController@returnPP');
   #Dashboard pages
   Route::get('/notifications','DashboardController@index');
   Route::get('/invoices','DashboardController@invoices');
