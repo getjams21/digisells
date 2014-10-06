@@ -223,11 +223,9 @@ class SalesController extends \BaseController {
 				$selling= Selling::find($session['sellingID']);
 				$product = Product::find($selling->productID);
 				$seller = User::find($product->userID);
-				// echo '<pre>';
-				// return dd($seller->email);
 				Mail::send('emails.seller', ['user'=> $seller], function($message) use($seller){
-        $message->to( $seller->email, $seller->firstName)->subject('Your Digisells Product Has Been Sold.');
-   		 });
+		        $message->to( $seller->email, $seller->firstName)->subject('Your Digisells Product Has Been Sold.');
+		   		 });
 				return View::make('pages.direct-selling.invoice', compact('selling','product','sales','seller','credits','totalCredits'));
 		 	}else{
 				$auction= Auction::find($session['auctionID']);
