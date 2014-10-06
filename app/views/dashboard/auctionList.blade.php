@@ -4,6 +4,31 @@
 	@include('includes.navbar')
 @stop
 @section('content')
+<div class="modal fade duration-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content modal-prop">
+      <center>
+        <div class="well">
+          {{ Form::open(['POST'=>'edit-auction-duration']) }}
+          <button type="submit" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Stop</button>
+            <div class="form-group row">
+              <div class="col-xs-8">
+                <div class="input-group date txtbox-m" id="grp-endDate" data-date="" data-date-format="mm-dd-yyyy">
+                  <input class="form-control" type="text" id="endDate" name="endDate" readonly required>
+                  <input type="hidden" name="auctionID" value="">
+                  <span class="input-group-addon calendar-icon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Update</button>
+          {{ Form::close() }}
+        </div>
+    </center>
+      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+    </div>
+  </div>
+</div>
 <div clas="row" >
     <div id="wrapper">
     @include('dashboard.includes.dashboardNavbar')
@@ -41,6 +66,7 @@
                         <th>Event Created</th>
                         <th>Event End</th>
                         <th>Status</th>
+                        <th>Settings</th>
                       </tr>
                      </thead> 
                      <tbody>
@@ -71,6 +97,7 @@
                                    <span class="error"> <i class="fa fa-stop"></i> Expired</span>
                               @endif
                             </td>
+                            <td><center><button class="btn btn-success btn-xs glyphicon glyphicon-cog" type="button" id="btn-settings" value="{{$auction->id}}"></center></button> </td>
                          </tr> 
                         @endforeach
                     </tbody>

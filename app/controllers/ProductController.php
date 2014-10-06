@@ -71,6 +71,15 @@ class ProductController extends \BaseController {
 		$product = Product::find($id);
 		$product->details = Input::get('details');
 		$product->save();
+
+		$auction = DB::select('select id from  auction where productID ='.$id);
+		$selling = DB::select('select id from  selling where productID ='.$id);
+		if($auction){
+			return Redirect::action('AuctionController@show',[$auction[0]->id]);
+		}else{
+			return Redirect::action('DirectSellingController@show',[$selling[0]->id]);
+		}
+		
 		// echo '<pre>';
 		// return dd($product->details);
 	}

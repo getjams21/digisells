@@ -25,6 +25,7 @@ class CreateTableUser extends Migration {
 			$table -> string('userImage',50)->nullable();
 			$table -> string('remember_token')->nullable();
 			$table ->decimal('fund', 19, 4)->default(0.0000);
+			$table ->decimal('qouta', 19, 4)->default(0.0000);
 			$table -> boolean('status')->default(1);
 			$table->timestamp('last_activity')->nullable();
 			// $table->string('timezone')->nullable();
