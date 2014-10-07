@@ -76,7 +76,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-wrench fa-fw"></i> Settings</a>
+                    <a href="/admin-settings"><i class="fa fa-wrench fa-fw"></i> Settings</a>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>

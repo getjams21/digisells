@@ -4,37 +4,21 @@
 	@include('includes.navbar')
 @stop
 @section('content')
-<div class="modal fade duration-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content modal-prop">
-      <center>
-        <div class="well">
-          {{ Form::open(['POST'=>'edit-auction-duration']) }}
-          <button type="submit" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Stop</button>
-            <div class="form-group row">
-              <div class="col-xs-8">
-                <div class="input-group date txtbox-m" id="grp-endDate" data-date="" data-date-format="mm-dd-yyyy">
-                  <input class="form-control" type="text" id="endDate" name="endDate" readonly required>
-                  <input type="hidden" name="auctionID" value="">
-                  <span class="input-group-addon calendar-icon"><i class="glyphicon glyphicon-calendar"></i></span>
-                </div>
-              </div>
-            </div>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Update</button>
-          {{ Form::close() }}
-        </div>
-    </center>
-      <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
-    </div>
-  </div>
-</div>
 <div clas="row" >
     <div id="wrapper">
     @include('dashboard.includes.dashboardNavbar')
      <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
+              <div class="container">
+                <center>
+                  @if (Session::has('flash_message'))
+                    <div class="form-group ">
+                      <p>{{Session::get('flash_message') }}</p>
+                    </div>
+                  @endif
+                </center>
+              </div>
                 <div class="row">
                  <div class="col-md-12 shadowed"><br>
                 <div class="panel panel-primary">
@@ -71,6 +55,34 @@
                      </thead> 
                      <tbody>
                         @foreach($auction as $auction)
+                        <!-- duration modal -->
+                          <div class="modal fade duration-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                            <div class="modal-dialog modal-sm">
+                              <div class="modal-content modal-prop">
+                                <center>
+                                  <div class="well">
+                                    {{ Form::model($auction, ['method'=>'PATCH','route' => ['auction.update', $auction->id]]) }}
+                                    <button type="submit" class="btn btn-warning btn-lg btn-block" name ="end" value="end">End this Auction now</button>
+                                    <button type="button" class="btn btn-primary btn-lg btn-block edit-end-date">Edit End Date</button>
+                                      <div class="form-group new-endDate">
+                                        <br>
+                                            <label>Enter New Date</label>
+                                            <input class="form-control" type="text" name="endDate" placeholder="YYYY-mm-dd">
+                                            <br>
+                                            <button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-check">&nbsp;</span>Update</button>
+                                      </div>
+                                    <button type="submit" class="btn btn-danger btn-lg btn-block" name ="cancel" value="cancel" style="margin-top:5px;">Cancel this Auction</button>
+                                    <br>
+                                    <hr class="style-fade">
+                                    <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal">Close</button>
+                                    {{ Form::close() }}
+                                  </div>
+                              </center>
+                                <center><span class="glyphicon glyphicon-ok saved"></span><h4 class="saving"></h4></center>
+                              </div>
+                            </div>
+                          </div>
+                        <!-- duration modal end -->
                           <tr>
                             <td><a href="/auction-listing/{{$auction->id}}">{{$auction->auctionName}}</a> </td>
                             <td><i class="fa fa-usd"></i> 

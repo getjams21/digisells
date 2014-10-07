@@ -169,7 +169,13 @@ class SalesController extends \BaseController {
  	}
 	public function returnPP()
 	{
+		$settings = Settings::find(1);
+
 		$session = Session::get("pay");
+		$buyer = Auth::user()->id;
+		if($session['buyerID']){
+			$buyer = $session['buyerID'];
+		}
 		$payKey = Session::get("payKey");
 			$sdkConfig = array(
 				"mode" => "sandbox",
@@ -193,7 +199,7 @@ class SalesController extends \BaseController {
 			$sales = new Sales;
 			$sales->sellingID = $session['sellingID'];
 			$sales->auctionID = $session['auctionID'];
-			$sales->buyerID = Auth::user()->id;
+			$sales->buyerID = $buyer;
 			$sales->amount = $session['amount'];
 			$sales->transactionNO = time();
 			$sales->affiliateID = $session['affiliateID'];
@@ -202,9 +208,9 @@ class SalesController extends \BaseController {
 
 			//add credits to buyer
 			$credits = new Credits;
-			$credits->userID = Auth::user()->id;
+			$credits->userID = $buyer;
 			$credits->salesID = $sales->id;
-			$credits->creditAdded = ((float) $sales->amount * 0.01);
+			$credits->creditAdded = ((float) $sales->amount * $settings->buyer);
 			if($session['creditsUsed'] != 0.00){
 				$credits->creditDeducted = $session['creditsUsed'];
 			}
@@ -215,11 +221,11 @@ class SalesController extends \BaseController {
 				$affiliate->save();
 				//update sales record
 			}
-			$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.Auth::user()->id.'');
-			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.Auth::user()->id.'');
+			$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.$buyer.'');
+			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.$buyer.'');
 			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
 			//deduct company commission
-			$companyCommission = ((float) $sales->amount * 0.09);
+			$companyCommission = ((float) $sales->amount * $settings->company);
 
 			//add funds to the seller
 			$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $affiliateCommission;
@@ -233,7 +239,7 @@ class SalesController extends \BaseController {
 				$sellerCredits = new Credits;
 				$sellerCredits->userID = $product->userID;
 				$sellerCredits->salesID = $sales->id;
-				$sellerCredits->creditAdded = (float) $seller->qouta * 0.05;
+				$sellerCredits->creditAdded = (float) $seller->qouta * $settings->reward;
 				$sellerCredits->save();
 				//rollback qouta to 0
 				$seller->qouta = 0.00;
