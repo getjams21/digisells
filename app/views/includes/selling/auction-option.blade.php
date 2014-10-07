@@ -24,6 +24,11 @@
 	<div class="col-md-12 offset-3">
         <h2>Start an Auction Event</h2>
 		<hr class="style-shadowed">
+        @if (Session::has('flash_message'))
+            <div class="form-group ">
+                <p>{{Session::get('flash_message') }}</p>
+            </div>
+        @endif
 	</div>
     {{ Form::open(['route'=>'auction-listing.store','id'=>'fileupload','files'=>true]) }}
 	<div class="col-md-12">

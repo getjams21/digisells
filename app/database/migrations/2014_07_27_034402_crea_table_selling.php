@@ -23,6 +23,8 @@ class CreaTableSelling extends Migration {
 			$table -> dateTime('expirationDate');
 			$table -> float('affiliatePercentage');
 			$table -> boolean('sold')->default(0);
+			$table -> boolean('paid')->default(0);
+			$table -> string('payKey')->nullable();
 			$table -> timestamps();
 		});
 	}

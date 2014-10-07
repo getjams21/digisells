@@ -1,5 +1,10 @@
 <?php
-
+use PayPal\Types\AP\PayRequest;
+use PayPal\Types\AP\Receiver;
+use PayPal\Types\AP\ReceiverList;
+use PayPal\Types\Common\RequestEnvelope;
+use PayPal\Service\AdaptivePaymentsService;
+use PayPal\Types\AP\PaymentDetailsRequest;
 use Carbon\Carbon;
 class AuctionController extends \BaseController {
 	private $_apiContext;
@@ -8,14 +13,15 @@ class AuctionController extends \BaseController {
     private $_ClientSecret='EBDU3RAmr8mtH9J-KP027YM2rLbUN_vKOtWFMVvIBwpEvFWBV0T2pCIwQ91b';
 	function __construct()
 	{	
-		$this->beforeFilter('auth',['only' => ['index','store','testBidding','showDirectSellingListings',
-			'placingBid','validateReservedFunds']]);
+		
 		$this->_apiContext = Paypalpayment::ApiContext(
             Paypalpayment::OAuthTokenCredential(
                 $this->_ClientId,
                 $this->_ClientSecret
             )
         );
+        $this->beforeFilter('auth',['only' => ['index','store','testBidding','showDirectSellingListings',
+			'placingBid','validateReservedFunds']]);
 	}
 	/**
 	 * Display a listing of the resource.
@@ -353,10 +359,72 @@ class AuctionController extends \BaseController {
 		if(Session::has('productID') && Session::has('auctionID')){
 			$product = Product::find(Session::get('productID'));
 			$auction = Auction::find(Session::get('auctionID'));
-			return View::make('pages.product.auction-page-default', compact('product','auction'));
+			$amountPay = $auction->buyoutPrice * .01;
+			$payRequest = new PayRequest();
+			$receiver = array();
+			$receiver[0] = new Receiver();
+			$receiver[0]->amount = $amountPay;
+			$receiver[0]->email = "digisells@admin.com";
+			// return dd($receiver);
+			
+			$receiverList = new ReceiverList($receiver);
+			$payRequest->receiverList = $receiverList;
+
+			$requestEnvelope = new RequestEnvelope("en_US");
+			$payRequest->requestEnvelope = $requestEnvelope; 
+			$payRequest->actionType = "PAY";
+			$payRequest->cancelUrl = "http://digisells.com/auction?cancel=true";
+			$payRequest->returnUrl = "http://digisells.com/payAuction?success=true";
+			$payRequest->currencyCode = "USD";
+			$payRequest->ipnNotificationUrl = "http://replaceIpnUrl.com";
+
+			$sdkConfig = array(
+				"mode" => "sandbox",
+				"acct1.UserName" => "digisells_api1.admin.com",
+				"acct1.Password" => "PFT5XFQ42YDDEJYM",
+				"acct1.Signature" => "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AfQR4MeCy8ViZ7PE4umi3Me1o3PU",
+				"acct1.AppId" => "APP-80W284485P519543T"
+			);
+			$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
+			$payResponse = $adaptivePaymentsService->Pay($payRequest); 
+			Session::put('payKey', $payResponse->payKey);
+			return Redirect::away('https://www.sandbox.paypal.com/webscr?cmd=_ap-payment&paykey='.$payResponse->payKey);
 		}else{
 			return Redirect::to('auction');
 		}
+	}
+	public function payAuction(){
+	$product = Product::find(Session::get('productID'));
+	$auction = Auction::find(Session::get('auctionID'));
+	$payKey = Session::get("payKey");
+			$sdkConfig = array(
+				"mode" => "sandbox",
+				"acct1.UserName" => "digisells_api1.admin.com",
+				"acct1.Password" => "PFT5XFQ42YDDEJYM",
+				"acct1.Signature" => "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AfQR4MeCy8ViZ7PE4umi3Me1o3PU",
+				"acct1.AppId" => "APP-80W284485P519543T"
+			);
+		$requestEnvelope = new RequestEnvelope("en_US");
+		$paymentDetailsRequest = new PaymentDetailsRequest($requestEnvelope);
+		$paymentDetailsRequest->payKey = $payKey;
+		$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
+		try {
+		$paymentDetailsResponse = $adaptivePaymentsService->PaymentDetails($paymentDetailsRequest);
+		} catch (PayPal\Exception\PPConnectionException $ex) {
+	         return Redirect::to('auction')->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
+		}
+		// echo '<pre>';
+		// return dd($paymentDetailsResponse);
+		if($paymentDetailsResponse->status=='COMPLETED'){
+	    $auction->paid=1;
+	    $auction->payKey = $payKey;
+	    $auction->save();
+		return View::make('pages.product.auction-page-default', compact('product','auction'));
+		}else{
+			return Redirect::to('auction')->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Something went wrong.</div></center>');
+		}
+	    
+
 	}
 	public function showAuctionListings(){
 		//check if there are bidders
