@@ -56,7 +56,7 @@
                        </li>
                     </ul>
                 </li>
-                <li class="sidehead">
+               <!--  <li class="sidehead">
                     <a href="#">
                         <b>Funds</b>
                     </a>
@@ -67,11 +67,8 @@
                         <li>
                              <a href="/withdrawal"><i>Withdrawals</i></a>
                        </li>
-                       <!-- <li>
-                             <a href="/summary"><i>Summary</i></a>
-                       </li> -->
                     </ul>
-                </li>
+                </li> -->
                 <li class="sidehead">
                     <a href="#">
                         <b>Watchlist </b>

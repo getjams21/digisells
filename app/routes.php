@@ -63,6 +63,7 @@ Route::group(["before" => "auth"], function() {
   Route::get('/auction-affiliate', 'AffiliateController@showAffiliatedProductForAuction');
   #User direct change password patch
   Route::patch( '/updateAccount', 'UsersController@updateAccount' );
+  Route::patch( '/updatePaypal', 'UsersController@updatePaypal' );
   #Subcategory select option ajax post
   Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
   
@@ -90,6 +91,8 @@ Route::group(["before" => "auth"], function() {
   Route::resource('/support','ComplaintController'); 
   Route::get('/solveRequest/{ticket}','ComplaintController@solveRequest');
   Route::post('/addComplaint/{ticket}','ComplaintController@addComplaint');
+  Route::get('/solveRequest/{ticket}','ComplaintController@solveRequest');
+
 
   // Route::get('/summary','DashboardController@summary'); 
   #NOTIFICATIONS

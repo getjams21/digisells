@@ -2,6 +2,9 @@
 use Acme\Forms\RegistrationForm;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
+use PayPal\Types\AA\GetVerifiedStatusRequest;
+use PayPal\Types\AA\AccountIdentifierType;
+use PayPal\Service\AdaptiveAccountsService;
 use Acme\Mailers\UserMailer as Mailer;
 class UsersController extends \BaseController {
 	protected $registrationForm;
@@ -143,6 +146,7 @@ class UsersController extends \BaseController {
 		return Redirect::back()
 		->withFlashMessage('<div class="alert alert-success square" ><center><b>Successfully Updated Profile</b></center></div>');
 	}
+	
 
 	/**
 	 * Remove the specified resource from storage.
@@ -208,6 +212,57 @@ class UsersController extends \BaseController {
 	        }
 	    }
 
+	}
+	public function updatePaypal(){
+		$input= Input::all();
+		$user = Auth::user();
+		$rules = array(
+		        'password' => 'required|alphaNum|between:6,16'
+		    );
+		    $validator = Validator::make(Input::only('password'), $rules);
+		    if ($validator->fails()) 
+		    {
+		        return Redirect::back()->withInput()->withErrors($validator,'password');
+		    }else{
+			    if (!Hash::check(Input::get('password'), $user->password)) 
+		        {
+		            return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Your password does not match</div></center>');
+		        }
+		    }
+		 $sdkConfig = array(
+			"mode" => "sandbox",
+			"acct1.UserName" => "digisells_api1.admin.com",
+			"acct1.Password" => "PFT5XFQ42YDDEJYM",
+			"acct1.Signature" => "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AfQR4MeCy8ViZ7PE4umi3Me1o3PU",
+			"acct1.AppId" => "APP-80W284485P519543T"
+		);
+		$getVerifiedStatus = new GetVerifiedStatusRequest();
+		$accountIdentifier=new AccountIdentifierType();
+		$accountIdentifier->emailAddress = $input['email'];
+		$getVerifiedStatus->accountIdentifier=$accountIdentifier;
+		$getVerifiedStatus->firstName = $input['firstName'];
+		$getVerifiedStatus->lastName = $input['lastName'];
+		$getVerifiedStatus->matchCriteria = 'NAME';
+
+		$service  = new AdaptiveAccountsService($sdkConfig);
+			try {
+				$response = $service->GetVerifiedStatus($getVerifiedStatus);
+			} catch(Exception $ex) {
+				return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square"><b>Request Timeout!</b> Please check your Internet Connections.</div></center>');
+				exit;
+			} 
+
+			// ## Accessing response parameters
+			// You can access the response parameters as shown below
+		$ack = strtoupper($response->responseEnvelope->ack);
+		if($ack != "SUCCESS"){
+			return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-danger square">Please provide a verified Paypal Account</div></center>');	
+		}elseif($ack == "SUCCESS"){
+			$user->paypal = $input['email'];
+	        $user->save();
+			return Redirect::back()->withInput()->withFlashMessage('<center><div class="alert alert-success square">Successfully updated paypal email.</div></center>');	
+
+		}
 	}
 
 }
