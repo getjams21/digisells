@@ -129,6 +129,8 @@ Route::group(["before" => "role:admin"], function() {
    Route::get('/admin-affiliations','AdminController@affiliations');
    Route::get('/admin-credits','AdminController@credits');
    Route::get('/admin-sumary','AdminController@summary');
+   Route::get('/admin-settings','AdminController@settings');
+   Route::resource('/admin-dynamic-settings','AdminController');
    #Admin Users routes
    Route::get('/admin-users','AdminUserController@users');
    Route::get('/admin-users/{user}/edit','AdminUserController@edit');

@@ -317,7 +317,81 @@ class AuctionController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		if(Input::get('end')){
+			$auction = Auction::find($id);
+			//check for the highest bidder
+				$bidder = DB::select('select id, MAX(amount) as amount from bidding where auctionID='.$id.'');
+				if($bidder[0]->id != NULL){
+					$creditsUsed = 0.00;
+					$affiliateCommission = 0.00;
+					$auction = Auction::find($id);
+					$amount = $bidder[0]->amount;
+					if(Session::get('affiliate')){
+						$affiliateCommission = (float) $amount * ((float) $auction->affiliatePercentage/100);
+						$affiliate = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').' 
+										and auctionID = '.$id.'');
+					
+						if($affiliate){
+							$affiliateID=$affiliate[0]->id;
+						}else{
+							$affiliateID=null;
+						}
+					}else{
+						$affiliateID=null;
+						$affiliateCommission = null;
+					}
+					$auction->endDate = date('Y-m-d H:i:s');
+					$auction->save();
+					Session::put('pay',['sellingID'=> null,
+										'auctionID'=> $id,
+										'amount'=>$amount,
+										'creditsUsed'=>$creditsUsed,
+										'affiliateID' =>$affiliateID,
+										'affCommision'=>$affiliateCommission,
+										'buyerID'=>$bidder[0]->id
+										]);
+					return Redirect::to('/pay');
+				}
+			return Redirect::back()
+				->withFlashMessage('
+						<div class="alert alert-success square error-bid" role="alert">
+							<b>'.$auction->auctionName.' auction is Ended!</b><br>
+						</div>
+					');
+		}
+		else if(Input::get('cancel')){
+			$auction = Auction::find($id);
+			$auction->endDate = date('Y-m-d H:i:s');
+			$auction->save();
+			return Redirect::back()
+				->withFlashMessage('
+						<div class="alert alert-success square error-bid" role="alert">
+							<b>'.$auction->auctionName.' auction is Terminated!</b><br>
+						</div>
+					');
+		}
+		else if(Input::get('endDate')){
+			$endDate = Input::get('endDate').' '.date('H:i:s');
+			try {
+				$convertedDate = date('Y-m-d H:i:s', strtotime($endDate));
+			} catch (Exception $e) {
+				return Redirect::back()
+				->withFlashMessage('
+						<div class="alert alert-danger square error-bid" role="alert">
+							<b>Invalid Date Format!</b><br>
+						</div>
+					');
+			}
+			$auction = Auction::find($id);
+			$auction->endDate = $convertedDate;
+			$auction->save();
+			return Redirect::back()
+				->withFlashMessage('
+						<div class="alert alert-success square error-bid" role="alert">
+							<b>End Date is Successfully Updated!</b><br>
+						</div>
+					');
+		}
 	}
 
 

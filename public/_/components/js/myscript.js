@@ -1044,6 +1044,10 @@ $(".clickableRow").click(function() {
 		$('.auctionID').val($(this).val());
 		$('.duration-modal').modal('show');
 	});
+	$('.edit-end-date').click(function(event) {
+		/* Act on the event */
+		$('.new-endDate').show();
+	});
 	//description shortening
 	 $(".comment").shorten({
 	    "showChars" : 150,

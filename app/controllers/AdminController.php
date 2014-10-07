@@ -265,7 +265,10 @@ class AdminController extends \BaseController {
 		$date = DB::table('withdrawals')->where('paykey', '=', $payKey)->get();
 		return View::make('admin.fundWithdrawalInvoice',['withdrawal'=>$paymentDetailsResponse,'date'=>$date]);
 	}
-	
+	public function settings(){
+		$settings = Settings::find(1);
+		return View::make('admin.settings',compact('settings'));
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -322,9 +325,21 @@ class AdminController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
-	}
+		$settings = Settings::find(1);
+		$settings->buyer = Input::get('buyer');
+		$settings->company = Input::get('company');
+		$settings->reward = Input::get('reward');
+		$settings->sellingFee = Input::get('fee');
+		$settings->save();
 
+		return Redirect::back()
+			->with('settings',$settings)
+			->withFlashMessage('
+				<center>
+					<div class="alert alert-success square">
+						<b>Percentages Successfully Updated.
+					</div>
+				</center>');
 	/**
 	 * Remove the specified resource from storage.
 	 * DELETE /admin/{id}
@@ -332,6 +347,7 @@ class AdminController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
+	}
 	public function destroy($id)
 	{
 		//
