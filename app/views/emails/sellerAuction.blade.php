@@ -9,9 +9,8 @@
 		<div>
 			Good day,
 			<br><br>
-			Your 
-				{{$selling->sellingName}} Selling Event
-			
+			Your
+				{{$auction->auctionName}} Auction Event
 			have just been sold for {{$sales->amount}} USD
 			<br><br>
 			Log in to Digisells for more details

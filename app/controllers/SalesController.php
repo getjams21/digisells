@@ -106,7 +106,7 @@ class SalesController extends \BaseController {
 				$affiliateCommission = null;
 			}
 			//PAYPAL PAYMENT
-			$selling= Auction::find(Input::get('sellingID'));
+			$selling= Selling::find(Input::get('sellingID'));
 			$product = Product::find($selling->productID);
 			$seller = User::find($product->userID);
 			Session::put('pay',['sellingID'=> Input::get('sellingID'),
@@ -124,16 +124,18 @@ class SalesController extends \BaseController {
  			$session = Session::get("pay");
  			$payRequest = new PayRequest();
  			$seller = User::find($session['sellerID']);
+ 			$settings = Settings::find(1);
+ 			// return dd($settings->company);
  			//company
 			$receiver = array();
 			$receiver[0] = new Receiver();
-			$receiver[0]->amount = $session['amount'] * .1;
+			$receiver[0]->amount = $session['amount'] * $settings->company;
 			$receiver[0]->email = "digisells@admin.com";
 			if($session['affiliateID']){
 				$affiliate = Affiliate::find($session['affiliateID']);
 				$aff = User::find($affiliate->userID);
 				$receiver[1] = new Receiver();
-				$receiver[1]->amount = ($session['amount'] * .9) - $session['affCommision'];
+				$receiver[1]->amount = ($session['amount'] - ($session['amount'] * $settings->company)) - $session['affCommision'];
 				$receiver[1]->email = $seller->paypal;
 
 				$receiver[2] = new Receiver();
@@ -141,12 +143,11 @@ class SalesController extends \BaseController {
 				$receiver[2]->email = $aff->paypal;
 			}else{
 				$receiver[1] = new Receiver();
-				$receiver[1]->amount = $session['amount'] * .9;
+				$receiver[1]->amount = $session['amount'] - ($session['amount'] * $settings->company);
 				$receiver[1]->email = $seller->paypal;
 			}
 			$receiverList = new ReceiverList($receiver);
 			$payRequest->receiverList = $receiverList;
-
 			$requestEnvelope = new RequestEnvelope("en_US");
 			$payRequest->requestEnvelope = $requestEnvelope; 
 			$payRequest->actionType = "PAY";
@@ -170,12 +171,8 @@ class SalesController extends \BaseController {
 	public function returnPP()
 	{
 		$settings = Settings::find(1);
-
 		$session = Session::get("pay");
 		$buyer = Auth::user()->id;
-		if($session['buyerID']){
-			$buyer = $session['buyerID'];
-		}
 		$payKey = Session::get("payKey");
 			$sdkConfig = array(
 				"mode" => "sandbox",
@@ -226,40 +223,57 @@ class SalesController extends \BaseController {
 			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
 			//deduct company commission
 			$companyCommission = ((float) $sales->amount * $settings->company);
-
+			if($session['affCommision']){
+				$affCommision = $session['affCommision'];
+			}else{
+				$affCommision = 0;
+			}
 			//add funds to the seller
-			$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $affiliateCommission;
-			$product = Product::find($selling->productID);
-			$seller = User::find($product->userID);
+			$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $session['affCommision'];
+			$seller = User::find($session['sellerID']);
 			$seller->fund += $totalAmount;
 			$seller->qouta += $sales->amount;
 			//check if qouta is reached
 			if($seller->qouta >= 1000){
 				//give rewards of 5% of total qouta
 				$sellerCredits = new Credits;
-				$sellerCredits->userID = $product->userID;
+				$sellerCredits->userID = $seller->id;
 				$sellerCredits->salesID = $sales->id;
 				$sellerCredits->creditAdded = (float) $seller->qouta * $settings->reward;
 				$sellerCredits->save();
-				//rollback qouta to 0
 				$seller->qouta = 0.00;
 			}
 			$seller->save();
+			$buyer = Auth::user();
 			if($session['sellingID'])
 			{
 				$selling= Selling::find($session['sellingID']);
 				$product = Product::find($selling->productID);
-				$seller = User::find($product->userID);
-				Mail::send('emails.seller', ['user'=> $seller], function($message) use($seller){
-		        $message->to( $seller->email, $seller->firstName)->subject('Your Digisells Product Has Been Sold.');
+				Mail::send('emails.seller', ['user'=> $seller,'selling' =>$selling,
+					'sales' =>$sales], function($message) use($seller){
+		        $message->to($seller->email)->subject('Your Digisells Product Has Been Sold.');
+		   		 });
+				Mail::send('emails.buyer', ['user'=> $buyer,'selling' =>$selling,'product'=>$product,'seller'=>$seller,
+					'credits'=>$credits,'totalCredits' => $totalCredits,
+					'sales' =>$sales], function($message) use($buyer){
+		        $message->to( $buyer->email)->subject('Your Digisells Product Has Been Sold.');
 		   		 });
 				return View::make('pages.direct-selling.invoice', compact('selling','product','sales','seller','credits','totalCredits'));
 		 	}else{
 				$auction= Auction::find($session['auctionID']);
 				$auction->sold=1;
 				$auction->save();
+				$selling=null;
 				$product = Product::find($auction->productID);
-				$seller = User::find($product->userID);
+				Mail::send('emails.sellerAuction', ['user'=> $seller,'auction' =>$auction,'selling'=>$selling,
+					'sales' =>$sales], function($message) use($seller){
+		        $message->to($seller->email)->subject('Your Digisells Product Has Been Sold.');
+		   		 });
+				Mail::send('emails.buyerAuction', ['user'=> $buyer,'auction' =>$auction,'product'=>$product,'seller'=>$seller,
+					'credits'=>$credits,'totalCredits' => $totalCredits,
+					'sales' =>$sales], function($message) use($buyer){
+		        $message->to( $buyer->email)->subject('Your Digisells Product Has Been Sold.');
+		   		 });
 		 	return View::make('pages.auction.invoice', compact('auction','product','sales','seller','credits','totalCredits'));
 			}
 		}

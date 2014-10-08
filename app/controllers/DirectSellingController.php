@@ -232,7 +232,7 @@ class DirectSellingController extends \BaseController {
 		$listings = DB::select('
 			select s.*,p.userID, p.imageURL,p.productDescription '.$w.' from selling as s 
 			inner join product as p on s.productID=p.id '.$query.' 
-			where s.sold=0 '.$search.''.$subcategory.''.$price.'
+			where s.sold=0 and s.paid=1 '.$search.''.$subcategory.''.$price.'
 			order by s.created_at desc limit 4
 		');
 		if($listings){

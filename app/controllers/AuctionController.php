@@ -460,7 +460,9 @@ class AuctionController extends \BaseController {
 				"acct1.AppId" => "APP-80W284485P519543T"
 			);
 			$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
-			$payResponse = $adaptivePaymentsService->Pay($payRequest); 
+			$payResponse = $adaptivePaymentsService->Pay($payRequest);
+			$auction->payKey = $payResponse->payKey; 
+			$auction->save();
 			Session::put('payKey', $payResponse->payKey);
 			return Redirect::away('https://www.sandbox.paypal.com/webscr?cmd=_ap-payment&paykey='.$payResponse->payKey);
 		}else{
@@ -539,7 +541,7 @@ class AuctionController extends \BaseController {
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
 			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder '.$w.' from auction as a 
 			inner join product as p on a.productID=p.id '.$query.' 
-			where a.sold=0 and a.endDate >= NOW() '.$search.''.$subcategory.''.$price.'
+			where a.sold=0 and a.paid=1 and a.endDate >= NOW() '.$search.''.$subcategory.''.$price.'
 			order by a.created_at desc limit 10
 		');
 		if($listings){

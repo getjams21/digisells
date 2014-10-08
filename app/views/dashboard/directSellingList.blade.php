@@ -49,7 +49,12 @@
                           <td>{{$selling->discount}} %</td>
                           <td><i class="fa fa-usd"></i> 
                             {{money($selling->price-($selling->price * ($selling->discount / 100)))}}</td>
-                          <td>{{$selling->count}}</td>
+                          <td>@if($selling->count)
+                            {{$selling->count}}
+                            @else
+                            0
+                            @endif
+                          </td>
                           <td>{{Human($selling->listingDate)}}</td>
                           <td>{{Human($selling->expirationDate)}}</td>
                           <td>
