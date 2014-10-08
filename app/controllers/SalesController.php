@@ -106,7 +106,7 @@ class SalesController extends \BaseController {
 				$affiliateCommission = null;
 			}
 			//PAYPAL PAYMENT
-			$selling= Auction::find(Input::get('sellingID'));
+			$selling= Selling::find(Input::get('sellingID'));
 			$product = Product::find($selling->productID);
 			$seller = User::find($product->userID);
 			Session::put('pay',['sellingID'=> Input::get('sellingID'),
@@ -173,7 +173,7 @@ class SalesController extends \BaseController {
 
 		$session = Session::get("pay");
 		$buyer = Auth::user()->id;
-		if($session['buyerID']){
+		if(Session::has('buyerID')){
 			$buyer = $session['buyerID'];
 		}
 		$payKey = Session::get("payKey");
@@ -224,32 +224,25 @@ class SalesController extends \BaseController {
 			$creditsAdded = DB::select('select SUM(creditAdded) as added from credits where userID='.$buyer.'');
 			$creditsDeducted = DB::select('select SUM(creditDeducted) as deducted from credits where userID='.$buyer.'');
 			$totalCredits = (float) $creditsAdded[0]->added - (float) $creditsDeducted[0]->deducted;
-			//deduct company commission
-			$companyCommission = ((float) $sales->amount * $settings->company);
 
-			//add funds to the seller
-			$totalAmount = (((float) $sales->amount - $companyCommission) - (float) $credits->creditAdded) - $affiliateCommission;
-			$product = Product::find($selling->productID);
-			$seller = User::find($product->userID);
-			$seller->fund += $totalAmount;
-			$seller->qouta += $sales->amount;
-			//check if qouta is reached
-			if($seller->qouta >= 1000){
-				//give rewards of 5% of total qouta
-				$sellerCredits = new Credits;
-				$sellerCredits->userID = $product->userID;
-				$sellerCredits->salesID = $sales->id;
-				$sellerCredits->creditAdded = (float) $seller->qouta * $settings->reward;
-				$sellerCredits->save();
-				//rollback qouta to 0
-				$seller->qouta = 0.00;
-			}
-			$seller->save();
 			if($session['sellingID'])
 			{
 				$selling= Selling::find($session['sellingID']);
 				$product = Product::find($selling->productID);
 				$seller = User::find($product->userID);
+				$seller->qouta = $sales->amount;
+				$seller->save();
+				if($seller->qouta >= 1000){
+				//give rewards of 5% of total qouta
+					$sellerCredits = new Credits;
+					$sellerCredits->userID = $product->userID;
+					$sellerCredits->salesID = $sales->id;
+					$sellerCredits->creditAdded = (float) $seller->qouta * $settings->reward;
+					$sellerCredits->save();
+					//rollback qouta to 0
+					$seller->qouta = 0.00;
+					$seller->save();
+				}
 				Mail::send('emails.seller', ['user'=> $seller], function($message) use($seller){
 		        $message->to( $seller->email, $seller->firstName)->subject('Your Digisells Product Has Been Sold.');
 		   		 });
@@ -260,6 +253,19 @@ class SalesController extends \BaseController {
 				$auction->save();
 				$product = Product::find($auction->productID);
 				$seller = User::find($product->userID);
+				$seller->qouta = $sales->amount;
+				$seller->save();
+				if($seller->qouta >= 1000){
+				//give rewards of 5% of total qouta
+					$sellerCredits = new Credits;
+					$sellerCredits->userID = $product->userID;
+					$sellerCredits->salesID = $sales->id;
+					$sellerCredits->creditAdded = (float) $seller->qouta * $settings->reward;
+					$sellerCredits->save();
+					//rollback qouta to 0
+					$seller->qouta = 0.00;
+					$seller->save();
+				}
 		 	return View::make('pages.auction.invoice', compact('auction','product','sales','seller','credits','totalCredits'));
 			}
 		}

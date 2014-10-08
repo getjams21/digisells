@@ -8,6 +8,11 @@ class HomePageController extends \BaseController {
 	}
 
 	public function selling(){
-		return View::make('pages.selling');
+		$seller = User::find(Auth::user()->id);
+		$hasPaypal = false;
+		if($seller->paypal != NULL){
+			$hasPaypal = true;
+		}
+		return View::make('pages.selling', compact('hasPaypal'));
 	}
 }

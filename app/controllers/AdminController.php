@@ -337,7 +337,7 @@ class AdminController extends \BaseController {
 			->withFlashMessage('
 				<center>
 					<div class="alert alert-success square">
-						<b>Percentages Successfully Updated.
+						<b>Percentages Successfully UpdatedP.
 					</div>
 				</center>');
 	/**

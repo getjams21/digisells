@@ -82,13 +82,13 @@
           </ul>
         </li>
 @else
-  <li>
+  <!-- <li>
     <a href="/payment"> <b><i class="fa fa-money"></i>  
      <i class="fa fa-usd"></i>
        {{ money(Auth::user()->fund)}}
       </b>
     </a>
-  </li>
+  </li> -->
   <li>
     <a href="/credits"> <b><span class="glyphicon glyphicon-certificate"></span>
       @if(Config::get('currentfund')) 

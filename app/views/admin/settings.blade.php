@@ -38,7 +38,7 @@
                 <div class="form-group">
                   <label>Seller Listing Fee Percentage</label>
                   <div class="input-group">
-                    <input type="text" name="fee" class="form-control fee" value="{{round($settings->sellingFee,2)}}">
+                    <input type="text" name="fee" class="form-control fee" value="{{round($settings->sellingfee,2)}}">
                     <div class="input-group-addon">%</div>
                   </div>
                 </div>

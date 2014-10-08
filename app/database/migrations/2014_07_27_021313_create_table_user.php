@@ -22,7 +22,7 @@ class CreateTableUser extends Migration {
 			$table -> string('email',50)->unique();
 			$table -> string('password',100);
 			$table -> string('type',50)->nullable();
-			$table -> string('paypal',50)->unique();
+			$table -> string('paypal',50)->unique()->nullable();
 			$table -> string('userImage',50)->nullable();
 			$table -> string('remember_token')->nullable();
 			$table ->decimal('fund', 19, 4)->default(0.0000);
