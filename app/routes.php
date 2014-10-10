@@ -52,7 +52,9 @@ Route::get('/placing-bid/{val}', ['as'=>'placing-bid', 'uses' =>'AuctionControll
 Route::resource('/auction', 'AuctionController');
 Route::resource('/auction-listing', 'AuctionController');
 Route::get('/payAuction', 'AuctionController@payAuction');
+Route::get('/paySelling', 'SalesPageController@paySelling');
 Route::post('/auction-result', 'AuctionController@auctionResult');
+Route::get('/payBid/{id}', 'SalesController@payBid');
 #Direct Selling Platform
 Route::resource('/direct-selling', 'DirectSellingController');
 #AUTH FILTER ROUTES

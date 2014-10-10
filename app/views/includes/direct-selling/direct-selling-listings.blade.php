@@ -1,6 +1,6 @@
 <!-- promote modal -->
 <div class="modal fade promote-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm affiliate">
+  <div class="modal-dialog modal-sm affiliate"> 
     <div class="modal-content modal-prop">
     	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 	    <center>

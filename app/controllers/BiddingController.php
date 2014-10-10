@@ -229,10 +229,11 @@ class BiddingController extends \BaseController {
 				return Redirect::action('AuctionController@show',[Input::get('auctionID')])
 				->withFlashMessage('
 					<div class="alert alert-danger square error-bid" role="alert">
-						<b>Ohh Snap!..Insufficient Fund! Your current fund is being reserved for other bid you placed. Please wait until those auctions will end or </b><br>
+						Ohh Snap!.. Possible cause of error:<br>
+							1. Insufficient Fund - for security reasons we obliged buyers to add funds before they can participate a bidding.<br>
+							2. Your current fund is being reserved for other bid you placed. Please wait until those auctions will end<br>
 						<div class="btn-group">
 							<a href="/payment/create" <button class="btn btn-success" id="addFund">Add Funds</button></a>
-							<a href="/payment/create" <button class="btn btn-warning" id="viewBids">Review Bids</button></a>
 						</div>
 					</div>
 				');

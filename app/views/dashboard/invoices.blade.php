@@ -43,6 +43,7 @@
                               <th>Date</th>
                               <th>Download</th>
                               <th>Feedback</th>
+                              <th>Status</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -53,12 +54,25 @@
                                   <td>{{$invoice->productName}}</td>
                                   <td>{{round($invoice->amount,2)}}</td>
                                   <td>{{date('m-d-Y', strtotime($invoice->created_at))}}</td>
-                                  <td> <a href="/product/items/{{$invoice->downloadLink}}"><button class="btn btn-primary btn-xs" ><i class="fa fa-download"></i>Download</button></a></td>
+                                  <td>
+                                      @if($invoice->payKey)
+                                   <a href="/product/items/{{$invoice->downloadLink}}"><button class="btn btn-primary btn-xs" ><i class="fa fa-download"></i>Download</button></a>
+                                   @else
+                                   Pay First
+                                   @endif
+
+                                 </td>
                                   <td> 
                                     {{ Form::open(['route'=>'product-review.create']) }}
                                       <button type="submit" name="productID" class="btn btn-warning btn-xs" value="{{$invoice->productID}}"
                                         ><i class="glyphicon glyphicon-star"></i>Give Feedback</button>
                                     {{ Form::close() }}
+                                  </td>
+                                  <td>@if($invoice->payKey)
+                                      Paid
+                                      @else
+                                     <a href="/payBid/{{$invoice->id}}"><button class="btn btn-primary btn-xs" ><i class="fa fa-download"></i>Pay Here</button></a>
+                                      @endif
                                   </td>
                                 </tr>
                               @endforeach

@@ -336,12 +336,13 @@ class AuctionController extends \BaseController {
 		if(Input::get('end')){
 			$auction = Auction::find($id);
 			//check for the highest bidder
-				$bidder = DB::select('select id, MAX(amount) as amount from bidding where auctionID='.$id.'');
+				$bidder = DB::select('select id, userID, MAX(amount) as amount from bidding where auctionID='.$id.' and amount = (select Max(amount) from bidding where auctionID='.$id.')');
 				if($bidder[0]->id != NULL){
 					$creditsUsed = 0.00;
 					$affiliateCommission = 0.00;
 					$auction = Auction::find($id);
 					$amount = $bidder[0]->amount;
+					$affiliateID=null;
 					if(Session::get('affiliate')){
 						$affiliateCommission = (float) $amount * ((float) $auction->affiliatePercentage/100);
 						$affiliate = DB::select('select id from affiliates where referralLink = '.Session::get('affiliate').' 
@@ -358,15 +359,31 @@ class AuctionController extends \BaseController {
 					}
 					$auction->endDate = date('Y-m-d H:i:s');
 					$auction->save();
+					$product = Product::find($auction->productID);
+					$seller = User::find($product->userID);
 					Session::put('pay',['sellingID'=> null,
 										'auctionID'=> $id,
 										'amount'=>$amount,
+										'sellerID'=>$seller->id,
 										'creditsUsed'=>$creditsUsed,
 										'affiliateID' =>$affiliateID,
 										'affCommision'=>$affiliateCommission,
 										'buyerID'=>$bidder[0]->id
 										]);
-					return Redirect::to('/pay');
+					$buyer = User::find($bidder[0]->userID);
+					$new= new Sales;
+					$new->auctionID = $auction->id;
+					$new->affiliateID = $affiliateID;
+					$new->buyerID = $buyer->id;
+					$new->amount = $amount;
+					$new->transactionNO = time();
+					$new->save();
+					// dd($buyer->email);
+					$bidding = Bidding::find($bidder[0]->id);
+					Mail::send('emails.bidder', ['user'=> $buyer,'auction' =>$auction,'product'=>$product,'seller'=>$seller,
+						'bidding' => $bidding], function($message) use($buyer){
+			        	$message->to( $buyer->email)->subject('You have won an Auction!');
+			   		 });
 				}
 			return Redirect::back()
 				->withFlashMessage('
@@ -460,7 +477,9 @@ class AuctionController extends \BaseController {
 				"acct1.AppId" => "APP-80W284485P519543T"
 			);
 			$adaptivePaymentsService = new AdaptivePaymentsService($sdkConfig);
-			$payResponse = $adaptivePaymentsService->Pay($payRequest); 
+			$payResponse = $adaptivePaymentsService->Pay($payRequest);
+			$auction->payKey = $payResponse->payKey; 
+			$auction->save();
 			Session::put('payKey', $payResponse->payKey);
 			return Redirect::away('https://www.sandbox.paypal.com/webscr?cmd=_ap-payment&paykey='.$payResponse->payKey);
 		}else{
@@ -539,7 +558,7 @@ class AuctionController extends \BaseController {
 			(SELECT MAX(b.amount) as amount from bidding as b where b.auctionID = a.id) as minimumPrice,
 			(Select userID from bidding where auctionID = a.id order by amount desc limit 1) as highestBidder '.$w.' from auction as a 
 			inner join product as p on a.productID=p.id '.$query.' 
-			where a.sold=0 and a.endDate >= NOW() '.$search.''.$subcategory.''.$price.'
+			where a.sold=0 and a.paid=1 and a.endDate >= NOW() '.$search.''.$subcategory.''.$price.'
 			order by a.created_at desc limit 10
 		');
 		if($listings){
