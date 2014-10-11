@@ -41,8 +41,6 @@ Route::resource('uploadImage', 'ImageUploadController');
 Route::controller('password','RemindersController');
 #Product Detailing
 Route::resource('edit-details', 'ProductController');
-#Selling Platform Option
-Route::get('/selling', 'HomePageController@selling');
 #Marketplace Routes
 Route::get('/auction-listings', 'AuctionController@showAuctionListings');
 Route::get('/direct-selling-listings', 'DirectSellingController@showDirectSellingListings');
@@ -60,6 +58,8 @@ Route::resource('/direct-selling', 'DirectSellingController');
 #AUTH FILTER ROUTES
 Route::group(["before" => "auth"], function() {
 
+  #Selling Platform Option
+  Route::get('/selling', 'HomePageController@selling');
   #Affiliation Process
   Route::resource('/promote', 'AffiliateController');
   Route::get('/selling-affiliate', 'AffiliateController@showAffiliatedProductForDirectSelling');
