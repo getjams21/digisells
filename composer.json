@@ -7,7 +7,6 @@
 		"laravel/framework": "4.1.*",
 		"way/generators": "2.*",
 		"laracasts/validation": "~1.0",
-		"intervention/image": "dev-master",
 		"nesbot/carbon": "1.10.0",
 		"kartik-v/bootstrap-star-rating": "dev-master",
 		 "paypal/adaptivepayments-sdk-php":"v3.6.106",
