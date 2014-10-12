@@ -11,7 +11,6 @@
 		"kartik-v/bootstrap-star-rating": "dev-master",
 		 "paypal/adaptivepayments-sdk-php":"v3.6.106",
 		 "paypal/adaptiveaccounts-sdk-php":"v3.6.106",
-		"indatus/dispatcher": "1.*",
 		"artdarek/oauth-4-laravel": "dev-master",
 		"facebook/php-sdk-v4" : "4.0.*"
 	},
