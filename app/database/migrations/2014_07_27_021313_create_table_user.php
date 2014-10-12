@@ -18,12 +18,17 @@ class CreateTableUser extends Migration {
 			$table -> string('firstName',50)->nullable();
 			$table -> string('lastName',50)->nullable();
 			$table -> text('address')->nullable();
-			$table -> string('username',15)->unique();
+			$table -> string('username',30)->unique();
 			$table -> string('email',50)->unique();
-			$table -> string('password',60);
-			$table -> string('paymentMethod',50);
+			$table -> string('password',100);
+			$table -> string('type',50)->nullable();
+			$table -> string('paypal',50)->unique()->nullable();
 			$table -> string('userImage',50)->nullable();
 			$table -> string('remember_token')->nullable();
+			$table ->decimal('fund', 19, 4)->default(0.0000);
+			$table ->decimal('qouta', 19, 4)->default(0.0000);
+			$table -> boolean('status')->default(1);
+			$table->timestamp('last_activity')->nullable();
 			$table -> timestamps();
 		});
 	}

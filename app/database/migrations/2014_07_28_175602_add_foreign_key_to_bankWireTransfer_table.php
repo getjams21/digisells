@@ -16,8 +16,6 @@ class AddForeignKeyToBankWireTransferTable extends Migration {
 		{
 			$table-> foreign('intermidiaryID')->references('id')->on('bankIntermidiary')
 			->onDelete('restrict')->onUpdate('cascade');
-			$table-> foreign('fundID')->references('id')->on('funds')
-			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
@@ -31,7 +29,6 @@ class AddForeignKeyToBankWireTransferTable extends Migration {
 		Schema::table('bankWireTransfer', function(Blueprint $table)
 		{
 			$table->dropForeign('bankWireTransfer_intermidiaryID_foreign');
-			$table->dropForeign('bankWireTransfer_fundID_foreign');
 		});
 	}
 

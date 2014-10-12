@@ -17,6 +17,7 @@ class CreaTableCategory extends Migration {
 			$table -> increments('id');
 			$table -> string('categoryName',50);
 			$table -> text('description');
+			$table -> boolean('status')->default(1);
 			$table -> timestamps();
 		});
 	}

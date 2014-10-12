@@ -16,10 +16,17 @@ class CreaTableAffiliates extends Migration {
 		{
 			$table -> increments('id');
 			$table -> integer('userID')->unsigned();
-			$table -> integer('productID')->unsigned();
+			$table -> integer('auctionID')->unsigned()->nullable();
+			$table -> integer('sellingID')->unsigned()->nullable();
 			$table -> string('referralLink');
-			$table -> integer('salesID')->unsigned();
+			$table -> decimal('amount', 19, 4);
 			$table -> timestamps();
+			$table-> foreign('userID')->references('id')->on('user')
+			->onDelete('restrict')->onUpdate('cascade');
+			$table-> foreign('auctionID')->references('id')->on('auction')
+			->onDelete('restrict')->onUpdate('cascade');
+			$table-> foreign('sellingID')->references('id')->on('selling')
+			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

@@ -13,13 +13,20 @@
 
 App::before(function($request)
 {
-	//
-});
+	if (Auth::user()) {
+        $user = Auth::user();
+      	$now = new DateTime();
+        $user->last_activity = $now;
+        $user->save();
+    }
+    
 
+
+});
 
 App::after(function($request, $response)
 {
-	//
+
 });
 
 /*
@@ -35,7 +42,7 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) return Redirect::guest('login')->withFlashMessage('<center><div class="alert alert-danger square"><b>Please Login to continue</b></div></center>');;
 });
 
 
@@ -71,21 +78,42 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() != Input::get('_token'))
-	{
-		throw new Illuminate\Session\TokenMismatchException;
-	}
+// Route::filter('csrf', function()
+// {
+// 	if (Session::token() != Input::get('_token'))
+// 	{
+// 		throw new Illuminate\Session\TokenMismatchException;
+// 	}
+// });
+Route::filter('csrf', function() {
+    $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token');
+    if (Session::token() != $token)
+        throw new Illuminate\Session\TokenMismatchException;
 });
+// Route::filter('csrf', function()
+// {
+//    $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token')
+//    if (Session::token() != $token) {
+//       throw new Illuminate\Session\TokenMismatchException;
+//    }
+// });
+
 
 Route::filter('currentUser', function($route)
 {
 	if (Auth::guest()) return Redirect::home();
 
-	if (Auth::user()->username !== $route->parameter('users'))
+	if (Auth::user()->username !== $route->parameter('users') && ! Auth::user()->hasRole('admin'))
 	{
 		return Redirect::home();
+	}
+
+});
+
+Route::filter('role', function($route, $request, $role){
+	if (Auth::guest() or ! Auth::user()->hasRole('owner') && ! Auth::user()->hasRole('admin'))
+	{
+		App::abort(403);
 	}
 
 });

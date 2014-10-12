@@ -1,0 +1,152 @@
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/payAuction","cancel_url":"http:\/\/digisells.com\/auction"},"transactions":[{"amount":0.1,"description":"Product Placement Fee : 0.1 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015V-tgJbBOq6VaXSzTomcKwA2mROQp4pHXBZba6-MGuBo
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064331908141269281129631
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/payAuction","cancel_url":"http:\/\/digisells.com\/auction"},"transactions":[{"amount":0.1,"description":"Product Placement Fee : 0.1 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015-mZZrfpXxyynMvyYTnx18LnsFZv4Z63Rl.j-FsbPon0
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064331908141269307728529
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/payAuction","cancel_url":"http:\/\/digisells.com\/auction"},"transactions":[{"amount":"1.00","description":"Product Placement Fee : 0.1 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A01551if2NNqFyHd3kufCOuFaqOyLRwsfVIBprTXwz8JxSA
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064331908141269319712959
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/payAuction","cancel_url":"http:\/\/digisells.com\/auction"},"transactions":[{"amount":0.1,"description":"Product Placement Fee : 0.1 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015zwgJMvPvTUNUg-hQZA8jPIvxN2u4JFn53WcdSoGjm1U
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064331908141269360417632
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/auction","cancel_url":"http:\/\/digisells.com\/auction"},"transactions":[{"amount":0.1,"description":"Product Placement Fee : 0.1 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015yxQfnwTVKjuJ6kgaRbjvLXkGtT5lQ6OT0ZErNmdIwkQ
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064331908141269364545871
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/payAuction","cancel_url":"http:\/\/digisells.com\/payAuction"},"transactions":[{"amount":0.1,"description":"Product Placement Fee : 0.1 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015va9z4OpyEMQwryG.HE7hafWIDaUUD6kpEoOP1Kh8.3g
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064331908141269368046968
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/payAuction","cancel_url":"http:\/\/digisells.com\/auction"},"transactions":[{"amount":0.1,"description":"Product Placement Fee : 0.1 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015-xSzLa2xLMBRXfZy.4zFd.myLstUxU3hpBoBhcQh6No
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 2130706433190814126937648286
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/execute","cancel_url":"http:\/\/digisells.com\/payment\/create"},"transactions":[{"amount":0.1,"description":"Product Placement Fee : 0.1 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.15;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1h;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015LZjHbScT1BPt5J-IyhLlJa5p5Q6lrCWGGZsyw.B2lsQ
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064331908141269393565015
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment
+PayPal\Core\PPHttpConnection: Payload {"intent":"sale","payer":{"payment_method":"paypal"},"redirect_urls":{"return_url":"http:\/\/digisells.com\/execute","cancel_url":"http:\/\/digisells.com\/payment\/create"},"transactions":[{"amount":{"currency":"USD","total":"1000.00"},"description":"Deposit Digisells Funds : 1000.00 USD"}]}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015wykL8icEECvYmuzlvAtfylTWSFylJnVFy8SBFbcb04U
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064333236141283243319391
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Transport\PPRestCall: {"id":"PAY-4T611427XC563431DKQ3BZOI","create_time":"2014-10-09T05:27:21Z","update_time":"2014-10-09T05:27:21Z","state":"created","intent":"sale","payer":{"payment_method":"paypal","payer_info":{"shipping_address":{}}},"transactions":[{"amount":{"total":"1000.00","currency":"USD","details":{"subtotal":"1000.00"}},"description":"Deposit Digisells Funds : 1000.00 USD","related_resources":[]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-5S692444MT081862U","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI/execute","rel":"execute","method":"POST"}]}
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI
+PayPal\Core\PPHttpConnection: Payload 
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A01506zRwc4eBkrzZ5xm-k5GMv8FW6kkm85OQ1tJaVNgwrs
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Transport\PPRestCall: {"id":"PAY-4T611427XC563431DKQ3BZOI","create_time":"2014-10-09T05:27:21Z","update_time":"2014-10-09T05:27:21Z","state":"created","intent":"sale","payer":{"payment_method":"paypal","status":"VERIFIED","payer_info":{"email":"buyer@digisells.com","first_name":"Yeltsin","last_name":"Batiancila","payer_id":"XD83AQYEBTPE8","shipping_address":{"line1":"1 Main St","city":"San Jose","state":"CA","postal_code":"95131","country_code":"US","recipient_name":"Yeltsin Batiancila"}}},"transactions":[{"amount":{"total":"1000.00","currency":"USD","details":{"subtotal":"1000.00"}},"description":"Deposit Digisells Funds : 1000.00 USD","related_resources":[]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-5S692444MT081862U","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI/execute","rel":"execute","method":"POST"}]}
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI/execute
+PayPal\Core\PPHttpConnection: Payload {"payer_id":"XD83AQYEBTPE8"}
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A01506zRwc4eBkrzZ5xm-k5GMv8FW6kkm85OQ1tJaVNgwrs
+PayPal\Core\PPHttpConnection: Adding header PayPal-Request-Id: 21307064333236141283248811853
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Transport\PPRestCall: {"id":"PAY-4T611427XC563431DKQ3BZOI","create_time":"2014-10-09T05:27:21Z","update_time":"2014-10-09T05:28:18Z","state":"approved","intent":"sale","payer":{"payment_method":"paypal","payer_info":{"email":"buyer@digisells.com","first_name":"Yeltsin","last_name":"Batiancila","payer_id":"XD83AQYEBTPE8","shipping_address":{"line1":"1 Main St","city":"San Jose","state":"CA","postal_code":"95131","country_code":"US","recipient_name":"Yeltsin Batiancila"}}},"transactions":[{"amount":{"total":"1000.00","currency":"USD","details":{"subtotal":"1000.00"}},"description":"Deposit Digisells Funds : 1000.00 USD","related_resources":[{"sale":{"id":"8S6319590D052244U","create_time":"2014-10-09T05:27:21Z","update_time":"2014-10-09T05:28:18Z","amount":{"total":"1000.00","currency":"USD"},"payment_mode":"INSTANT_TRANSFER","state":"completed","protection_eligibility":"ELIGIBLE","protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE","parent_payment":"PAY-4T611427XC563431DKQ3BZOI","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/8S6319590D052244U","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/8S6319590D052244U/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI","rel":"parent_payment","method":"GET"}]}}]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI","rel":"self","method":"GET"}]}
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/oauth2/token
+PayPal\Core\PPHttpConnection: Payload grant_type=client_credentials
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Basic QWFleEl4QzNxNHlmMUZqNjVNZzBlN2Z4akNTWWpCdzByVXdSdWlYdUJ4d0lhbjBCaXFiMVF0SGJGYXYtOkVCRFUzUkFtcjhtdEg5Si1LUDAyN1lNMnJMYlVOX3ZLT3RXRk1WdklCd3BFdkZXQlYwVDJwQ0l3UTkxYg==
+PayPal\Core\PPHttpConnection: Adding header Accept: */*
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Core\PPHttpConnection: Connecting to https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI
+PayPal\Core\PPHttpConnection: Payload 
+PayPal\Core\PPHttpConnection: Adding header Content-Type: application/json
+PayPal\Core\PPHttpConnection: Adding header User-Agent: PayPalSDK/rest-sdk-php 0.6.0 (lang=PHP;v=5.5.11;bit=32;os=Windows_NT_6.1;machine=i586;openssl=1.0.1g;curl=7.36.0)
+PayPal\Core\PPHttpConnection: Adding header Authorization: Bearer A015Io-zB1d6v8f5Z5X3BZkPTamgaw-zXzRIoRuBIuapvcE
+PayPal\Core\PPHttpConnection: Invalid or no certificate authority found - Retrying using bundled CA certs file
+PayPal\Transport\PPRestCall: {"id":"PAY-4T611427XC563431DKQ3BZOI","create_time":"2014-10-09T05:27:21Z","update_time":"2014-10-09T05:28:18Z","state":"approved","intent":"sale","payer":{"payment_method":"paypal","status":"VERIFIED","payer_info":{"email":"buyer@digisells.com","first_name":"Yeltsin","last_name":"Batiancila","payer_id":"XD83AQYEBTPE8","shipping_address":{"line1":"1 Main St","city":"San Jose","state":"CA","postal_code":"95131","country_code":"US","recipient_name":"Yeltsin Batiancila"}}},"transactions":[{"amount":{"total":"1000.00","currency":"USD","details":{"subtotal":"1000.00"}},"description":"Deposit Digisells Funds : 1000.00 USD","related_resources":[{"sale":{"id":"8S6319590D052244U","create_time":"2014-10-09T05:27:21Z","update_time":"2014-10-09T05:28:18Z","amount":{"total":"1000.00","currency":"USD"},"payment_mode":"INSTANT_TRANSFER","state":"completed","protection_eligibility":"ELIGIBLE","protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE","parent_payment":"PAY-4T611427XC563431DKQ3BZOI","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/8S6319590D052244U","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/8S6319590D052244U/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI","rel":"parent_payment","method":"GET"}]}}]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4T611427XC563431DKQ3BZOI","rel":"self","method":"GET"}]}

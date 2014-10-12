@@ -10,7 +10,7 @@
     <div class="modal-content modal-prop">
         <!-- progress bar -->
       <div class="progress progress-prop">
-          <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" id="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+          <div class="progress-bar progress-bar-primary" role="progressbar" id="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
             <span id="statustxt">0%</span>
           </div>
       </div>
@@ -19,40 +19,36 @@
   </div>
 </div>
 <!-- End Modal -->
+<!-- Error Message Panel -->
 
+<div class="panel error-panel square">
+    <span class="glyphicon glyphicon-warning-sign error-sign">&nbsp</span><span class="error-msg">Sample text</span>
+</div>
 <!-- Auction Container -->
-<div class="container auction-container">
+<div class="container">
 	<div class="col-md-12 offset-3">
         <h2>Start an Auction Event</h2>
 		<hr class="style-shadowed">
+        @if (Session::has('flash_message'))
+            <div class="form-group ">
+                <p>{{Session::get('flash_message') }}</p>
+            </div>
+        @endif
 	</div>
-    {{ Form::open(['route'=>'uploadImage.store','id'=>'fileupload','files'=>true]) }}
+    {{ Form::open(['route'=>'auction-listing.store','id'=>'fileupload','files'=>true]) }}
 	<div class="col-md-12">
         <div class="col-md-6">
             {{ Form::label('Category', 'Select Category'); }}
-            {{ Form::select('Category',
-                array(
-                    'Apps'=>'Apps/Softwares',
-                    'Business'=>'Business/Marketing',
-                    'Domains'=>'Domains/Websites',
-                    'Music'=>'Music',
-                    'WSO'=>'WSO'
-                ),
-                null,
-                array('class'=>'form-control sqaure')) }}
+            {{ Form::select('Category',$category,
+                Input::old('Category'),
+                array('class'=>'form-control sqaure','id'=>'selectCategory')) }}
         </div>
         <div class="col-md-6">
             {{ Form::label('SCategory', 'Select Sub Category'); }}
             {{ Form::select('SubCategory',
-                array(
-                    'Apps'=>'Apps/Softwares',
-                    'Business'=>'Business/Marketing',
-                    'Domains'=>'Domains/Websites',
-                    'Music'=>'Music',
-                    'WSO'=>'WSO'
-                ),
+                $subCategories,
                 null,
-                array('class'=>'form-control sqaure')) }}
+                array('class'=>'form-control sqaure', 'id'=>'subCategory')) }}
         </div>
 	</div>
     <div class="col-md-12">
@@ -63,9 +59,9 @@
     <div class="col-md-12">
         <br>
         <div class="well auction-page">
-            <div class="col-md-6 left-padding">
+            <div class="col-md-6">
                 {{ Form::label('', 'Auction Name'); }}
-                {{ Form::text('AuctionName','',
+                {{ Form::text('auctionName','',
                     array(
                     'class'=>'form-control span3 txtbox-m',
                     'placeholder'=>'Name/Title of Auction',
@@ -76,7 +72,7 @@
                 {{ Form::label('', 'Starting Price'); }}
                 <div class="input-group txtbox-s">
                     <span class="input-group-addon">$</span>
-                    {{ Form::text('MinimumPrice','',
+                    {{ Form::text('minimumPrice','',
                     array(
                         'class'=>'form-control span3',
                         'placeholder'=>'Starting Price',
@@ -88,10 +84,11 @@
                 {{ Form::label('', 'Buyout Price'); }}
                 <div class="input-group txtbox-s">
                     <span class="input-group-addon">$</span>
-                    {{ Form::text('BuyoutPrice','',
+                    {{ Form::text('buyoutPrice','',
                     array(
                         'class'=>'form-control span3',
-                        'placeholder'=>'Buyout Price'
+                        'placeholder'=>'Buyout Price',
+                        'id'=>'buyoutPrice'
                     )) }}
                 </div>
                 <br>
@@ -99,8 +96,8 @@
                 <div class="form-group row">
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-startDate" data-date-format="mm-dd-yyyy">
-                      <input class="form-control" id="startDate" type="text" required>
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar startDateIcon"></i></span>
+                      <input class="form-control" id="startDate" name="startDate" type="text" readonly required>
+                      <span class="input-group-addon calendar-icon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>
                 </div>  
@@ -108,8 +105,8 @@
                 <div class="form-group row">
                   <div class="col-xs-8">
                     <div class="input-group date txtbox-m" id="grp-endDate" data-date="" data-date-format="mm-dd-yyyy">
-                      <input class="form-control" type="text" id="endDate" required>
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar endDateIcon"></i></span>
+                      <input class="form-control" type="text" id="endDate" name="endDate" readonly required>
+                      <span class="input-group-addon calendar-icon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>
                 </div>
@@ -127,7 +124,7 @@
                         {{ Form::label('', 'Incremented by:'); }}
                     <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        {{ Form::text('bidIncrement','0.01',
+                        {{ Form::text('incrementation','0',
                         array(
                         'class'=>'form-control span3 square',
                         'placeholder'=>'Increment value',
@@ -147,24 +144,25 @@
                     <div class="well affiliation">
                         {{ Form::label('', 'Affiliate Commission Percentage'); }}
                     <div class="input-group txtbox-m">
-                        {{ Form::text('AffiliatePercentage','',
+                        {{ Form::text('affiliatePercentage','',
                         array(
                             'class'=>'form-control span3',
                             'placeholder'=>'Commission',
+                            'id'=>'affiliatePercentage'
                         )) }}
                         <span class="input-group-addon">%</span>
                     </div>
                     <br>
                     <hr class='style-fade'>
                     <br>
-                    <center><button type="button" class='btn btn-danger' id='disableAffiliation'><span class='glyphicon glyphicon-remove'></span>&nbsp No, I don't need Affiliation</button></center>
+                    <center><button type="button" class='btn btn-danger' id='disableAffiliation'><span class='glyphicon glyphicon-remove'></span>&nbsp; No, I don't need Affiliation</button></center>
                     </div>
                     <!-- div for affiliation option warning -->
                 </div>
                 </div>
             </div>
             <div class="container">
-               <div class="col-md-6">
+               <div class="col-md-5">
                 {{ Form::label('', 'Product Name'); }}
                 {{ Form::text('ProductName','',
                     array(
@@ -207,6 +205,7 @@
                 <br>
                 <br>
                </div>
+               <br>
             </div>
                 <center><input class="btn btn-success btn-lg txtbox-s" type="Submit"  id="SubmitButton" value="Start My Auction" /></center>
         </div>

@@ -15,10 +15,20 @@ class CreaTableSales extends Migration {
 		Schema::create('sales', function(Blueprint $table)
 		{
 			$table -> increments('id');
-			$table -> integer('productID')->unsigned();
+			$table -> integer('auctionID')->unsigned()->nullable();
+			$table -> integer('sellingID')->unsigned()->nullable();
+			$table -> integer('affiliateID')->unsigned()->nullable();
+			$table -> integer('buyerID')->unsigned();
 			$table -> decimal('amount', 19, 4);
 			$table -> integer('transactionNO');
+			$table -> string('payKey',50);
 			$table -> timestamps();
+			$table-> foreign('buyerID')->references('id')->on('user')
+			->onDelete('restrict')->onUpdate('cascade');
+			$table-> foreign('auctionID')->references('id')->on('auction')
+			->onDelete('restrict')->onUpdate('cascade');
+			$table-> foreign('sellingID')->references('id')->on('selling')
+			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

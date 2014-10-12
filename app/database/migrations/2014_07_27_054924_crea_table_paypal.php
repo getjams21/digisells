@@ -12,12 +12,17 @@ class CreaTablePaypal extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('paypal', function(Blueprint $table)
+		Schema::create('deposit', function(Blueprint $table)
 		{
 			$table -> increments('id');
-			$table -> string('paypalEmail');
-			$table -> integer('fundID')->unsigned();
+			$table -> integer('userID')->unsigned();
+			$table -> integer('methodID')->unsigned();
+			$table -> string('paymentID');
+			$table -> decimal('amount', 19, 2);
+			$table -> boolean('status')->default(0);
 			$table -> timestamps();
+			$table-> foreign('userID')->references('id')->on('user')
+			->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
@@ -28,7 +33,7 @@ class CreaTablePaypal extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('paypal');
+		Schema::drop('deposit');
 	}
 
 }

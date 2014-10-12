@@ -1,0 +1,6 @@
+#Ignoring files inside product directories
+/public/product/copyrights/*
+/public/product/images/*
+/public/product/items/*
+/public/images/users
+/bootstrap/start.php

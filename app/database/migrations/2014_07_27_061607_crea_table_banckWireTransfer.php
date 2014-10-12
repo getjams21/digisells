@@ -22,7 +22,6 @@ class CreaTableBanckWireTransfer extends Migration {
 			$table -> text('bankAddress');
 			$table -> string('branchIndentifier');
 			$table -> integer('intermidiaryID')->unsigned();
-			$table -> integer('fundID')->unsigned();
 			$table -> timestamps();
 		});
 	}
