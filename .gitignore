@@ -4,3 +4,4 @@
 /public/product/items/*
 /public/images/users
 /bootstrap/start.php
+/.ssh/*
