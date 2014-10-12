@@ -9,10 +9,14 @@ class HomePageController extends \BaseController {
 
 	public function selling(){
 		$seller = User::find(Auth::user()->id);
-		$hasPaypal = false;
-		if($seller->paypal != NULL){
-			$hasPaypal = true;
+		if($seller){
+			$hasPaypal = false;
+			if($seller->paypal != NULL){
+				$hasPaypal = true;
+			}
+			return View::make('pages.selling', compact('hasPaypal'));
+		}else{
+			return View::make('sessions.create');
 		}
-		return View::make('pages.selling', compact('hasPaypal'));
 	}
 }

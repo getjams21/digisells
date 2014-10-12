@@ -41,8 +41,6 @@ Route::resource('uploadImage', 'ImageUploadController');
 Route::controller('password','RemindersController');
 #Product Detailing
 Route::resource('edit-details', 'ProductController');
-#Selling Platform Option
-Route::get('/selling', 'HomePageController@selling');
 #Marketplace Routes
 Route::get('/auction-listings', 'AuctionController@showAuctionListings');
 Route::get('/direct-selling-listings', 'DirectSellingController@showDirectSellingListings');
@@ -69,9 +67,10 @@ Route::group(["before" => "auth"], function() {
   Route::patch( '/updatePaypal', 'UsersController@updatePaypal' );
   #Subcategory select option ajax post
   Route::post('/fetchSubCategory', 'AuctionController@fetchSubCategory');
-  
   Route::get('sales-page/default', 'AuctionController@showAuctionDefault');
   Route::get('test-bidding', 'AuctionController@testBidding');
+  #Selling Platform Option
+  Route::get('/selling', 'HomePageController@selling');
   #Bidding Process
   Route::resource('/place-bid', 'BiddingController');
   Route::get('/place-max-bid', 'BiddingController@placeMaxBid');
